@@ -1,0 +1,53 @@
+#-------------------------------------------------
+#
+# Project created by QtCreator 2021-10-17T20:49:09
+#
+#-------------------------------------------------
+
+QT       += core gui# serialport
+
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+TARGET = Ethane-XVI
+TEMPLATE = app
+
+# The following define makes your compiler emit warnings if you use
+# any feature of Qt which has been marked as deprecated (the exact warnings
+# depend on your compiler). Please consult the documentation of the
+# deprecated API in order to know how to port your code away from it.
+DEFINES += QT_DEPRECATED_WARNINGS
+#DEFINES -= UNICODE
+DEFINES -= UNICODE _UNICODE #不使用Unicode,否则HidApi库会报错
+
+# You can also make your code fail to compile if you use deprecated APIs.
+# In order to do so, uncomment the following line.
+# You can also select to disable deprecated APIs only up to a certain version of Qt.
+#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+
+
+SOURCES += \
+        main.cpp \
+        widget.cpp \
+    tools.cpp \
+    config.cpp \
+    HidApi.cpp \
+    colour.cpp
+
+HEADERS += \
+        widget.h \
+    tools.h \
+    config.h \
+    HidApi.h \
+    colour.h
+
+FORMS += \
+        widget.ui
+
+RC_ICONS = Ethane-XVI.ico
+
+LIBS += -lsetupapi #引入该库,否则HidApi库会报错
+
+#WIN32：
+
+#CONFIG += console
+
