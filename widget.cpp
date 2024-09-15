@@ -433,18 +433,21 @@ void Widget::saveCfgFile()//保存配置文件
 
 void Widget::openKeyFile()//打开key文件
 {
-    if(!read_cfg_file(fileNowKey,cfgUnit->cfg_data_key,257)){
+    if(!read_cfg_file(fileNowKey,cfgUnit->cfg_data_key,257)){//若因无路径而读取失败
         QMessageBox::critical(this,"提示","无路径");
+        return;
     }
     QFileInfo fileinfo = QFileInfo(fileNowKey);//文件信息
     ui->lineEdit_fileName_key->setText(fileinfo.fileName());//显示文件名
-    if(button_choose == 0 || cfgUnit->get_key_mode(button_choose - 1) != m3_group) return;
-    //cfgUnit->cbox_k[button_choose - 1]->setCurrentIndex(m3_group);
-    if(cfgUnit->read_mode3_data(button_choose - 1)){
-        //cfgUnit->set_mode3_str(cfgUnit->cfg_key[button_choose - 1].str);
-        cfgUnit->set_mode3_txt(button_choose - 1);
+    if(button_choose == 0 || cfgUnit->get_key_mode(button_choose - 1) != m3_group) return;//未选按键或按键不是按键组模式
+    
+    //cfgUnit->cbox_k[button_choose - 1]->setCurrentIndex(m3_group);//直接设为按键组模式
+    cfgUnit->clear_key(button_choose - 1);//先清空
+    if(cfgUnit->read_mode3_data(button_choose - 1)){//若解析并填入成功
+        cfgUnit->set_mode3_txt(button_choose - 1);//显示按键组文本
     }
     else QMessageBox::critical(this,"提示","按键配置失败");
+    
     cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
     button_choose = 0;
 }
@@ -485,8 +488,10 @@ void Widget::on_Bt_write_clicked()//写入设备按钮
 
 void Widget::on_Bt_open_clicked()//打开文件按钮
 {
-    fileNow = QFileDialog::getOpenFileName(this,QStringLiteral("打开配置文件"),
-                                           "./configFile",QStringLiteral("配置文件(*etcfg)"));
+    QString fileNew = QFileDialog::getOpenFileName(this,QStringLiteral("打开配置文件"),
+                                                   "./configFile",QStringLiteral("配置文件(*etcfg)"));
+    if(fileNew.isEmpty()) return;
+    fileNow = fileNew;
     openCfgFile();
 }
 
@@ -501,8 +506,10 @@ void Widget::on_Bt_save_clicked()//保存文件按钮
 
 void Widget::on_Bt_saveas_clicked()//另存为文件按钮
 {
-    fileNow = QFileDialog::getSaveFileName(this,QStringLiteral("另存为配置文件"),
-                                           "./configFile",QStringLiteral("配置文件(*etcfg)"));
+    QString fileNew = QFileDialog::getSaveFileName(this,QStringLiteral("另存为配置文件"),
+                                                   "./configFile",QStringLiteral("配置文件(*etcfg)"));
+    if(fileNew.isEmpty()) return;
+    fileNow = fileNew;
     saveCfgFile();//保存配置文件
 }
 
@@ -520,8 +527,10 @@ void Widget::on_Bt_open_key_clicked()//打开key文件按钮
     QString path = "./keyFile";
     QDir dir(path);
     if(!dir.exists()) path = "../keyFile";
-    fileNowKey = QFileDialog::getOpenFileName(this,QStringLiteral("打开按键配置文件"),
-                                              path,QStringLiteral("按键配置文件(*etkey)"));
+    QString fileNewKey = QFileDialog::getOpenFileName(this,QStringLiteral("打开按键配置文件"),
+                                                      path,QStringLiteral("按键配置文件(*etkey)"));
+    if(fileNewKey.isEmpty()) return;
+    fileNowKey = fileNewKey;
     openKeyFile();//打开key文件
 }
 
@@ -542,8 +551,10 @@ void Widget::on_Bt_saveas_key_clicked()//另存为key文件按钮
     QString path = "./keyFile";
     QDir dir(path);
     if(!dir.exists()) path = "../keyFile";
-    fileNowKey = QFileDialog::getSaveFileName(this,QStringLiteral("另存为按键配置文件"),
-                                              path,QStringLiteral("按键配置文件(*etkey)"));
+    QString fileNewKey = QFileDialog::getSaveFileName(this,QStringLiteral("另存为按键配置文件"),
+                                                      path,QStringLiteral("按键配置文件(*etkey)"));
+    if(fileNewKey.isEmpty()) return;
+    fileNowKey = fileNewKey;
     saveKeyFile();//保存key文件
 }
 

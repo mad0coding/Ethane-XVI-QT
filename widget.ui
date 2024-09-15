@@ -4559,7 +4559,7 @@
         <enum>Qt::ClickFocus</enum>
        </property>
        <property name="minimum">
-        <number>10</number>
+        <number>0</number>
        </property>
        <property name="maximum">
         <number>10000</number>

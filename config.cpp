@@ -400,37 +400,64 @@ bool config::write_cfg_data()//写入配置数组
     cfg_data[i++] = (sbox_h->value() >> 8) & 0xFF;//屏幕高
     cfg_data[i++] = sbox_h->value() & 0xFF;
     
-    cfg_data[i++] = cbox_r[0]->currentIndex() | (cbox_r_key[0]->currentIndex() << 4);//摇杆1模式(484)
-    cfg_data[i++] = rk_key[0];//摇杆1按键
-    cfg_data[i++] = rk_key[1];//摇杆1上按键
-    cfg_data[i++] = rk_key[2];//摇杆1下按键
-    cfg_data[i++] = rk_key[3];//摇杆1左按键
-    cfg_data[i++] = rk_key[4];//摇杆1右按键
-    cfg_data[i++] = 0;//func
-    uint8_t dir_ec = 0;
-    dir_ec |= ckbox_r_r[0]->isChecked() ? 0x04 : 0x00;
-    dir_ec |= ckbox_r_y[0]->isChecked() ? 0x02 : 0x00;
-    dir_ec |= ckbox_r_x[0]->isChecked() ? 0x01 : 0x00;
-    cfg_data[i++] = dir_ec;//摇杆1方向
-    cfg_data[i++] = sbox_r[0]->value();//摇杆1死区
-    cfg_data[i++] = sbox_v[0]->value();//摇杆1速度
-    cfg_data[i++] = 0;//rsv1
-    cfg_data[i++] = 0;//rsv2
+    for(int tmpi = 0; tmpi < RK_NUM; tmpi++){//摇杆(484)
+        cfg_data[i++] = cbox_r[tmpi]->currentIndex() | (cbox_r_key[tmpi]->currentIndex() << 4);//模式
+        cfg_data[i++] = rk_key[tmpi * 5 + 0];//按键
+        cfg_data[i++] = rk_key[tmpi * 5 + 1];//上按键
+        cfg_data[i++] = rk_key[tmpi * 5 + 2];//下按键
+        cfg_data[i++] = rk_key[tmpi * 5 + 3];//左按键
+        cfg_data[i++] = rk_key[tmpi * 5 + 4];//右按键
+        cfg_data[i++] = 0;//func
+        uint8_t dir_ec = 0;
+        dir_ec |= ckbox_r_r[tmpi]->isChecked() ? 0x04 : 0x00;
+        dir_ec |= ckbox_r_y[tmpi]->isChecked() ? 0x02 : 0x00;
+        dir_ec |= ckbox_r_x[tmpi]->isChecked() ? 0x01 : 0x00;
+        cfg_data[i++] = dir_ec;//摇杆1方向
+        cfg_data[i++] = sbox_r[tmpi]->value();//死区
+        cfg_data[i++] = sbox_v[tmpi]->value();//速度
+        cfg_data[i++] = 0;//rsv1
+        cfg_data[i++] = 0;//rsv2
+    }
+//    cfg_data[i++] = cbox_r[0]->currentIndex() | (cbox_r_key[0]->currentIndex() << 4);//摇杆1模式(484)
+//    cfg_data[i++] = rk_key[0];//摇杆1按键
+//    cfg_data[i++] = rk_key[1];//摇杆1上按键
+//    cfg_data[i++] = rk_key[2];//摇杆1下按键
+//    cfg_data[i++] = rk_key[3];//摇杆1左按键
+//    cfg_data[i++] = rk_key[4];//摇杆1右按键
+//    cfg_data[i++] = 0;//func
+//    uint8_t dir_ec = 0;
+//    dir_ec |= ckbox_r_r[0]->isChecked() ? 0x04 : 0x00;
+//    dir_ec |= ckbox_r_y[0]->isChecked() ? 0x02 : 0x00;
+//    dir_ec |= ckbox_r_x[0]->isChecked() ? 0x01 : 0x00;
+//    cfg_data[i++] = dir_ec;//摇杆1方向
+//    cfg_data[i++] = sbox_r[0]->value();//摇杆1死区
+//    cfg_data[i++] = sbox_v[0]->value();//摇杆1速度
+//    cfg_data[i++] = 0;//rsv1
+//    cfg_data[i++] = 0;//rsv2
     
-    cfg_data[i++] = cbox_e[0]->currentIndex() | (cbox_e_key[0]->currentIndex() << 4);//旋钮1模式(496)
-    cfg_data[i++] = ec_key[0];//旋钮1按键
-    cfg_data[i++] = ec_key[1];//旋钮1逆时针按键
-    cfg_data[i++] = ec_key[2];//旋钮1顺时针按键
-    cfg_data[i++] = 0;//func
-    cfg_data[i++] = ckbox_e[0]->isChecked() ? 0x01 : 0x00;//方向
-    cfg_data[i++] = cbox_e[1]->currentIndex() | (cbox_e_key[1]->currentIndex() << 4);//旋钮2模式(502)
-    cfg_data[i++] = ec_key[3];//旋钮2按键
-    cfg_data[i++] = ec_key[4];//旋钮2逆时针按键
-    cfg_data[i++] = ec_key[5];//旋钮2顺时针按键
-    cfg_data[i++] = 0;//func
-    cfg_data[i++] = ckbox_e[1]->isChecked() ? 0x01 : 0x00;//方向
+    for(int tmpi = 0; tmpi < EC_NUM; tmpi++){//旋钮(496)
+        cfg_data[i++] = cbox_e[tmpi]->currentIndex() | (cbox_e_key[tmpi]->currentIndex() << 4);//模式
+        cfg_data[i++] = ec_key[tmpi * 3 + 0];//按键
+        cfg_data[i++] = ec_key[tmpi * 3 + 1];//逆时针按键
+        cfg_data[i++] = ec_key[tmpi * 3 + 2];//顺时针按键
+        cfg_data[i++] = 0;//func
+        cfg_data[i++] = ckbox_e[tmpi]->isChecked() ? 0x01 : 0x00;//方向
+    }
+//    cfg_data[i++] = cbox_e[0]->currentIndex() | (cbox_e_key[0]->currentIndex() << 4);//旋钮1模式(496)
+//    cfg_data[i++] = ec_key[0];//旋钮1按键
+//    cfg_data[i++] = ec_key[1];//旋钮1逆时针按键
+//    cfg_data[i++] = ec_key[2];//旋钮1顺时针按键
+//    cfg_data[i++] = 0;//func
+//    cfg_data[i++] = ckbox_e[0]->isChecked() ? 0x01 : 0x00;//方向
     
-    uint8_t rgb_cycle = cbox_wave->currentIndex() | (cbox_colorful->currentIndex() << 4);//灯周期
+//    cfg_data[i++] = cbox_e[1]->currentIndex() | (cbox_e_key[1]->currentIndex() << 4);//旋钮2模式(502)
+//    cfg_data[i++] = ec_key[3];//旋钮2按键
+//    cfg_data[i++] = ec_key[4];//旋钮2逆时针按键
+//    cfg_data[i++] = ec_key[5];//旋钮2顺时针按键
+//    cfg_data[i++] = 0;//func
+//    cfg_data[i++] = ckbox_e[1]->isChecked() ? 0x01 : 0x00;//方向
+    
+    uint8_t rgb_cycle = cbox_wave->currentIndex() | (cbox_colorful->currentIndex() << 4);//灯周期(508)
     uint8_t rgb_mode = 0;
     rgb_mode |= ckbox_sys_rgb_rk->isChecked() ? 0x80 : 0x00;//RGB摇杆映射
     rgb_mode |= ckbox_sys_rgb_clicker->isChecked() ? 0x40 : 0x00;//RGB自动连点指示
@@ -538,42 +565,67 @@ bool config::read_cfg_data()//读出配置数组
     sbox_h->setValue((uint16_t)((cfg_data[i] << 8) | cfg_data[i + 1]));//屏幕高
     i += 2;
     
-    cbox_r[0]->setCurrentIndex(cfg_data[i] & 0x0F);//摇杆1模式
-    cbox_r_key[0]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//摇杆1按键模式
-    set_rk_key(0,cfg_data[i++]);//摇杆1按键
-    set_rk_key(1,cfg_data[i++]);//摇杆1上按键
-    set_rk_key(2,cfg_data[i++]);//摇杆1下按键
-    set_rk_key(3,cfg_data[i++]);//摇杆1左按键
-    set_rk_key(4,cfg_data[i++]);//摇杆1右按键
-    cfg_data[i++];//func
-    ckbox_r_r[0]->setChecked(cfg_data[i] & 0x04);
-    ckbox_r_y[0]->setChecked(cfg_data[i] & 0x02);
-    ckbox_r_x[0]->setChecked(cfg_data[i++] & 0x01);//反向
-    sbox_r[0]->setValue(cfg_data[i++]);//摇杆1死区
-    sbox_v[0]->setValue(cfg_data[i++]);//摇杆1速度
-    cfg_data[i++];//rsv1
-    cfg_data[i++];//rsv2
+    for(int tmpi = 0; tmpi < RK_NUM; tmpi++){//摇杆(484)
+        cbox_r[tmpi]->setCurrentIndex(cfg_data[i] & 0x0F);//模式
+        cbox_r_key[tmpi]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//摇杆按键模式
+        set_rk_key(tmpi * 5 + 0, cfg_data[i++]);//按键
+        set_rk_key(tmpi * 5 + 1, cfg_data[i++]);//上按键
+        set_rk_key(tmpi * 5 + 2, cfg_data[i++]);//下按键
+        set_rk_key(tmpi * 5 + 3, cfg_data[i++]);//左按键
+        set_rk_key(tmpi * 5 + 4, cfg_data[i++]);//右按键
+        cfg_data[i++];//func
+        ckbox_r_r[tmpi]->setChecked(cfg_data[i] & 0x04);
+        ckbox_r_y[tmpi]->setChecked(cfg_data[i] & 0x02);
+        ckbox_r_x[tmpi]->setChecked(cfg_data[i++] & 0x01);//反向
+        sbox_r[tmpi]->setValue(cfg_data[i++]);//死区
+        sbox_v[tmpi]->setValue(cfg_data[i++]);//速度
+        cfg_data[i++];//rsv1
+        cfg_data[i++];//rsv2
+    }
+//    cbox_r[0]->setCurrentIndex(cfg_data[i] & 0x0F);//摇杆1模式
+//    cbox_r_key[0]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//摇杆1按键模式
+//    set_rk_key(0,cfg_data[i++]);//摇杆1按键
+//    set_rk_key(1,cfg_data[i++]);//摇杆1上按键
+//    set_rk_key(2,cfg_data[i++]);//摇杆1下按键
+//    set_rk_key(3,cfg_data[i++]);//摇杆1左按键
+//    set_rk_key(4,cfg_data[i++]);//摇杆1右按键
+//    cfg_data[i++];//func
+//    ckbox_r_r[0]->setChecked(cfg_data[i] & 0x04);
+//    ckbox_r_y[0]->setChecked(cfg_data[i] & 0x02);
+//    ckbox_r_x[0]->setChecked(cfg_data[i++] & 0x01);//反向
+//    sbox_r[0]->setValue(cfg_data[i++]);//摇杆1死区
+//    sbox_v[0]->setValue(cfg_data[i++]);//摇杆1速度
+//    cfg_data[i++];//rsv1
+//    cfg_data[i++];//rsv2
     
-    cbox_e[0]->setCurrentIndex(cfg_data[i] & 0x0F);//旋钮1模式
-    cbox_e_key[0]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//旋钮1按键模式
-    set_ec_key(0,cfg_data[i++]);//旋钮1按键
-    set_ec_key(1,cfg_data[i++]);//旋钮1逆时针按键
-    set_ec_key(2,cfg_data[i++]);//旋钮1顺时针按键
-    cfg_data[i++];//func
-    ckbox_e[0]->setChecked(cfg_data[i++] & 0x01);//反向
-    cbox_e[1]->setCurrentIndex(cfg_data[i] & 0x0F);//旋钮2模式
-    cbox_e_key[1]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//旋钮2按键模式
-    set_ec_key(3,cfg_data[i++]);//旋钮2按键
-    set_ec_key(4,cfg_data[i++]);//旋钮2逆时针按键
-    set_ec_key(5,cfg_data[i++]);//旋钮2顺时针按键
-    cfg_data[i++];//func
-    ckbox_e[1]->setChecked(cfg_data[i++] & 0x01);//反向
+    for(int tmpi = 0; tmpi < EC_NUM; tmpi++){//旋钮(496)
+        cbox_e[tmpi]->setCurrentIndex(cfg_data[i] & 0x0F);//模式
+        cbox_e_key[tmpi]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//按键模式
+        set_ec_key(tmpi * 3 + 0, cfg_data[i++]);//按键
+        set_ec_key(tmpi * 3 + 1, cfg_data[i++]);//逆时针按键
+        set_ec_key(tmpi * 3 + 2, cfg_data[i++]);//顺时针按键
+        cfg_data[i++];//func
+        ckbox_e[tmpi]->setChecked(cfg_data[i++] & 0x01);//反向
+    }
+//    cbox_e[0]->setCurrentIndex(cfg_data[i] & 0x0F);//旋钮1模式
+//    cbox_e_key[0]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//旋钮1按键模式
+//    set_ec_key(0,cfg_data[i++]);//旋钮1按键
+//    set_ec_key(1,cfg_data[i++]);//旋钮1逆时针按键
+//    set_ec_key(2,cfg_data[i++]);//旋钮1顺时针按键
+//    cfg_data[i++];//func
+//    ckbox_e[0]->setChecked(cfg_data[i++] & 0x01);//反向
+    
+//    cbox_e[1]->setCurrentIndex(cfg_data[i] & 0x0F);//旋钮2模式
+//    cbox_e_key[1]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//旋钮2按键模式
+//    set_ec_key(3,cfg_data[i++]);//旋钮2按键
+//    set_ec_key(4,cfg_data[i++]);//旋钮2逆时针按键
+//    set_ec_key(5,cfg_data[i++]);//旋钮2顺时针按键
+//    cfg_data[i++];//func
+//    ckbox_e[1]->setChecked(cfg_data[i++] & 0x01);//反向
     
     cbox_colorful->setCurrentIndex((cfg_data[i] >> 4) & 0x0F);//指示灯变色
     cbox_wave->setCurrentIndex(cfg_data[i++] & 0x0F);//指示灯呼吸
     
-//    cbox_pri_r->setCurrentIndex((cfg_data[i] >> 7) & 0x01);//摇杆优先级
-//    cbox_pri_e->setCurrentIndex((cfg_data[i] >> 6) & 0x01);//旋钮优先级
     ckbox_sys_rgb_rk->setChecked(cfg_data[i] & 0x80);//RGB摇杆映射
     ckbox_sys_rgb_clicker->setChecked(cfg_data[i] & 0x40);//RGB自动连点指示
     ckbox_sys_rgb_m3->setChecked(cfg_data[i] & 0x20);//RGB按键组指示
@@ -602,9 +654,6 @@ bool config::write_mode3_data(uint8_t keyi)
 
 bool config::read_mode3_data(uint8_t keyi)
 {
-    cfg_key[keyi].data.clear();
-    cfg_key[keyi].strNum.clear();
-    cfg_key[keyi].str.clear();
     uint8_t i = 0;
     
     uint8_t len = cfg_data_key[256];//暂存长度

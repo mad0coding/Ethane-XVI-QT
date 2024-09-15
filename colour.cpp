@@ -261,8 +261,10 @@ void colour::lightCfgToStr(uint8_t key_i){//配置数据转标签字符串
 }
 
 void colour::on_open_clicked(){//打开
-    fileNow = QFileDialog::getOpenFileName(this,QStringLiteral("打开灯效文件"),
-                                           "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+    QString fileNew = QFileDialog::getOpenFileName(this,QStringLiteral("打开灯效文件"),
+                                                   "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+    if(fileNew.isEmpty()) return;
+    fileNow = fileNew;
     openLightFile();//打开灯效文件
 }
 void colour::on_save_clicked(){//保存
@@ -273,8 +275,10 @@ void colour::on_save_clicked(){//保存
     saveLightFile(1);//保存灯效文件
 }
 void colour::on_saveas_clicked(){//另存为
-    fileNow = QFileDialog::getSaveFileName(this,QStringLiteral("另存为灯效文件"),
-                                           "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+    QString fileNew = QFileDialog::getSaveFileName(this,QStringLiteral("另存为灯效文件"),
+                                                   "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+    if(fileNew.isEmpty()) return;
+    fileNow = fileNew;
     saveLightFile(1);//保存灯效文件
 }
 void colour::on_write_clicked(){//写入灯效按钮

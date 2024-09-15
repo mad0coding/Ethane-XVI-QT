@@ -255,60 +255,7 @@ QString USB_to_str(uint8_t key, bool shift)//USB键值转按键名
     }
 }
 
-
-//void rgbToHsv(uint8_t vR, uint8_t vG, uint8_t vB, uint16_t* pH, uint16_t* pS, uint16_t* pV){
-//    //float r1 = (float)vR / 255, g1 = (float)vG / 255, b1 = (float)vB / 255;
-//    uint8_t max = MAX(MAX(vR,vG),vB), min = MIN(MIN(vR,vG),vB);
-//    uint8_t delta = max - min;
-//    if(delta == 0) *pH = 0;
-//    else if(max == vR) *pH = 60*(vG-vB)/delta;
-//    else if(max == vG) *pH = 60*(vB-vR)/delta + 60*2;
-//    else if(max == vB) *pH = 60*(vR-vG)/delta + 60*4;
-//    if(*pH > 360) *pH += 360;
-//    if(max == 0) *pS = 0;
-//    else *pS = 100 * delta / max;
-//    *pV = max;
-//}
-//void hsvToRgb(uint16_t vH, uint16_t vS, uint16_t vV, uint8_t* pR, uint8_t* pG, uint8_t* pB){
-//    uint8_t hi = (uint16_t)(vH / 60) % 6;
-//    uint16_t f = vH - hi * 60;
-//    uint8_t p = vV * (100 - vS) / 100;
-//    uint8_t q = vV * (6000 - f * vS) / 6000;
-//    uint8_t t = vV * (6000 - (60 - f) * vS) / 6000;
-//    if(hi == 0)     {*pR = vV;   *pG = t;    *pB = p;}
-//    else if(hi == 1){*pR = q;    *pG = vV;   *pB = p;}
-//    else if(hi == 2){*pR = p;    *pG = vV;   *pB = t;}
-//    else if(hi == 3){*pR = p;    *pG = q;    *pB = vV;}
-//    else if(hi == 4){*pR = t;    *pG = p;    *pB = vV;}
-//    else if(hi == 5){*pR = vV;   *pG = p;    *pB = q;}
-//}
-//void rgbToHsv(uint8_t vR, uint8_t vG, uint8_t vB, uint16_t* pH, uint16_t* pS, uint16_t* pV){
-//    uint8_t max = MAX(MAX(vR,vG),vB), min = MIN(MIN(vR,vG),vB);
-//    uint8_t delta = max - min;
-//    if(delta == 0) *pH = 0;
-//    else if(max == vR) *pH = 60*(vG-vB)/delta;
-//    else if(max == vG) *pH = 60*(vB-vR)/delta + 60*2;
-//    else if(max == vB) *pH = 60*(vR-vG)/delta + 60*4;
-//    if(*pH > 360) *pH += 360;
-//    if(max == 0) *pS = 0;
-//    else *pS = delta;//100 * delta / max
-//    *pV = max;
-//}
-//void hsvToRgb(uint16_t vH, uint16_t vS, uint16_t vV, uint8_t* pR, uint8_t* pG, uint8_t* pB){
-//    uint8_t hi = (uint16_t)(vH / 60) % 6;
-//    uint16_t f = vH - hi * 60;
-//    uint8_t p = vV - vS;
-//    uint8_t q = vV - vS * f / 60;
-//    uint8_t t = vV - vS * (60 - f) / 60;
-//    if(hi == 0)     {*pR = vV;   *pG = t;    *pB = p;}
-//    else if(hi == 1){*pR = q;    *pG = vV;   *pB = p;}
-//    else if(hi == 2){*pR = p;    *pG = vV;   *pB = t;}
-//    else if(hi == 3){*pR = p;    *pG = q;    *pB = vV;}
-//    else if(hi == 4){*pR = t;    *pG = p;    *pB = vV;}
-//    else if(hi == 5){*pR = vV;   *pG = p;    *pB = q;}
-//}
-
-//H:0~360,S:0~100(不用delta代替),V:0~255
+//H:0~colorAngle*6,S:0~255(用delta代替),V:0~255
 void rgbToHsv(uint8_t vR, uint8_t vG, uint8_t vB, uint16_t* pH, uint16_t* pS, uint16_t* pV){
     uint8_t max = MAX(MAX(vR,vG),vB), min = MIN(MIN(vR,vG),vB);
     uint8_t delta = max - min;

@@ -25,9 +25,7 @@
 #define m5_click     5
 #define m6_change    6
 #define m7_fast      7
-//#define m8_light     8
-//#define m9_serial    9
-#define m8_buzz     8
+#define m8_buzz      8
 
 #define kv_report       234
 #define kv_loop         235
