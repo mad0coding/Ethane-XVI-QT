@@ -49,14 +49,11 @@ Widget::Widget(QWidget *parent) :
         cfgUnit->cbox_k[i]->addItem("切换键",6);
         cfgUnit->cbox_k[i]->addItem("按键连点",7);
         cfgUnit->cbox_k[i]->addItem("蜂鸣器",8);
-//        cfgUnit->cbox_k[i]->addItem("灯控",8);
-//        cfgUnit->cbox_k[i]->addItem("串口",9);
-//        cfgUnit->cbox_k[i]->addItem("蜂鸣器",10);
         
         cfgUnit->bt_k[i]->setStyleSheet(style_big_black);//键盘按键样式
         clrUnit->bt_rgbs[i]->setStyleSheet(style_small_black);//灯效键盘按键样式
     }
-    for(int i = 0; i < RK_NUM*5/*10*/; i++) cfgUnit->bt_r[i]->setStyleSheet(style_big_black);//摇杆按键样式
+    for(int i = 0; i < RK_NUM*5; i++) cfgUnit->bt_r[i]->setStyleSheet(style_big_black);//摇杆按键样式
     for(int i = 0; i < EC_NUM*3; i++) cfgUnit->bt_e[i]->setStyleSheet(style_big_black);//旋钮按键样式
     
     ui->Bt_write->setStyleSheet(style_big_black);
@@ -168,20 +165,28 @@ void Widget::key_handle(uint8_t keyValue, bool ifPress = true)//按键处理
             }
         }
         else if(button_class == 2){//摇杆
-            if(1){
-                
+            if((button_choose - 1) % 5 == 0){//若为中心键
+                if(!(keyValue >= 249 && keyValue <= 252)){//若不为功能键
+                    cfgUnit->set_rk_key(button_choose - 1, keyValue, func);
+                    cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
+                    state = 0;
+                }
             }
-            else{
-                
+            else{//若为四方向绑定键
+                cfgUnit->set_rk_key(button_choose - 1, keyValue, 0);
+                cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
+                state = 0;
             }
-            cfgUnit->set_rk_key(button_choose - 1,keyValue);
-            cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
-            state = 0;
+//            cfgUnit->set_rk_key(button_choose - 1,keyValue);
+//            cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
+//            state = 0;
         }
         else if(button_class == 3){//旋钮
-            cfgUnit->set_ec_key(button_choose - 1,keyValue);
-            cfgUnit->bt_e[button_choose - 1]->setStyleSheet(style_big_black);
-            state = 0;
+            if(!(keyValue >= 249 && keyValue <= 252)){//若不为功能键
+                cfgUnit->set_ec_key(button_choose - 1, keyValue, func);
+                cfgUnit->bt_e[button_choose - 1]->setStyleSheet(style_big_black);
+                state = 0;
+            }
         }
     }
     else if(ifPress && ui->tabWidget->currentIndex() == 4 && ui->tabWidget_light->currentIndex() == 1){//若在灯效页的按键页
@@ -654,10 +659,10 @@ void Widget::passPointer()//传递指针
 //    cfgUnit->cbox_r_2 = ui->cBox_r_2;
 //    cfgUnit->cbox_r_key_2 = ui->cBox_r_key_2;
     
-    cfgUnit->sbox_v[0] = ui->spinBox_v_1;//摇杆速度
     cfgUnit->sbox_r[0] = ui->spinBox_r_1;//摇杆死区
-//    cfgUnit->sbox_v_2 = ui->spinBox_v_2;
-//    cfgUnit->sbox_r_2 = ui->spinBox_r_2;
+    cfgUnit->sbox_v[0] = ui->spinBox_v_1;//摇杆参数
+    cfgUnit->sbox_v[1] = ui->spinBox_v_2;//摇杆参数
+    cfgUnit->sbox_v[2] = ui->spinBox_v_3;//摇杆参数
     
     cfgUnit->cbox_e[0] = ui->cBox_e_1;//旋钮模式
     cfgUnit->cbox_e_key[0] = ui->cBox_e_key_1;//旋钮按键模式
@@ -670,8 +675,6 @@ void Widget::passPointer()//传递指针
     
     cfgUnit->cbox_pri = ui->cBox_pri;//优先级
     
-//    cfgUnit->cbox_pri_r = ui->cBox_pri_r;//摇杆优先级
-//    cfgUnit->cbox_pri_e = ui->cBox_pri_e;//旋钮优先级
 //    cfgUnit->sbox_light = ui->spinBox_light;//灯亮度
 //    cfgUnit->sbox_light_rgb = ui->spinBox_light_rgb;//RGB亮度
     
@@ -887,12 +890,6 @@ void Widget::on_key_clear_r_1_clicked()//摇杆按键清除键
         cfgUnit->clear_rk_key(button_choose - 1);
     }
 }
-//void Widget::on_key_clear_r_2_clicked()//摇杆按键清除键
-//{
-//    if(button_choose && button_class == 2){
-//        cfgUnit->clear_rk_key(button_choose - 1);
-//    }
-//}
 
 void Widget::on_key_clear_e_1_clicked()//旋钮按键清除键
 {
@@ -1034,18 +1031,6 @@ void Widget::on_spinBox_rgb_b_valueChanged(int arg1){   sys_rgb_display();  }
 
 void Widget::sys_rgb_display(){//显示rgb
     uint8_t vR = ui->spinBox_rgb_r->value(), vG = ui->spinBox_rgb_g->value(), vB = ui->spinBox_rgb_b->value();
-//    uint16_t vH = ui->spinBox_rgb_r->value(), vS = ui->spinBox_rgb_g->value(), vV = ui->spinBox_rgb_b->value();
-//    QColor rgbColor(vR, vG, vB);
-//    //QColor::Hsv hsvColor = rgbColor.toHsv();
-//    vH = rgbColor.hue(); vS = rgbColor.saturation(); vV = rgbColor.value();
-//    //vH = hsvColor.hue();
-//    printf("H:%d S:%d    V:%d\t",vH,vS,vV);
-//    printf("R:%d G:%d    B:%d\t",vR,vG,vB);
-//    rgbToHsv(vR, vG, vB, &vH, &vS, &vV);
-//    hsvToRgb(vH, vS, vV, &vR, &vG, &vB);
-//    printf("H:%d S:%d    V:%d\t",vH,vS,vV);
-//    printf("R:%d G:%d    B:%d\n",vR,vG,vB);
-    
     ui->lb_rgb_pic_0->setPixmap(rgbToPix(vR, vG, vB, 30, 30, 0));//图片添加到标签控件
     ui->lb_rgb_pic_1->setPixmap(rgbToPix(vR, vG, vB, 30, 30, 1));//图片添加到标签控件
 }

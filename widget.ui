@@ -38,7 +38,7 @@
     <enum>Qt::NoFocus</enum>
    </property>
    <property name="currentIndex">
-    <number>4</number>
+    <number>2</number>
    </property>
    <property name="movable">
     <bool>false</bool>
@@ -2503,7 +2503,7 @@
       <rect>
        <x>120</x>
        <y>60</y>
-       <width>100</width>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
@@ -2517,16 +2517,6 @@
      </item>
      <item>
       <property name="text">
-       <string>速度鼠标</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>位置鼠标</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
        <string>4向4键</string>
       </property>
      </item>
@@ -2535,12 +2525,22 @@
        <string>8向4键</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>速度鼠标</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>位置鼠标</string>
+      </property>
+     </item>
     </widget>
     <widget class="QSpinBox" name="spinBox_v_1">
      <property name="geometry">
       <rect>
        <x>120</x>
-       <y>110</y>
+       <y>280</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -2558,9 +2558,9 @@
     <widget class="QSpinBox" name="spinBox_r_1">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>110</y>
-       <width>70</width>
+       <x>120</x>
+       <y>230</y>
+       <width>100</width>
        <height>30</height>
       </rect>
      </property>
@@ -2568,20 +2568,20 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="suffix">
-      <string> %</string>
+      <string> / 200</string>
      </property>
      <property name="maximum">
-      <number>100</number>
+      <number>200</number>
      </property>
      <property name="value">
-      <number>1</number>
+      <number>2</number>
      </property>
     </widget>
     <widget class="QPushButton" name="key_r_1_0">
      <property name="geometry">
       <rect>
-       <x>195</x>
-       <y>190</y>
+       <x>675</x>
+       <y>120</y>
        <width>90</width>
        <height>90</height>
       </rect>
@@ -2601,8 +2601,8 @@
     <widget class="QPushButton" name="key_r_1_1">
      <property name="geometry">
       <rect>
-       <x>195</x>
-       <y>390</y>
+       <x>675</x>
+       <y>320</y>
        <width>90</width>
        <height>90</height>
       </rect>
@@ -2622,8 +2622,8 @@
     <widget class="QPushButton" name="key_r_1_2">
      <property name="geometry">
       <rect>
-       <x>95</x>
-       <y>290</y>
+       <x>575</x>
+       <y>220</y>
        <width>90</width>
        <height>90</height>
       </rect>
@@ -2643,8 +2643,8 @@
     <widget class="QPushButton" name="key_r_1_3">
      <property name="geometry">
       <rect>
-       <x>295</x>
-       <y>290</y>
+       <x>775</x>
+       <y>220</y>
        <width>90</width>
        <height>90</height>
       </rect>
@@ -2680,8 +2680,8 @@
     <widget class="QPushButton" name="key_r_1">
      <property name="geometry">
       <rect>
-       <x>195</x>
-       <y>290</y>
+       <x>675</x>
+       <y>220</y>
        <width>90</width>
        <height>90</height>
       </rect>
@@ -2734,7 +2734,7 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>110</y>
+       <y>280</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -2749,8 +2749,8 @@
     <widget class="QLabel" name="label_16">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>110</y>
+       <x>30</x>
+       <y>230</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -2765,8 +2765,8 @@
     <widget class="QLabel" name="lb_r_1_0">
      <property name="geometry">
       <rect>
-       <x>200</x>
-       <y>150</y>
+       <x>680</x>
+       <y>80</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -2781,8 +2781,8 @@
     <widget class="QLabel" name="lb_r_1_1">
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>440</y>
+       <x>780</x>
+       <y>370</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -2797,8 +2797,8 @@
     <widget class="QLabel" name="lb_r_1_2">
      <property name="geometry">
       <rect>
-       <x>80</x>
-       <y>250</y>
+       <x>560</x>
+       <y>180</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -2813,8 +2813,8 @@
     <widget class="QLabel" name="lb_r_1_3">
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>250</y>
+       <x>780</x>
+       <y>180</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -2829,8 +2829,8 @@
     <widget class="QLabel" name="lb_r_1">
      <property name="geometry">
       <rect>
-       <x>300</x>
-       <y>390</y>
+       <x>780</x>
+       <y>320</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -2855,17 +2855,16 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>注意:按键设置仅在功能或按键配置为按键模式下有效。效果参数代表速度鼠标的速度、位置鼠标的最大位移、按键的
-自动连按间隔(0则为长按)。死区不宜为0。</string>
+      <string>注意:按键设置仅在功能或按键配置为按键模式下有效。死区不宜为0。</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="cB_r_y_1">
      <property name="geometry">
       <rect>
-       <x>30</x>
-       <y>160</y>
-       <width>100</width>
-       <height>20</height>
+       <x>180</x>
+       <y>170</y>
+       <width>120</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="focusPolicy">
@@ -2879,9 +2878,9 @@
      <property name="geometry">
       <rect>
        <x>30</x>
-       <y>200</y>
-       <width>100</width>
-       <height>20</height>
+       <y>170</y>
+       <width>120</width>
+       <height>30</height>
       </rect>
      </property>
      <property name="focusPolicy">
@@ -2894,8 +2893,8 @@
     <widget class="QLabel" name="label_41">
      <property name="geometry">
       <rect>
-       <x>260</x>
-       <y>60</y>
+       <x>30</x>
+       <y>110</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -2910,9 +2909,9 @@
     <widget class="QComboBox" name="cBox_r_key_1">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>60</y>
-       <width>100</width>
+       <x>120</x>
+       <y>110</y>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
@@ -2926,12 +2925,7 @@
      </item>
      <item>
       <property name="text">
-       <string>单按键</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>快捷键</string>
+       <string>按键/快捷键</string>
       </property>
      </item>
      <item>
@@ -2943,8 +2937,8 @@
     <widget class="QPushButton" name="key_clear_r_1">
      <property name="geometry">
       <rect>
-       <x>40</x>
-       <y>410</y>
+       <x>520</x>
+       <y>360</y>
        <width>100</width>
        <height>50</height>
       </rect>
@@ -2964,10 +2958,10 @@
     <widget class="QCheckBox" name="cB_r_r_1">
      <property name="geometry">
       <rect>
-       <x>350</x>
-       <y>160</y>
+       <x>330</x>
+       <y>170</y>
        <width>120</width>
-       <height>20</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="focusPolicy">
@@ -2975,6 +2969,44 @@
      </property>
      <property name="text">
       <string>设备右旋90°</string>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_v_2">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>330</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="suffix">
+      <string> / 50</string>
+     </property>
+     <property name="maximum">
+      <number>50</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_v_3">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>380</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="suffix">
+      <string> / 50</string>
+     </property>
+     <property name="maximum">
+      <number>50</number>
      </property>
     </widget>
    </widget>
@@ -2987,7 +3019,7 @@
       <rect>
        <x>120</x>
        <y>60</y>
-       <width>150</width>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
@@ -3001,17 +3033,7 @@
      </item>
      <item>
       <property name="text">
-       <string>2向2按键</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>CTRL+鼠标滚轮</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>摇杆参数控制</string>
+       <string>按键/快捷键</string>
       </property>
      </item>
     </widget>
@@ -3020,7 +3042,7 @@
       <rect>
        <x>600</x>
        <y>60</y>
-       <width>150</width>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
@@ -3034,17 +3056,7 @@
      </item>
      <item>
       <property name="text">
-       <string>2向2按键</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>CTRL+鼠标滚轮</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>摇杆参数控制</string>
+       <string>按键/快捷键</string>
       </property>
      </item>
     </widget>
@@ -3403,7 +3415,7 @@
       <rect>
        <x>120</x>
        <y>110</y>
-       <width>100</width>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
@@ -3417,7 +3429,12 @@
      </item>
      <item>
       <property name="text">
-       <string>单按键</string>
+       <string>按键/快捷键</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>永久切换键</string>
       </property>
      </item>
     </widget>
@@ -3442,7 +3459,7 @@
       <rect>
        <x>600</x>
        <y>110</y>
-       <width>100</width>
+       <width>160</width>
        <height>30</height>
       </rect>
      </property>
@@ -3456,7 +3473,12 @@
      </item>
      <item>
       <property name="text">
-       <string>单按键</string>
+       <string>按键/快捷键</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>永久切换键</string>
       </property>
      </item>
     </widget>
@@ -3505,10 +3527,10 @@
     <widget class="QCheckBox" name="cB_e_1">
      <property name="geometry">
       <rect>
-       <x>320</x>
-       <y>110</y>
+       <x>330</x>
+       <y>60</y>
        <width>100</width>
-       <height>20</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="focusPolicy">
@@ -3521,10 +3543,10 @@
     <widget class="QCheckBox" name="cB_e_2">
      <property name="geometry">
       <rect>
-       <x>800</x>
-       <y>110</y>
+       <x>810</x>
+       <y>60</y>
        <width>100</width>
-       <height>20</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="focusPolicy">
@@ -3547,7 +3569,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>注意:按键设置仅在功能或按键配置为按键模式下有效。旋钮逆时针转动为正方向，如音量增加、滚轮向上。</string>
+      <string>注意:按键设置仅在功能或按键配置为按键/快捷键下有效，如需 Ctrl Alt Shift Win，要按下后点击空按键。</string>
      </property>
     </widget>
    </widget>

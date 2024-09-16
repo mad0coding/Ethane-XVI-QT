@@ -296,6 +296,7 @@ void colour::on_write_clicked(){//写入灯效按钮
 void colour::on_import_clicked(){//导入配色
     QString fileTmp = QFileDialog::getOpenFileName(this,QStringLiteral("导入配色文件"),
                                            "./lightFile",QStringLiteral("配色文件(*txt)"));
+    if(fileTmp.isEmpty()) return;
     uint8_t u8color[KEY_NUM * 3];
     memset(u8color, 0, KEY_NUM * 3);
     if(!read_asciiArray_file(fileTmp, u8color, KEY_NUM * 3)){

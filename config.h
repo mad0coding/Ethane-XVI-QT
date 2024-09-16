@@ -31,8 +31,8 @@ public:
     void set_mode6_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置模式6按键及切换
     void set_mode7_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置模式7按键及配置
     void set_mode7_time(uint8_t key_i, uint16_t t);//设置模式7时间
-    void set_rk_key(uint8_t key_i, uint8_t key_val);//设置摇杆按键
-    void set_ec_key(uint8_t key_i, uint8_t key_val);//设置旋钮按键
+    void set_rk_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置摇杆按键
+    void set_ec_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置旋钮按键
     void set_mode3_cursor(uint8_t key_i, uint16_t pos);//设置模式3光标
     void set_mode3_txt(uint8_t key_i);//设置模式3显示文本
     //void set_mode3_str(QString str);//直接设置模式3显示文本
@@ -69,7 +69,7 @@ public:
     QComboBox *cbox_key_turn;//键盘方向
 
     QComboBox *cbox_r[RK_NUM],*cbox_r_key[RK_NUM];//摇杆模式 按键模式
-    QSpinBox *sbox_v[RK_NUM],*sbox_r[RK_NUM];//速度 死区
+    QSpinBox *sbox_r[RK_NUM],*sbox_v[RK_NUM*3];//死区 三个参数
     QCheckBox *ckbox_r_x[RK_NUM],*ckbox_r_y[RK_NUM],*ckbox_r_r[RK_NUM];//3类反向
     QPushButton* bt_r[RK_NUM * 5];//按键
     QLabel* label_r[RK_NUM * 5];//按键标签
