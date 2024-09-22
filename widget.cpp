@@ -13,6 +13,7 @@ Widget::Widget(QWidget *parent) :
     passPointer();//传递指针
     
     connect(ui->Bt_delay, 
+            
             &QPushButton::clicked, this, 
             &Widget::sys_rgb_display);
     
@@ -60,7 +61,9 @@ Widget::Widget(QWidget *parent) :
     ui->Bt_open->setStyleSheet(style_big_black);
     ui->Bt_save->setStyleSheet(style_big_black);
     ui->Bt_saveas->setStyleSheet(style_big_black);
-    ui->Bt_get_adc->setStyleSheet(style_big_black);
+    ui->Bt_glb_rk_calib->setStyleSheet(style_big_black);
+    ui->Bt_glb_ec_freq->setStyleSheet(style_big_black);
+    ui->Bt_glb_key_flt->setStyleSheet(style_big_black);
     
     ui->key_clear->setStyleSheet(style_mid_black);
     ui->key_clear_e_1->setStyleSheet(style_mid_black);
@@ -113,6 +116,22 @@ Widget::~Widget(){
     delete clrUnit;
     delete cfgUnit;
     delete ui;
+}
+
+bool Widget::hid_write_read(uint8_t *writeBuf, uint8_t *readBuf)//HID先写后读
+{
+    std::string hidWriteStr;//创建写入缓存
+    hidWriteStr.resize(65, 0);//重置为65字节
+    hidWriteStr[0] = 0;//首字节固定为0
+    for(int i = 0; i < 64; i++) hidWriteStr[i + 1] = writeBuf[i];//输入数据拷贝
+    
+    while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
+    if(hidDev->write(hidWriteStr) != 65) return false;//若写入失败则退出
+    
+    std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
+    if(hidReadStr.length() != 65) return false;//若读取失败则退出
+    for(int i = 0; i < 64; i++) readBuf[i] = hidReadStr[i + 1];//输出数据拷贝
+    return true;
 }
 
 void Widget::key_handle(uint8_t keyValue, bool ifPress = true)//按键处理
@@ -197,6 +216,7 @@ void Widget::key_handle(uint8_t keyValue, bool ifPress = true)//按键处理
 
 void Widget::keyPressEvent(QKeyEvent *event)//按键按下
 {
+    if(!isActiveWindow()) return;//若当前为非活动窗口则可能发生切屏 舍弃键值直接返回
     if(event->isAutoRepeat() || ifSending){ return; }//若为自动重复触发或正在发送数据则返回
     int key1 = event->key();//读取第一种键值
     int key2 = event->nativeVirtualKey();//读取第二种键值
@@ -370,40 +390,43 @@ bool Widget::writeHID(uint8_t mode, uint8_t *buf)//以自定义HID向设备写�
     else return false;
 }
 
-void Widget::on_Bt_get_adc_clicked()//输入调整
+void Widget::on_Bt_glb_key_flt_clicked()//按键滤波
+{
+    ifSending = true;//正在发送
+    uint32_t adcUint = connectHID(3);//按键滤波设置
+    ifSending = false;//发送结束
+    if(adcUint == 0){//若获取失败
+        QMessageBox::critical(this,"滤波设置","HID通信失败");
+        return;
+    }else{//若获取成功
+        QString adcInfo = "参数已由" + QString::number(((adcUint >> 8) & 0xFF) - 1) 
+                                    + "修改为" + QString::number((adcUint & 0xFF) - 1);
+        QMessageBox::information(this,"滤波设置",adcInfo);
+    }
+}
+
+void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
+{
+    ifSending = true;//正在发送
+    uint32_t adcUint = connectHID(2);//获取摇杆ADC值
+    ifSending = false;//发送结束
+    if(adcUint == 0){//若获取失败
+        QMessageBox::critical(this,"摇杆校正","HID通信失败");
+        return;
+    }else{//若获取成功
+        uint16_t adcValue[2];
+        adcValue[0] = adcUint >> 16;
+        adcValue[1] = adcUint & 0xFFFF;
+        
+        QString adcInfo = "已更新中位值为:" + QString::number(adcValue[0]) 
+                                    + "," + QString::number(adcValue[1]);
+        QMessageBox::information(this,"摇杆校正",adcInfo);
+    }
+}
+
+void Widget::on_Bt_glb_ec_freq_clicked()//旋钮设置
 {
     int ansAdj = QMessageBox::question(this,"输入调整","摇杆校正或按键滤波设置?","摇杆校正","滤波设置","取消",2,-1);
-    
-    if(ansAdj == 0){//摇杆校正
-        ifSending = true;//正在发送
-        uint32_t adcUint = connectHID(2);//获取摇杆ADC值
-        ifSending = false;//发送结束
-        if(adcUint == 0){//若获取失败
-            QMessageBox::critical(this,"摇杆校正","HID通信失败");
-            return;
-        }else{//若获取成功
-            uint16_t adcValue[2];
-            adcValue[0] = adcUint >> 16;
-            adcValue[1] = adcUint & 0xFFFF;
-            
-            QString adcInfo = "已更新中位值为:" + QString::number(adcValue[0]) 
-                                        + "," + QString::number(adcValue[1]);
-            QMessageBox::information(this,"摇杆校正",adcInfo);
-        }
-    }
-    else if(ansAdj == 1){//按键滤波设置
-        ifSending = true;//正在发送
-        uint32_t adcUint = connectHID(3);//按键滤波设置
-        ifSending = false;//发送结束
-        if(adcUint == 0){//若获取失败
-            QMessageBox::critical(this,"滤波设置","HID通信失败");
-            return;
-        }else{//若获取成功
-            QString adcInfo = "参数已由" + QString::number(((adcUint >> 8) & 0xFF) - 1) 
-                                        + "修改为" + QString::number((adcUint & 0xFF) - 1);
-            QMessageBox::information(this,"滤波设置",adcInfo);
-        }
-    }
 }
 
 void Widget::openCfgFile()//打开配置文件
@@ -493,8 +516,11 @@ void Widget::on_Bt_write_clicked()//写入设备按钮
 
 void Widget::on_Bt_open_clicked()//打开文件按钮
 {
-    QString fileNew = QFileDialog::getOpenFileName(this,QStringLiteral("打开配置文件"),
-                                                   "./configFile",QStringLiteral("配置文件(*etcfg)"));
+    QString path = "./configFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../configFile";//若从文件打开exe则需要回退到根目录
+    QString fileNew = QFileDialog::getOpenFileName(this, QStringLiteral("打开配置文件"),
+                                                   path, QStringLiteral("配置文件(*etcfg)"));
     if(fileNew.isEmpty()) return;
     fileNow = fileNew;
     openCfgFile();
@@ -502,17 +528,23 @@ void Widget::on_Bt_open_clicked()//打开文件按钮
 
 void Widget::on_Bt_save_clicked()//保存文件按钮
 {
+    QString path = "./configFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../configFile";//若从文件打开exe则需要回退到根目录
     if(fileNow.isEmpty()){
-        fileNow = QFileDialog::getSaveFileName(this,QStringLiteral("保存配置文件"),
-                                               "./configFile",QStringLiteral("配置文件(*etcfg)"));
+        fileNow = QFileDialog::getSaveFileName(this, QStringLiteral("保存配置文件"),
+                                               path, QStringLiteral("配置文件(*etcfg)"));
     }
     saveCfgFile();//保存配置文件
 }
 
 void Widget::on_Bt_saveas_clicked()//另存为文件按钮
 {
-    QString fileNew = QFileDialog::getSaveFileName(this,QStringLiteral("另存为配置文件"),
-                                                   "./configFile",QStringLiteral("配置文件(*etcfg)"));
+    QString path = "./configFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../configFile";//若从文件打开exe则需要回退到根目录
+    QString fileNew = QFileDialog::getSaveFileName(this, QStringLiteral("另存为配置文件"),
+                                                   path, QStringLiteral("配置文件(*etcfg)"));
     if(fileNew.isEmpty()) return;
     fileNow = fileNew;
     saveCfgFile();//保存配置文件
@@ -531,9 +563,9 @@ void Widget::on_Bt_open_key_clicked()//打开key文件按钮
 {
     QString path = "./keyFile";
     QDir dir(path);
-    if(!dir.exists()) path = "../keyFile";
-    QString fileNewKey = QFileDialog::getOpenFileName(this,QStringLiteral("打开按键配置文件"),
-                                                      path,QStringLiteral("按键配置文件(*etkey)"));
+    if(!dir.exists()) path = "../keyFile";//若从文件打开exe则需要回退到根目录
+    QString fileNewKey = QFileDialog::getOpenFileName(this, QStringLiteral("打开按键配置文件"),
+                                                      path, QStringLiteral("按键配置文件(*etkey)"));
     if(fileNewKey.isEmpty()) return;
     fileNowKey = fileNewKey;
     openKeyFile();//打开key文件
@@ -543,10 +575,10 @@ void Widget::on_Bt_save_key_clicked()//保存key文件按钮
 {
     QString path = "./keyFile";
     QDir dir(path);
-    if(!dir.exists()) path = "../keyFile";
+    if(!dir.exists()) path = "../keyFile";//若从文件打开exe则需要回退到根目录
     if(fileNowKey.isEmpty()){
-        fileNowKey = QFileDialog::getSaveFileName(this,QStringLiteral("保存按键配置文件"),
-                                                  path,QStringLiteral("按键配置文件(*etkey)"));
+        fileNowKey = QFileDialog::getSaveFileName(this, QStringLiteral("保存按键配置文件"),
+                                                  path, QStringLiteral("按键配置文件(*etkey)"));
     }
     saveKeyFile();//保存key文件
 }
@@ -555,9 +587,9 @@ void Widget::on_Bt_saveas_key_clicked()//另存为key文件按钮
 {
     QString path = "./keyFile";
     QDir dir(path);
-    if(!dir.exists()) path = "../keyFile";
-    QString fileNewKey = QFileDialog::getSaveFileName(this,QStringLiteral("另存为按键配置文件"),
-                                                      path,QStringLiteral("按键配置文件(*etkey)"));
+    if(!dir.exists()) path = "../keyFile";//若从文件打开exe则需要回退到根目录
+    QString fileNewKey = QFileDialog::getSaveFileName(this, QStringLiteral("另存为按键配置文件"),
+                                                      path, QStringLiteral("按键配置文件(*etkey)"));
     if(fileNewKey.isEmpty()) return;
     fileNowKey = fileNewKey;
     saveKeyFile();//保存key文件

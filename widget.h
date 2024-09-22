@@ -7,7 +7,6 @@
 
 #include <QWidget>
 #include "windows.h"
-#include "hidapi.h"
 #include <iostream>
 
 #include <QInputDialog>
@@ -54,6 +53,7 @@ public:
     QString style_small_black, style_small_gray;//样式设定
     
 public:
+    bool hid_write_read(uint8_t *writeBuf, uint8_t *readBuf);//HID先写后读
     uint32_t connectHID(uint8_t cmd);//以自定义HID连接设备
     bool writeHID(uint8_t mode, uint8_t *buf);//以自定义HID设备写入数据
     
@@ -158,7 +158,9 @@ private slots:
     
     void on_mode3_loop_clicked();//循环
     
-    void on_Bt_get_adc_clicked();//输入调整
+    void on_Bt_glb_key_flt_clicked();//按键滤波
+    void on_Bt_glb_rk_calib_clicked();//摇杆校正
+    void on_Bt_glb_ec_freq_clicked();//旋钮设置
     
     void on_spinBox_rgb_r_valueChanged(int arg1);
     void on_spinBox_rgb_g_valueChanged(int arg1);

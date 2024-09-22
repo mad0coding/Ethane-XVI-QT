@@ -1,6 +1,5 @@
 #include "tools.h"
 
-
 bool read_asciiArray_file(QString path, uint8_t *buf, uint16_t len)//读明文数组文件
 {
     if(!path.isEmpty()){//若路径存在
@@ -312,6 +311,8 @@ QPixmap rgbToPix(uint8_t r, uint8_t g, uint8_t b, uint16_t w, uint16_t h, uint8_
 uint16_t EndianConvert16(uint16_t num){//16位大小端转换
     return (num << 8) | (num >> 8);//交换两个字节
 }
+
+
 
 
 

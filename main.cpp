@@ -32,7 +32,7 @@ int main(int argc, char *argv[])
                 mywidget.fileNow = fileConvert;
                 mywidget.openCfgFile();//打开键盘配置文件
             }
-            else if(fileinfo.suffix().compare("etlight", Qt::CaseInsensitive) == 0){//键盘配置文件后缀
+            else if(fileinfo.suffix().compare("etlight", Qt::CaseInsensitive) == 0){//灯效配置文件后缀
                 mywidget.clrUnit->fileNow = fileConvert;
                 mywidget.clrUnit->openLightFile();//打开灯效配置文件
                 mywidget.ui->tabWidget->setCurrentIndex(4);//跳转到灯效配置页

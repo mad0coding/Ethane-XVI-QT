@@ -2,6 +2,7 @@
 #define TOOLS_H
 
 //#include "widget.h"
+#include "hidapi.h"
 #include <QCoreApplication>
 #include <QTime>
 #include <QMessageBox>
@@ -11,8 +12,6 @@
 #include <QFileDialog>
 #include <QString>
 #include <QDebug>
-//#include <QSerialPort>
-//#include <QSerialPortInfo>
 #include <QWidget>
 #include <QPixmap>
 #include <QDesktopWidget>
@@ -61,9 +60,6 @@
 bool read_asciiArray_file(QString path, uint8_t *buf, uint16_t len);//读明文数组文件
 bool read_cfg_file(QString path, uint8_t *buf, uint16_t len);//读配置文件
 bool write_cfg_file(QString path, uint8_t *buf, uint16_t len);//写配置文件
-
-//bool read_key_file(QString path, uint8_t *buf);//读key文件
-//bool write_key_file(QString path, uint8_t *buf);//写key文件
 
 void mySleep(int ms);//毫秒延时
 

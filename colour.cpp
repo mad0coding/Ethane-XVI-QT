@@ -261,22 +261,31 @@ void colour::lightCfgToStr(uint8_t key_i){//配置数据转标签字符串
 }
 
 void colour::on_open_clicked(){//打开
-    QString fileNew = QFileDialog::getOpenFileName(this,QStringLiteral("打开灯效文件"),
-                                                   "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+    QString path = "./lightFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../lightFile";//若从文件打开exe则需要回退到根目录
+    QString fileNew = QFileDialog::getOpenFileName(this, QStringLiteral("打开灯效文件"),
+                                                   path, QStringLiteral("灯效文件(*etlight)"));
     if(fileNew.isEmpty()) return;
     fileNow = fileNew;
     openLightFile();//打开灯效文件
 }
 void colour::on_save_clicked(){//保存
+    QString path = "./lightFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../lightFile";//若从文件打开exe则需要回退到根目录
     if(fileNow.isEmpty()){
-        fileNow = QFileDialog::getSaveFileName(this,QStringLiteral("保存灯效文件"),
-                                               "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+        fileNow = QFileDialog::getSaveFileName(this, QStringLiteral("保存灯效文件"),
+                                               path, QStringLiteral("灯效文件(*etlight)"));
     }
     saveLightFile(1);//保存灯效文件
 }
 void colour::on_saveas_clicked(){//另存为
-    QString fileNew = QFileDialog::getSaveFileName(this,QStringLiteral("另存为灯效文件"),
-                                                   "./lightFile",QStringLiteral("灯效文件(*etlight)"));
+    QString path = "./lightFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../lightFile";//若从文件打开exe则需要回退到根目录
+    QString fileNew = QFileDialog::getSaveFileName(this, QStringLiteral("另存为灯效文件"),
+                                                   path, QStringLiteral("灯效文件(*etlight)"));
     if(fileNew.isEmpty()) return;
     fileNow = fileNew;
     saveLightFile(1);//保存灯效文件
@@ -294,8 +303,11 @@ void colour::on_write_clicked(){//写入灯效按钮
     widget->ui->Bt_write_color->setStyleSheet(widget->style_mid_black);
 }
 void colour::on_import_clicked(){//导入配色
-    QString fileTmp = QFileDialog::getOpenFileName(this,QStringLiteral("导入配色文件"),
-                                           "./lightFile",QStringLiteral("配色文件(*txt)"));
+    QString path = "./lightFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../lightFile";//若从文件打开exe则需要回退到根目录
+    QString fileTmp = QFileDialog::getOpenFileName(this, QStringLiteral("导入配色文件"),
+                                                   path, QStringLiteral("配色文件(*txt)"));
     if(fileTmp.isEmpty()) return;
     uint8_t u8color[KEY_NUM * 3];
     memset(u8color, 0, KEY_NUM * 3);
@@ -306,8 +318,11 @@ void colour::on_import_clicked(){//导入配色
     for(int i = 0; i < KEY_NUM * 3; i++) sbox_rgbs[i]->setValue(u8color[i]);
 }
 void colour::on_export_clicked(){//导出配色
-    QString fileTmp = QFileDialog::getSaveFileName(this,QStringLiteral("导出配色文件"),
-                                           "./lightFile",QStringLiteral("配色文件(*txt)"));
+    QString path = "./lightFile";
+    QDir dir(path);
+    if(!dir.exists()) path = "../lightFile";//若从文件打开exe则需要回退到根目录
+    QString fileTmp = QFileDialog::getSaveFileName(this, QStringLiteral("导出配色文件"),
+                                                   path, QStringLiteral("配色文件(*txt)"));
     QFileInfo fileinfo = QFileInfo(fileTmp);//文件信息
     if(fileinfo.fileName().isEmpty()) return;
     if(fileinfo.suffix().isEmpty()) fileTmp += ".txt";//若无后缀则添加
