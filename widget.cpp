@@ -118,22 +118,6 @@ Widget::~Widget(){
     delete ui;
 }
 
-bool Widget::hid_write_read(uint8_t *writeBuf, uint8_t *readBuf)//HID先写后读
-{
-    std::string hidWriteStr;//创建写入缓存
-    hidWriteStr.resize(65, 0);//重置为65字节
-    hidWriteStr[0] = 0;//首字节固定为0
-    for(int i = 0; i < 64; i++) hidWriteStr[i + 1] = writeBuf[i];//输入数据拷贝
-    
-    while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
-    if(hidDev->write(hidWriteStr) != 65) return false;//若写入失败则退出
-    
-    std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
-    if(hidReadStr.length() != 65) return false;//若读取失败则退出
-    for(int i = 0; i < 64; i++) readBuf[i] = hidReadStr[i + 1];//输出数据拷贝
-    return true;
-}
-
 void Widget::key_handle(uint8_t keyValue, bool ifPress = true)//按键处理
 {
     if(ifPress && state > 0){
@@ -283,144 +267,176 @@ void Widget::keyReleaseEvent(QKeyEvent *event)//按键抬起
     //printf("funcR:%d",func);//打印当前功能键
 }
 
-uint32_t Widget::connectHID(uint8_t cmd)//以自定义HID连接设备
+uint8_t Widget::hid_find_open(uint16_t findVid, uint16_t findPid, uint16_t findUsagePage)//HID设备查找并打开
 {
-//    hidApi = new HidApi(); hidDev = new HidDevice();//HID设备
     HidDeviceList devList;//HID设备列表
-    
-    if(!hidApi->isInitialized()) return false;//HidApi未成功初始化
-    
-    devList = hidApi->scanDevices(ui->spinBox_vid->value(),ui->spinBox_pid->value());//按VID和PID扫描设备
-    
-    for(size_t i = 0; i < devList.size(); i++){//可打印扫描到的设备的信息
-        if(devList[i].getUsagePage() == 0xFF00){//在devList中找到要通信的设备
+    if(!hidApi->isInitialized()) return CHID_ERR_INIT;//HidApi未成功初始化则退出
+    devList = hidApi->scanDevices(findVid, findPid);//按VID和PID扫描设备
+    int findDevNum = 0;//设备计数
+    for(size_t i = 0; i < devList.size(); i++){//在VID和PID符合的设备中进一步查找
+        if(devList[i].getUsagePage() == findUsagePage){//匹配UsagePage 实际主要是为了匹配端点
+            if(findDevNum > 0) return CHID_MULTI_DEV;//若有多个设备则退出
+            findDevNum++;//设备计数
             *hidDev = devList[i];//选定该设备
-            if(!hidDev->isInitialized()) return false;//HID设备未初始化则退出
-            if(!hidDev->open()) return false;//HID设备打开失败则退出
-            
-            std::string hidWriteStr;//创建写入缓存
-            hidWriteStr.resize(65, 0);//重置为65字节
-            if(cmd == 0 || cmd == 1){//配置或灯效连接命令
-                hidWriteStr[0] = 0;
-                if(cmd == 0) hidWriteStr[1] = 'C', hidWriteStr[2] = 'H';//填入配置连接指令
-                else hidWriteStr[1] = 'L', hidWriteStr[2] = 'T';//填入灯效连接指令
-                if(cmd == 0) hidWriteStr[3] = '1' + ui->cBox_flash->currentIndex();//填入配置存储位置
-                else hidWriteStr[3] = '1' + ui->cBox_flash_color->currentIndex();//填入灯效存储位置
-                
-                while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
-                if(hidDev->write(hidWriteStr) != 65) return false;//若写入失败则退出
-                
-                std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
-                if(hidReadStr.length() == 65 && hidReadStr[1] == 'R' 
-                   && hidReadStr[2] == hidWriteStr[1] && hidReadStr[3] == hidWriteStr[2]){//若正确响应
-                    return true;
-                }
-            }
-            else if(cmd == 2){//摇杆校正命令
-                hidWriteStr[0] = 0;
-                hidWriteStr[1] = 'R'; hidWriteStr[2] = 'K'; hidWriteStr[3] = 'C';//填入校正指令
-                
-                while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
-                if(hidDev->write(hidWriteStr) != 65) return false;//若写入失败则退出
-                
-                std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
-                hidDev->close();//关闭HID设备
-                if(hidReadStr.length() == 65 && hidReadStr[1] == 'R' && hidReadStr[2] == 'K'){//若正确响应
-                    uint16_t adcValue[2];
-                    adcValue[0] = ((uint8_t)hidReadStr[3] << 8) | (uint8_t)hidReadStr[4];//获取ADC值
-                    adcValue[1] = ((uint8_t)hidReadStr[5] << 8) | (uint8_t)hidReadStr[6];
-                    if(adcValue[0] > 4095 || adcValue[1] > 4095) return 0;
-                    uint32_t adcUint = (adcValue[0] << 16) | adcValue[1];//打包成32位数
-                    return adcUint;
-                }
-            }
-            else if(cmd == 3){//修改按键滤波参数命令
-                hidWriteStr[0] = 0;
-                hidWriteStr[1] = 'K'; hidWriteStr[2] = 'Y'; hidWriteStr[3] = 'F';//填入校正指令
-                hidWriteStr[4] = ui->sBox_key_flt->value();//填入按键滤波参数
-                
-                while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
-                if(hidDev->write(hidWriteStr) != 65) return false;//若写入失败则退出
-                
-                std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
-                hidDev->close();//关闭HID设备
-                if(hidReadStr.length() == 65 && hidReadStr[1] == 'K' && hidReadStr[2] == 'Y'){//若正确响应
-                    return (((uint8_t)hidReadStr[3] + 1) << 8) | ((uint8_t)hidReadStr[4] + 1);//返回的参数各自加一以避免为0
-                }
-            }
         }
     }
-    return false;//无可用HID或无设备响应
+    if(findDevNum == 0) return CHID_NO_DEV;//未找到设备则退出
+    //if(!hidDev->isInitialized()) return CHID_ERR_INIT;//HID设备未初始化则退出
+    if(!hidDev->open()) return CHID_ERR_OPEN;//HID设备打开失败则退出
+    return CHID_OK;
+}
+
+uint8_t Widget::hid_close()//HID设备关闭
+{
+    return (hidDev->close()) ? CHID_OK : CHID_ERR_CLOSE;//关闭HID设备
+}
+
+uint8_t Widget::hid_write_read(uint8_t *writeBuf, uint8_t *readBuf)//HID先写后读
+{
+    std::string hidWriteStr;//创建写入缓存
+    hidWriteStr.resize(65, 0);//重置为65字节
+    hidWriteStr[0] = 0;//首字节固定为0
+    for(int i = 0; i < 64; i++) hidWriteStr[i + 1] = writeBuf[i];//输入数据拷贝
+    
+    while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
+    if(hidDev->write(hidWriteStr) != 65) return CHID_ERR_WRITE;//若写入失败则退出
+    
+    std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
+    if(hidReadStr.length() != 65) return CHID_ERR_READ;//若读取失败则退出
+    for(int i = 0; i < 64; i++) readBuf[i] = hidReadStr[i + 1];//输出数据拷贝
+    return CHID_OK;
+}
+
+uint8_t Widget::connectHID(uint8_t cmd, uint8_t *outBuf)//以自定义HID连接设备
+{
+    uint8_t ret = CHID_OK;
+    ret = hid_find_open(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);//HID设备查找并打开
+    if(ret != CHID_OK){//失败
+        return ret;
+    }
+    
+    uint8_t writeBuf[64], readBuf[64];//读写缓存
+
+    if(cmd == 0 || cmd == 1){//配置或灯效连接命令
+        if(cmd == 0){
+            memcpy(writeBuf, "CH", 2);//填入配置连接指令
+            writeBuf[2] = '1' + ui->cBox_flash->currentIndex();//填入配置存储位置
+        }
+        else{
+            memcpy(writeBuf, "LT", 2);//填入灯效连接指令
+            writeBuf[2] = '1' + ui->cBox_flash_color->currentIndex();//填入灯效存储位置
+        }
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        if(ret != CHID_OK){//失败
+            hid_close();//HID设备关闭
+            return ret;
+        }
+
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[0] && readBuf[2] == writeBuf[1]){//若正确响应
+            return CHID_OK;
+        }
+    }
+    else if(cmd == 2){//摇杆校正命令
+        memcpy(writeBuf, "RKC", 3);//填入校正命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == 'K'){//若正确响应
+            uint16_t adcValue[4];
+            adcValue[0] = (readBuf[2] << 8) | readBuf[3];//获取ADC值
+            adcValue[1] = (readBuf[4] << 8) | readBuf[5];
+            adcValue[2] = (readBuf[6] << 8) | readBuf[7];
+            adcValue[3] = (readBuf[8] << 8) | readBuf[9];
+            if(adcValue[2] > 4095 || adcValue[3] > 4095) return 1;//数据错误
+            if(outBuf){
+                memcpy(outBuf, adcValue, sizeof(adcValue));
+            }
+            return CHID_OK;
+        }
+    }
+    else if(cmd == 3){//修改按键滤波参数命令
+        memcpy(writeBuf, "KYF", 3);//填入修改命令
+        writeBuf[3] = ui->sBox_key_flt->value();//填入按键滤波参数
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'K' && readBuf[1] == 'Y'){//若正确响应
+            if(outBuf){
+                memcpy(outBuf, &readBuf[2], 2);
+            }
+            return CHID_OK;
+        }
+    }
+    hid_close();//HID设备关闭
+    return CHID_BAD_REP;//设备无响应或错误响应
 }
 
 bool Widget::writeHID(uint8_t mode, uint8_t *buf)//以自定义HID向设备写入数据
 {
+    uint8_t ret = CHID_OK;
+    uint8_t writeBuf[64], readBuf[64];//读写缓存
+    
     ifSending = true;//正在发送
     int success = 0, packNum = (mode == 0) ? 8 : 4;//包数
-    if(connectHID(mode)){//若连接成功
-        std::string hidWriteStr;//创建写入缓存
-        hidWriteStr.resize(65, 0);//重置为65字节
-        hidWriteStr[0] = 0;
-        
-        while(hidDev->readAvailable()) hidDev->read(0);//若已有数据则先读出
-        
+    ret = connectHID(mode);//连接
+    if(ret == CHID_OK){//若连接成功
         for(int i = 0; i < packNum; i++){//64*8=512字节
             mySleep(5);//强制延时5ms防止HID发送卡死
-            for(int j = 0; j < 64; j++) hidWriteStr[j + 1] = *(buf + i * 64 + j);//把64字节复制到发送字符串
             
-            if(hidDev->write(hidWriteStr) != 65) return false;//若写入失败则退出
+            memcpy(writeBuf, (buf + i * 64), 64);//拷贝到写入缓存
             
-            for(int j = 0; j < 100; j++){//等待设备响应
-                if(hidDev->readAvailable()){//若有响应数据
-                    std::string hidReadStr = hidDev->read(50);//读取响应数据
-                    if(hidReadStr.length() == 65 && hidReadStr[1] == i 
-                            && hidReadStr[2] == 'C' && hidReadStr[3] == 'H'){//若正确响应
-                        success++;
-                        break;
-                    }
-                }
-                mySleep(1);//延时1ms
+            ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+            if(ret != CHID_OK) break;//失败
+            
+            if(readBuf[0] == i && readBuf[1] == 'C' && readBuf[2] == 'H'){//若正确响应
+                success++;
             }
         }
     }
-    hidDev->close();//关闭HID设备
+    hid_close();//HID设备关闭
     
     ifSending = false;//发送结束
-    if(success == packNum) return true;
-    else return false;
+    
+    if(success == packNum) return CHID_OK;//成功个数等于包个数
+    else return ret;//失败
 }
 
 void Widget::on_Bt_glb_key_flt_clicked()//按键滤波
 {
     ifSending = true;//正在发送
-    uint32_t adcUint = connectHID(3);//按键滤波设置
+    uint8_t outBuf[2];
+    uint8_t ret = connectHID(3, outBuf);//按键滤波设置
     ifSending = false;//发送结束
-    if(adcUint == 0){//若获取失败
-        QMessageBox::critical(this,"滤波设置","HID通信失败");
+    if(ret != CHID_OK){//若获取失败
+        QMessageBox::critical(this, "滤波设置", "HID通信失败\n" + CHID_to_str(ret));
         return;
     }else{//若获取成功
-        QString adcInfo = "参数已由" + QString::number(((adcUint >> 8) & 0xFF) - 1) 
-                                    + "修改为" + QString::number((adcUint & 0xFF) - 1);
-        QMessageBox::information(this,"滤波设置",adcInfo);
+        QString fltInfo = "参数已由" + QString::number(outBuf[0]) 
+                          + "修改为" + QString::number(outBuf[1]);
+        QMessageBox::information(this, "滤波设置", fltInfo);
     }
 }
 
 void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
 {
     ifSending = true;//正在发送
-    uint32_t adcUint = connectHID(2);//获取摇杆ADC值
+    uint16_t adcValue[4];
+    uint8_t ret = connectHID(2, (uint8_t*)adcValue);//获取摇杆ADC值
     ifSending = false;//发送结束
-    if(adcUint == 0){//若获取失败
-        QMessageBox::critical(this,"摇杆校正","HID通信失败");
+    if(ret != CHID_OK){//若获取失败
+        QMessageBox::critical(this, "摇杆校正", "HID通信失败\n" + CHID_to_str(ret));
         return;
     }else{//若获取成功
-        uint16_t adcValue[2];
-        adcValue[0] = adcUint >> 16;
-        adcValue[1] = adcUint & 0xFFFF;
-        
-        QString adcInfo = "已更新中位值为:" + QString::number(adcValue[0]) 
-                                    + "," + QString::number(adcValue[1]);
-        QMessageBox::information(this,"摇杆校正",adcInfo);
+        QString adcInfo = "中位值由:" + QString::number(adcValue[0]) 
+                               + "," + QString::number(adcValue[1])
+                        + "\n更新为:" + QString::number(adcValue[2])
+                               + "," + QString::number(adcValue[3]);
+        QMessageBox::information(this, "摇杆校正", adcInfo);
     }
 }
 
@@ -507,8 +523,9 @@ void Widget::on_Bt_write_clicked()//写入设备按钮
     ui->Bt_write->setStyleSheet(style_big_gray);
     ui->Bt_write->setEnabled(false);//暂时禁用按钮
     if(cfgUnit->write_cfg_data()){
-        if(writeHID(0, cfgUnit->cfg_data)) ;//QMessageBox::information(this,"提示","写入成功");
-        else QMessageBox::critical(this,"HID通信","写入失败");
+        uint8_t ret = writeHID(0, cfgUnit->cfg_data);
+        if(ret == CHID_OK) ;//QMessageBox::information(this,"提示","写入成功");
+        else QMessageBox::critical(this, "配置写入", "HID通信失败\n" + CHID_to_str(ret));
     }
     ui->Bt_write->setEnabled(true);//恢复启用按钮
     ui->Bt_write->setStyleSheet(style_big_black);

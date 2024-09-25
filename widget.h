@@ -53,8 +53,10 @@ public:
     QString style_small_black, style_small_gray;//样式设定
     
 public:
-    bool hid_write_read(uint8_t *writeBuf, uint8_t *readBuf);//HID先写后读
-    uint32_t connectHID(uint8_t cmd);//以自定义HID连接设备
+    uint8_t hid_find_open(uint16_t findVid, uint16_t findPid, uint16_t findUsagePage);//HID设备查找并打开
+    uint8_t hid_close(void);//HID设备关闭
+    uint8_t hid_write_read(uint8_t *writeBuf, uint8_t *readBuf);//HID先写后读
+    uint8_t connectHID(uint8_t cmd, uint8_t *outBuf = NULL);//以自定义HID连接设备
     bool writeHID(uint8_t mode, uint8_t *buf);//以自定义HID设备写入数据
     
     void openCfgFile();//打开配置文件

@@ -296,8 +296,9 @@ void colour::on_write_clicked(){//写入灯效按钮
     
     saveLightFile(0);//仅填入控件的数据至数组而不保存至文件
     
-    if(widget->writeHID(1, light_data)) ;//QMessageBox::information(this,"提示","写入成功");
-    else QMessageBox::critical(this,"HID通信","写入失败");
+    uint8_t ret = widget->writeHID(1, light_data);
+    if(ret == CHID_OK) ;//QMessageBox::information(this,"提示","写入成功");
+    else QMessageBox::critical(this, "灯效写入", "HID通信失败\n" + CHID_to_str(ret));
     
     widget->ui->Bt_write_color->setEnabled(true);//恢复启用按钮
     widget->ui->Bt_write_color->setStyleSheet(widget->style_mid_black);

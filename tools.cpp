@@ -254,6 +254,22 @@ QString USB_to_str(uint8_t key, bool shift)//USB键值转按键名
     }
 }
 
+QString CHID_to_str(uint8_t ret)//HID返回值转字符串
+{
+    switch(ret){
+    case CHID_OK:return "HID OK";
+    case CHID_NO_DEV:return "No Device Found";
+    case CHID_MULTI_DEV:return "More Than One Device";
+    case CHID_ERR_INIT:return "HID Init Failed";
+    case CHID_ERR_OPEN:return "HID Open Failed";
+    case CHID_ERR_CLOSE:return "HID Close Failed";
+    case CHID_ERR_WRITE:return "HID Write Failed";
+    case CHID_ERR_READ:return "HID Read Failed";
+    case CHID_BAD_REP:return "No Correct Response";
+    default:return "HID Unknown State";
+    }
+}
+
 //H:0~colorAngle*6,S:0~255(用delta代替),V:0~255
 void rgbToHsv(uint8_t vR, uint8_t vG, uint8_t vB, uint16_t* pH, uint16_t* pS, uint16_t* pV){
     uint8_t max = MAX(MAX(vR,vG),vB), min = MIN(MIN(vR,vG),vB);
@@ -311,6 +327,8 @@ QPixmap rgbToPix(uint8_t r, uint8_t g, uint8_t b, uint16_t w, uint16_t h, uint8_
 uint16_t EndianConvert16(uint16_t num){//16位大小端转换
     return (num << 8) | (num >> 8);//交换两个字节
 }
+
+
 
 
 
