@@ -2,7 +2,6 @@
 #define TOOLS_H
 
 //#include "widget.h"
-#include "hidapi.h"
 #include <QCoreApplication>
 #include <QTime>
 #include <QMessageBox>
@@ -16,15 +15,6 @@
 #include <QPixmap>
 #include <QDesktopWidget>
 
-#define CHID_OK             0
-#define CHID_NO_DEV         1
-#define CHID_MULTI_DEV      2
-#define CHID_ERR_INIT       3
-#define CHID_ERR_OPEN       4
-#define CHID_ERR_CLOSE      5
-#define CHID_ERR_WRITE      6
-#define CHID_ERR_READ       7
-#define CHID_BAD_REP        8
 
 #define m1_button    1
 #define m2_shortcut  2
@@ -74,8 +64,6 @@ void mySleep(int ms);//毫秒延时
 
 uint8_t key_to_USB(int key, int Vkey);//QT键值转USB键值
 QString USB_to_str(uint8_t key, bool shift);//USB键值转按键名
-
-QString CHID_to_str(uint8_t ret);//HID返回值转字符串
 
 void rgbToHsv(uint8_t vR, uint8_t vG, uint8_t vB, uint16_t* pH, uint16_t* pS, uint16_t* pV);
 void hsvToRgb(uint16_t vH, uint16_t vS, uint16_t vV, uint8_t* pR, uint8_t* pG, uint8_t* pB);

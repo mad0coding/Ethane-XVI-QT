@@ -4,6 +4,8 @@
 #include "ui_widget.h"
 //#include "widget.h"
 #include "tools.h"
+#include "HidCom.h"
+
 #include <QWidget>
 #include <QLabel>
 #include <QPushButton>

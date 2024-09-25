@@ -941,44 +941,6 @@
       <string>PIC</string>
      </property>
     </widget>
-    <widget class="QSpinBox" name="sBox_key_flt">
-     <property name="geometry">
-      <rect>
-       <x>180</x>
-       <y>470</y>
-       <width>60</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="minimum">
-      <number>0</number>
-     </property>
-     <property name="maximum">
-      <number>100</number>
-     </property>
-     <property name="value">
-      <number>2</number>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_62">
-     <property name="geometry">
-      <rect>
-       <x>60</x>
-       <y>470</y>
-       <width>100</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>按键滤波参数:</string>
-     </property>
-    </widget>
     <widget class="Line" name="line_7">
      <property name="geometry">
       <rect>
@@ -1010,7 +972,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>旋钮设置</string>
+      <string>旋钮倍频</string>
      </property>
     </widget>
     <widget class="QPushButton" name="Bt_glb_key_flt">

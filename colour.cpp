@@ -296,7 +296,10 @@ void colour::on_write_clicked(){//写入灯效按钮
     
     saveLightFile(0);//仅填入控件的数据至数组而不保存至文件
     
-    uint8_t ret = widget->writeHID(1, light_data);
+    uint8_t cfgPos = widget->ui->cBox_flash_color->currentIndex();//填入灯效存储位置
+    hid_set_para(widget->ui->spinBox_vid->value(), widget->ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
+    uint8_t ret = hid_send_data(CHID_CMD_CFG_LIGHT, &cfgPos, light_data);                       //HID发送数据
+    
     if(ret == CHID_OK) ;//QMessageBox::information(this,"提示","写入成功");
     else QMessageBox::critical(this, "灯效写入", "HID通信失败\n" + CHID_to_str(ret));
     

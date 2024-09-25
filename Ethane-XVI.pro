@@ -31,14 +31,16 @@ SOURCES += \
     tools.cpp \
     config.cpp \
     HidApi.cpp \
-    colour.cpp
+    colour.cpp \
+    HidCom.cpp
 
 HEADERS += \
         widget.h \
     tools.h \
     config.h \
     HidApi.h \
-    colour.h
+    colour.h \
+    HidCom.h
 
 FORMS += \
         widget.ui
