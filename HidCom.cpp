@@ -96,12 +96,12 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
 
     if(cmd == CHID_CMD_CFG_KEY || cmd == CHID_CMD_CFG_LIGHT){//配置或灯效连接命令
         if(cmd == 0){
-            memcpy(writeBuf, "CH", 2);//填入配置连接指令
-            writeBuf[2] = '1' + inBuf[0];//填入配置存储位置
+            memcpy(writeBuf, "DKB", 3);//填入配置连接指令
+            writeBuf[3] = '1' + inBuf[0];//填入配置存储位置
         }
         else{
-            memcpy(writeBuf, "LT", 2);//填入灯效连接指令
-            writeBuf[2] = '1' + inBuf[0];//填入灯效存储位置
+            memcpy(writeBuf, "DLT", 3);//填入灯效连接指令
+            writeBuf[3] = '1' + inBuf[0];//填入灯效存储位置
         }
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
@@ -110,18 +110,33 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return ret;
         }
 
-        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[0] && readBuf[2] == writeBuf[1]){//若正确响应
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1] && readBuf[2] == writeBuf[2]){//若正确响应
             return CHID_OK;
         }
     }
-    else if(cmd == CHID_CMD_RK_ADC){//摇杆校正命令
-        memcpy(writeBuf, "RKC", 3);//填入校正命令
+    else if(cmd == CHID_CMD_KEY_FLT){//修改按键滤波参数命令
+        memcpy(writeBuf, "CKF", 3);//填入修改命令
+        writeBuf[3] = inBuf[0];//填入按键滤波参数
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
         hid_close();//HID设备关闭
         if(ret != CHID_OK) return ret;//失败
         
-        if(readBuf[0] == 'R' && readBuf[1] == 'K'){//若正确响应
+        if(readBuf[0] == writeBuf[1] && readBuf[1] == writeBuf[2]){//若正确响应
+            if(outBuf){
+                memcpy(outBuf, &readBuf[2], 2);
+            }
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_RK_ADC){//摇杆校正命令
+        memcpy(writeBuf, "CRK", 3);//填入校正命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == writeBuf[1] && readBuf[1] == writeBuf[2]){//若正确响应
             uint16_t adcValue[4];
             adcValue[0] = (readBuf[2] << 8) | readBuf[3];//获取ADC值
             adcValue[1] = (readBuf[4] << 8) | readBuf[5];
@@ -134,35 +149,21 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return CHID_OK;
         }
     }
-    else if(cmd == CHID_CMD_KEY_FLT){//修改按键滤波参数命令
-        memcpy(writeBuf, "KYF", 3);//填入修改命令
-        writeBuf[3] = inBuf[0];//填入按键滤波参数
+    else if(cmd == CHID_CMD_EC_FREQ){//修改旋钮倍频参数命令
+        memcpy(writeBuf, "CEC", 3);//填入修改命令
+        writeBuf[3] = inBuf[0];//填入旋钮倍频参数
+        writeBuf[4] = inBuf[1];
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
         hid_close();//HID设备关闭
         if(ret != CHID_OK) return ret;//失败
         
-        if(readBuf[0] == 'K' && readBuf[1] == 'Y'){//若正确响应
+        if(readBuf[0] == writeBuf[1] && readBuf[1] == writeBuf[2]){//若正确响应
             if(outBuf){
-                memcpy(outBuf, &readBuf[2], 2);
+                memcpy(outBuf, &readBuf[2], 4);
             }
             return CHID_OK;
         }
-    }
-    else if(cmd == CHID_CMD_EC_FREQ){//修改旋钮倍频参数命令
-//        memcpy(writeBuf, "KYF", 3);//填入修改命令
-//        writeBuf[3] = inBuf[0];//填入按键滤波参数
-        
-//        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
-//        hid_close();//HID设备关闭
-//        if(ret != CHID_OK) return ret;//失败
-        
-//        if(readBuf[0] == 'K' && readBuf[1] == 'Y'){//若正确响应
-//            if(outBuf){
-//                memcpy(outBuf, &readBuf[2], 2);
-//            }
-//            return CHID_OK;
-//        }
     }
     hid_close();//HID设备关闭
     return CHID_BAD_REP;//设备无响应或错误响应
@@ -184,7 +185,7 @@ uint8_t hid_send_data(uint8_t cmd, uint8_t *inBuf, uint8_t *buf)//HID向设备�
             ret = hid_write_read(writeBuf, readBuf);//HID先写后读
             if(ret != CHID_OK) break;//失败
             
-            if(readBuf[0] == i && readBuf[1] == 'C' && readBuf[2] == 'H'){//若正确响应
+            if(readBuf[0] == 'R' && readBuf[1] == 'D' && readBuf[2] == i){//若正确响应
                 success++;
             }
         }

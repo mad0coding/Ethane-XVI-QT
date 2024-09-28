@@ -274,6 +274,7 @@ void Widget::on_Bt_glb_key_flt_clicked()//按键滤波
     if(!ifOK) return;//若取消则返回
     uint8_t inBuf[1], outBuf[2];
     inBuf[0] = ansNum;//按键滤波参数
+    
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
     uint8_t ret = hid_send_cmd(CHID_CMD_KEY_FLT, inBuf, outBuf);                //HID按键滤波设置
     
@@ -290,6 +291,7 @@ void Widget::on_Bt_glb_key_flt_clicked()//按键滤波
 void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
 {
     uint16_t adcValue[4];
+    
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
     uint8_t ret = hid_send_cmd(CHID_CMD_RK_ADC, NULL, (uint8_t*)adcValue);      //HID获取摇杆ADC值
     
@@ -312,8 +314,10 @@ void Widget::on_Bt_glb_ec_freq_clicked()//旋钮倍频
                                     0,0,99,1,//默认值,最小值,最大值,步进
                                     &ifOK,Qt::WindowCloseButtonHint);
     if(!ifOK) return;//若取消则返回
-    uint8_t inBuf[1], outBuf[2];
-    inBuf[0] = ansNum;//旋钮倍频参数
+    uint8_t inBuf[2], outBuf[4];
+    inBuf[0] = ansNum % 10;//旋钮1倍频参数
+    inBuf[1] = (ansNum % 100) / 10;//旋钮2倍频参数
+    
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
     uint8_t ret = hid_send_cmd(CHID_CMD_EC_FREQ, inBuf, outBuf);                //HID旋钮倍频设置
     
@@ -321,8 +325,8 @@ void Widget::on_Bt_glb_ec_freq_clicked()//旋钮倍频
         QMessageBox::critical(this, "倍频设置", "HID通信失败\n" + CHID_to_str(ret));
         return;
     }else{//若获取成功
-        QString fltInfo = "参数已由" + QString::number(outBuf[0]) 
-                          + "修改为" + QString::number(outBuf[1]);
+        QString fltInfo = "参数已由" + QString("%1").arg(outBuf[0] + 10*outBuf[1], 2, 10, QChar('0')) 
+                          + "修改为" + QString("%1").arg(outBuf[2] + 10*outBuf[3], 2, 10, QChar('0'));//格式化为2位数
         QMessageBox::information(this, "倍频设置", fltInfo);
     }
 }

@@ -6,8 +6,8 @@ colour::colour(Widget *parent) : QWidget(parent)
 {
     widget = parent;
     
-    light_data = new uint8_t[256/*KEY_NUM * 3 * 2*/];
-    memset(light_data, 0, 256/*KEY_NUM * 3 * 2*/);
+    light_data = new uint8_t[256];
+    memset(light_data, 0, 256);
     
     connect(widget->ui->cBox_color_updown, 
             static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), 

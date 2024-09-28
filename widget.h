@@ -150,7 +150,7 @@ private slots:
     
     void on_Bt_glb_key_flt_clicked();//按键滤波
     void on_Bt_glb_rk_calib_clicked();//摇杆校正
-    void on_Bt_glb_ec_freq_clicked();//旋钮设置
+    void on_Bt_glb_ec_freq_clicked();//旋钮倍频
     
     void on_spinBox_rgb_r_valueChanged(int arg1);
     void on_spinBox_rgb_g_valueChanged(int arg1);
