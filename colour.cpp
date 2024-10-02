@@ -208,8 +208,8 @@ void colour::openLightFile(){
     widget->ui->cBox_dir_light->setCurrentIndex(*DATA_RGB_DIR);
     widget->ui->cBox_wave_light->setCurrentIndex(*DATA_RGB_WAVE);
     widget->ui->sBox_colorful_light->setValue(*DATA_RGB_COLORFUL);
-    widget->ui->sBox_color_d1wave->setValue(EndianConvert16(*DATA_RGB_D1WAVE));
-    widget->ui->sBox_color_d2wave->setValue(EndianConvert16(*DATA_RGB_D2WAVE));
+    widget->ui->sBox_color_d1wave->setValue(endianConvert16(*DATA_RGB_D1WAVE));
+    widget->ui->sBox_color_d2wave->setValue(endianConvert16(*DATA_RGB_D2WAVE));
     widget->ui->sBox_color_t1wave->setValue(*DATA_RGB_T1WAVE);
     widget->ui->sBox_color_t2wave->setValue(*DATA_RGB_T2WAVE);
     widget->ui->sBox_color_t1sys->setValue(*DATA_RGB_T1SYS);
@@ -224,8 +224,8 @@ void colour::saveLightFile(uint8_t ifSave){
     *DATA_RGB_DIR = widget->ui->cBox_dir_light->currentIndex();
     *DATA_RGB_WAVE = widget->ui->cBox_wave_light->currentIndex();
     *DATA_RGB_COLORFUL = widget->ui->sBox_colorful_light->value();
-    *DATA_RGB_D1WAVE = EndianConvert16(widget->ui->sBox_color_d1wave->value());
-    *DATA_RGB_D2WAVE = EndianConvert16(widget->ui->sBox_color_d2wave->value());
+    *DATA_RGB_D1WAVE = endianConvert16(widget->ui->sBox_color_d1wave->value());
+    *DATA_RGB_D2WAVE = endianConvert16(widget->ui->sBox_color_d2wave->value());
     *DATA_RGB_T1WAVE = widget->ui->sBox_color_t1wave->value();
     *DATA_RGB_T2WAVE = widget->ui->sBox_color_t2wave->value();
     *DATA_RGB_T1SYS = widget->ui->sBox_color_t1sys->value();

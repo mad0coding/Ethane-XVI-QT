@@ -165,6 +165,33 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return CHID_OK;
         }
     }
+    else if(cmd == CHID_CMD_RST){//软复位命令
+        memcpy(writeBuf, "BRST", 4);//填入命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_BOOT){//Boot预跳转命令
+        memcpy(writeBuf, "BBOT", 4);//填入命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_FLASH_CNT){//闪存擦除计数读取命令
+        
+    }
     hid_close();//HID设备关闭
     return CHID_BAD_REP;//设备无响应或错误响应
 }

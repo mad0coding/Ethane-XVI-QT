@@ -308,7 +308,7 @@ QPixmap rgbToPix(uint8_t r, uint8_t g, uint8_t b, uint16_t w, uint16_t h, uint8_
     return QPixmap::fromImage(image);
 }
 
-uint16_t EndianConvert16(uint16_t num){//16位大小端转换
+uint16_t endianConvert16(uint16_t num){//16位大小端转换
     return (num << 8) | (num >> 8);//交换两个字节
 }
 

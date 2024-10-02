@@ -62,6 +62,7 @@ Widget::Widget(QWidget *parent) :
     ui->Bt_glb_rk_calib->setStyleSheet(style_big_black);
     ui->Bt_glb_ec_freq->setStyleSheet(style_big_black);
     ui->Bt_glb_key_flt->setStyleSheet(style_big_black);
+    ui->Bt_special->setStyleSheet(style_big_black);
     
     ui->key_clear->setStyleSheet(style_mid_black);
     ui->key_clear_e_1->setStyleSheet(style_mid_black);
@@ -116,7 +117,7 @@ Widget::~Widget(){
     delete ui;
 }
 
-void Widget::key_handle(uint8_t keyValue, bool ifPress = true)//按键处理
+void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
 {
     if(ifPress && state > 0){
         if(button_class == 1){//键盘
@@ -232,7 +233,7 @@ void Widget::keyPressEvent(QKeyEvent *event)//按键按下
     else if(keyValue == 251) ui->label_alt->setStyleSheet("color: black");
     else if(keyValue == 252) ui->label_win->setStyleSheet("color: black");
     
-    key_handle(keyValue);
+    keyHandle(keyValue);
     //printf("key:%d\n",keyValue);//打印键值
     //printf("funcP:%d",func);//打印当前功能键
 }
@@ -261,7 +262,7 @@ void Widget::keyReleaseEvent(QKeyEvent *event)//按键抬起
         else if(keyValue == 251) ui->label_alt->setStyleSheet("color: grey");
         else if(keyValue == 252) ui->label_win->setStyleSheet("color: grey");
     }
-    key_handle(keyValue,false);
+    keyHandle(keyValue,false);
     //printf("funcR:%d",func);//打印当前功能键
 }
 
@@ -639,7 +640,7 @@ void Widget::passPointer()//传递指针
 }
 
 
-void Widget::key_click_handle(uint8_t button_cs)//16按钮按下处理
+void Widget::keyClickHandle(uint8_t button_cs)//16按钮按下处理
 {
     if(button_choose > 0 && button_class == 1){
         cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
@@ -669,24 +670,24 @@ void Widget::key_click_handle(uint8_t button_cs)//16按钮按下处理
     cfgUnit->bt_k[button_cs - 1]->setStyleSheet(style_big_gray);
     ui->mode3_input->setText("输入");
 }
-void Widget::on_key1_clicked(){ key_click_handle(1);    }
-void Widget::on_key2_clicked(){ key_click_handle(2);    }
-void Widget::on_key3_clicked(){ key_click_handle(3);    }
-void Widget::on_key4_clicked(){ key_click_handle(4);    }
-void Widget::on_key5_clicked(){ key_click_handle(5);    }
-void Widget::on_key6_clicked(){ key_click_handle(6);    }
-void Widget::on_key7_clicked(){ key_click_handle(7);    }
-void Widget::on_key8_clicked(){ key_click_handle(8);    }
-void Widget::on_key9_clicked(){ key_click_handle(9);    }
-void Widget::on_key10_clicked(){ key_click_handle(10);    }
-void Widget::on_key11_clicked(){ key_click_handle(11);    }
-void Widget::on_key12_clicked(){ key_click_handle(12);    }
-void Widget::on_key13_clicked(){ key_click_handle(13);    }
-void Widget::on_key14_clicked(){ key_click_handle(14);    }
-void Widget::on_key15_clicked(){ key_click_handle(15);    }
-void Widget::on_key16_clicked(){ key_click_handle(16);    }
+void Widget::on_key1_clicked(){ keyClickHandle(1);    }
+void Widget::on_key2_clicked(){ keyClickHandle(2);    }
+void Widget::on_key3_clicked(){ keyClickHandle(3);    }
+void Widget::on_key4_clicked(){ keyClickHandle(4);    }
+void Widget::on_key5_clicked(){ keyClickHandle(5);    }
+void Widget::on_key6_clicked(){ keyClickHandle(6);    }
+void Widget::on_key7_clicked(){ keyClickHandle(7);    }
+void Widget::on_key8_clicked(){ keyClickHandle(8);    }
+void Widget::on_key9_clicked(){ keyClickHandle(9);    }
+void Widget::on_key10_clicked(){ keyClickHandle(10);    }
+void Widget::on_key11_clicked(){ keyClickHandle(11);    }
+void Widget::on_key12_clicked(){ keyClickHandle(12);    }
+void Widget::on_key13_clicked(){ keyClickHandle(13);    }
+void Widget::on_key14_clicked(){ keyClickHandle(14);    }
+void Widget::on_key15_clicked(){ keyClickHandle(15);    }
+void Widget::on_key16_clicked(){ keyClickHandle(16);    }
 
-void Widget::key_r_click_handle(uint8_t button_cs)//摇杆页10按钮按下处理
+void Widget::keyRkClickHandle(uint8_t button_cs)//摇杆页10按钮按下处理
 {
     if(button_choose > 0 && button_class == 2){
         cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
@@ -700,18 +701,18 @@ void Widget::key_r_click_handle(uint8_t button_cs)//摇杆页10按钮按下处�
     button_choose = button_cs;
     cfgUnit->bt_r[button_cs - 1]->setStyleSheet(style_big_gray);
 }
-void Widget::on_key_r_1_clicked(){  key_r_click_handle(1);   }//摇杆1按键
-void Widget::on_key_r_1_0_clicked(){  key_r_click_handle(2);   }//摇杆1上
-void Widget::on_key_r_1_1_clicked(){  key_r_click_handle(3);   }//摇杆1下
-void Widget::on_key_r_1_2_clicked(){  key_r_click_handle(4);   }//摇杆1左
-void Widget::on_key_r_1_3_clicked(){  key_r_click_handle(5);   }//摇杆1右
-//void Widget::on_key_r_2_clicked(){  key_r_click_handle(6);   }//摇杆2按键
-//void Widget::on_key_r_2_0_clicked(){  key_r_click_handle(7);   }//摇杆2上
-//void Widget::on_key_r_2_1_clicked(){  key_r_click_handle(8);   }//摇杆2下
-//void Widget::on_key_r_2_2_clicked(){  key_r_click_handle(9);   }//摇杆2左
-//void Widget::on_key_r_2_3_clicked(){  key_r_click_handle(10);   }//摇杆2右
+void Widget::on_key_r_1_clicked(){  keyRkClickHandle(1);   }//摇杆1按键
+void Widget::on_key_r_1_0_clicked(){  keyRkClickHandle(2);   }//摇杆1上
+void Widget::on_key_r_1_1_clicked(){  keyRkClickHandle(3);   }//摇杆1下
+void Widget::on_key_r_1_2_clicked(){  keyRkClickHandle(4);   }//摇杆1左
+void Widget::on_key_r_1_3_clicked(){  keyRkClickHandle(5);   }//摇杆1右
+//void Widget::on_key_r_2_clicked(){  keyRkClickHandle(6);   }//摇杆2按键
+//void Widget::on_key_r_2_0_clicked(){  keyRkClickHandle(7);   }//摇杆2上
+//void Widget::on_key_r_2_1_clicked(){  keyRkClickHandle(8);   }//摇杆2下
+//void Widget::on_key_r_2_2_clicked(){  keyRkClickHandle(9);   }//摇杆2左
+//void Widget::on_key_r_2_3_clicked(){  keyRkClickHandle(10);   }//摇杆2右
 
-void Widget::key_e_click_handle(uint8_t button_cs)//旋钮页6按钮按下处理
+void Widget::keyEcClickHandle(uint8_t button_cs)//旋钮页6按钮按下处理
 {
     if(button_choose > 0 && button_class == 3){
         cfgUnit->bt_e[button_choose - 1]->setStyleSheet(style_big_black);
@@ -725,12 +726,12 @@ void Widget::key_e_click_handle(uint8_t button_cs)//旋钮页6按钮按下处理
     button_choose = button_cs;
     cfgUnit->bt_e[button_cs - 1]->setStyleSheet(style_big_gray);
 }
-void Widget::on_key_e_1_clicked(){  key_e_click_handle(1);   }//旋钮1按键
-void Widget::on_key_e_1_0_clicked(){  key_e_click_handle(2);   }//旋钮1逆时针
-void Widget::on_key_e_1_1_clicked(){  key_e_click_handle(3);   }//旋钮1顺时针
-void Widget::on_key_e_2_clicked(){  key_e_click_handle(4);   }//旋钮2按键
-void Widget::on_key_e_2_0_clicked(){  key_e_click_handle(5);   }//旋钮2逆时针
-void Widget::on_key_e_2_1_clicked(){  key_e_click_handle(6);   }//旋钮2顺时针
+void Widget::on_key_e_1_clicked(){  keyEcClickHandle(1);   }//旋钮1按键
+void Widget::on_key_e_1_0_clicked(){  keyEcClickHandle(2);   }//旋钮1逆时针
+void Widget::on_key_e_1_1_clicked(){  keyEcClickHandle(3);   }//旋钮1顺时针
+void Widget::on_key_e_2_clicked(){  keyEcClickHandle(4);   }//旋钮2按键
+void Widget::on_key_e_2_0_clicked(){  keyEcClickHandle(5);   }//旋钮2逆时针
+void Widget::on_key_e_2_1_clicked(){  keyEcClickHandle(6);   }//旋钮2顺时针
 
 void Widget::on_Bt_hold_clicked()//按键保持
 {
@@ -864,21 +865,21 @@ void Widget::State_to_zero()//状态归零
     key_num = 0;
 }
 
-void Widget::on_Bt_mouse_L_clicked(){    key_handle(kv_mouse_l);   }//鼠标左键
-void Widget::on_Bt_mouse_M_clicked(){    key_handle(kv_mouse_m);   }//鼠标中键
-void Widget::on_Bt_mouse_R_clicked(){    key_handle(kv_mouse_r);   }//鼠标右键
+void Widget::on_Bt_mouse_L_clicked(){    keyHandle(kv_mouse_l);   }//鼠标左键
+void Widget::on_Bt_mouse_M_clicked(){    keyHandle(kv_mouse_m);   }//鼠标中键
+void Widget::on_Bt_mouse_R_clicked(){    keyHandle(kv_mouse_r);   }//鼠标右键
 
-void Widget::on_Bt_wheel_up_clicked(){    key_handle(kv_wheel_up);   }//鼠标滚轮向上
-void Widget::on_Bt_wheel_down_clicked(){    key_handle(kv_wheel_down);   }//鼠标滚轮向下
+void Widget::on_Bt_wheel_up_clicked(){    keyHandle(kv_wheel_up);   }//鼠标滚轮向上
+void Widget::on_Bt_wheel_down_clicked(){    keyHandle(kv_wheel_down);   }//鼠标滚轮向下
 
-void Widget::on_Bt_vol_up_clicked(){    key_handle(kv_vol_up);   }//媒体音量加
-void Widget::on_Bt_vol_down_clicked(){    key_handle(kv_vol_down);   }//媒体音量减
-void Widget::on_Bt_vol_mute_clicked(){    key_handle(kv_vol_mute);   }//媒体静音
-void Widget::on_Bt_vol_stop_clicked(){    key_handle(kv_vol_stop);   }//媒体停止
-void Widget::on_Bt_vol_next_clicked(){    key_handle(kv_vol_next);   }//媒体下一个
-void Widget::on_Bt_vol_prev_clicked(){    key_handle(kv_vol_prev);   }//媒体上一个
+void Widget::on_Bt_vol_up_clicked(){    keyHandle(kv_vol_up);   }//媒体音量加
+void Widget::on_Bt_vol_down_clicked(){    keyHandle(kv_vol_down);   }//媒体音量减
+void Widget::on_Bt_vol_mute_clicked(){    keyHandle(kv_vol_mute);   }//媒体静音
+void Widget::on_Bt_vol_stop_clicked(){    keyHandle(kv_vol_stop);   }//媒体停止
+void Widget::on_Bt_vol_next_clicked(){    keyHandle(kv_vol_next);   }//媒体下一个
+void Widget::on_Bt_vol_prev_clicked(){    keyHandle(kv_vol_prev);   }//媒体上一个
 
-void Widget::on_Bt_empty_clicked(){    key_handle(0);   }//空按键
+void Widget::on_Bt_empty_clicked(){    keyHandle(0);   }//空按键
 
 
 
@@ -970,6 +971,45 @@ void Widget::sys_rgb_display(){//显示rgb
     uint8_t vR = ui->spinBox_rgb_r->value(), vG = ui->spinBox_rgb_g->value(), vB = ui->spinBox_rgb_b->value();
     ui->lb_rgb_pic_0->setPixmap(rgbToPix(vR, vG, vB, 30, 30, 0));//图片添加到标签控件
     ui->lb_rgb_pic_1->setPixmap(rgbToPix(vR, vG, vB, 30, 30, 1));//图片添加到标签控件
+}
+
+
+
+
+
+
+
+void Widget::on_Bt_special_clicked()//特殊功能
+{
+    hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
+    
+    bool ifOK = false;
+    int ansNum = QInputDialog::getInt(this,"特殊功能","0-软复位\n1-Boot预跳转\n2-闪存计数读取",
+                                    0,0,2,1,//默认值,最小值,最大值,步进
+                                    &ifOK,Qt::WindowCloseButtonHint);
+    if(!ifOK) return;
+    
+    uint8_t ret = CHID_OK;
+    
+    if(ansNum == 0){//软复位
+        ret = hid_send_cmd(CHID_CMD_RST, NULL, NULL);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "软复位", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+    }
+    else if(ansNum == 1){//Boot预跳转
+        ret = hid_send_cmd(CHID_CMD_BOOT, NULL, NULL);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "Boot预跳转", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+    }
+    else if(ansNum == 2){//闪存计数读取
+        
+    }
+    
+    
 }
 
 

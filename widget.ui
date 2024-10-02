@@ -996,6 +996,27 @@
       <string>按键滤波</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="Bt_special">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>490</y>
+       <width>120</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>特殊功能</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="tab_k">
     <attribute name="title">

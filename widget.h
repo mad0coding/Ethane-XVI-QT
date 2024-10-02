@@ -53,13 +53,13 @@ public:
     void saveKeyFile();//保存key文件
     
 private slots:
-    void key_handle(uint8_t keyValue, bool ifPress);//按键处理
+    void keyHandle(uint8_t keyValue, bool ifPress);//按键处理
     void keyPressEvent(QKeyEvent *event);//按键按下
     void keyReleaseEvent(QKeyEvent *event);//按键抬起
     
     void passPointer();//传递指针
 
-    void key_click_handle(uint8_t button_cs);//键盘页16按钮按下处理
+    void keyClickHandle(uint8_t button_cs);//键盘页16按钮按下处理
     void on_key1_clicked();
     void on_key2_clicked();
     void on_key3_clicked();
@@ -77,7 +77,7 @@ private slots:
     void on_key15_clicked();
     void on_key16_clicked();
     
-    void key_r_click_handle(uint8_t button_cs);//摇杆页10按钮按下处理
+    void keyRkClickHandle(uint8_t button_cs);//摇杆页10按钮按下处理
     void on_key_r_1_clicked();
     void on_key_r_1_0_clicked();
     void on_key_r_1_1_clicked();
@@ -89,7 +89,7 @@ private slots:
 //    void on_key_r_2_2_clicked();
 //    void on_key_r_2_3_clicked();
     
-    void key_e_click_handle(uint8_t button_cs);//旋钮页6按钮按下处理
+    void keyEcClickHandle(uint8_t button_cs);//旋钮页6按钮按下处理
     void on_key_e_1_clicked();
     void on_key_e_1_0_clicked();
     void on_key_e_1_1_clicked();
@@ -156,6 +156,8 @@ private slots:
     void on_spinBox_rgb_g_valueChanged(int arg1);
     void on_spinBox_rgb_b_valueChanged(int arg1);
     void sys_rgb_display();//显示rgb值
+    
+    void on_Bt_special_clicked();//特殊功能
     
 public://private:
     Ui::Widget *ui;

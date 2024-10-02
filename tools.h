@@ -70,7 +70,7 @@ void hsvToRgb(uint16_t vH, uint16_t vS, uint16_t vV, uint8_t* pR, uint8_t* pG, u
 
 QPixmap rgbToPix(uint8_t r, uint8_t g, uint8_t b, uint16_t w, uint16_t h, uint8_t mode);
 
-uint16_t EndianConvert16(uint16_t num);//16位大小端转换
+uint16_t endianConvert16(uint16_t num);//16位大小端转换
 
 
 #endif // TOOLS_H
