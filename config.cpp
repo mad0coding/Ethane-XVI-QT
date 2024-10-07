@@ -435,11 +435,11 @@ bool config::write_cfg_data()//写入配置数组
         cfg_data[i++] = ec_key_func[tmpi * 3 + 2];//顺时针按键func
     }
     
-    cfg_data[i++] = sbox_rgb_r->value();//R
+    cfg_data[i++] = sbox_rgb_r->value();//R(500)
     cfg_data[i++] = sbox_rgb_g->value();//G
     cfg_data[i++] = sbox_rgb_b->value();//B
     
-    uint8_t rgb_cycle = cbox_wave->currentIndex() | (cbox_colorful->currentIndex() << 4);//灯周期(508)
+    uint8_t rgb_cycle = cbox_wave->currentIndex() | (cbox_colorful->currentIndex() << 4);//灯周期
     uint8_t rgb_mode = 0;
     rgb_mode |= ckbox_sys_rgb_rk->isChecked() ? 0x80 : 0x00;//RGB摇杆映射
     rgb_mode |= ckbox_sys_rgb_clicker->isChecked() ? 0x40 : 0x00;//RGB自动连点指示
@@ -572,7 +572,7 @@ bool config::read_cfg_data()//读出配置数组
         i += 6;
     }
     
-    sbox_rgb_r->setValue(cfg_data[i++]);//R
+    sbox_rgb_r->setValue(cfg_data[i++]);//R(500)
     sbox_rgb_g->setValue(cfg_data[i++]);//G
     sbox_rgb_b->setValue(cfg_data[i++]);//B
     

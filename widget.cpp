@@ -148,13 +148,18 @@ void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
                 }
             }
             else if(cfgUnit->get_key_mode(button_choose - 1) == m6_change){//配置切换
-                int ansTP = QMessageBox::question(this,"切换配置","切换方式?","临时","永久",0,-1);
-                int ansTO = QMessageBox::question(this,"切换配置","切换目标?","1","2","3",0,-1);
-                if(ansTP == 0){//临时切换
-                    cfgUnit->set_mode6_key(button_choose - 1,keyValue,(ansTO + 1) | 0x08);
-                }
-                else{//永久切换
-                    cfgUnit->set_mode6_key(button_choose - 1,0,ansTO + 1);
+                int ansTP = QMessageBox::question(this, "切换配置", "切换方式?", "临时", "永久", 0, -1);
+                bool ifOK = false;
+                int ansTO = QInputDialog::getInt(this, "切换配置", "切换目标:1-4",
+                                                 1, 1, 4, 1,//默认值,最小值,最大值,步进
+                                                 &ifOK, Qt::WindowCloseButtonHint);
+                if(ifOK){
+                    if(ansTP == 0){//临时切换
+                        cfgUnit->set_mode6_key(button_choose - 1, keyValue, ansTO | 0x08);
+                    }
+                    else{//永久切换
+                        cfgUnit->set_mode6_key(button_choose - 1, 0, ansTO);
+                    }
                 }
                 cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
                 state = 0;
@@ -179,9 +184,6 @@ void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
                 cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
                 state = 0;
             }
-//            cfgUnit->set_rk_key(button_choose - 1,keyValue);
-//            cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
-//            state = 0;
         }
         else if(button_class == 3){//旋钮
             if(!(keyValue >= 249 && keyValue <= 252)){//若不为功能键
@@ -200,13 +202,13 @@ void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
 void Widget::keyPressEvent(QKeyEvent *event)//按键按下
 {
     if(!isActiveWindow()) return;//若当前为非活动窗口则可能发生切屏 舍弃键值直接返回
-    if(event->isAutoRepeat()){ return; }//若为自动重复触发或正在发送数据则返回
+    if(event->isAutoRepeat()) return;//若为自动重复触发或正在发送数据则返回
     int key1 = event->key();//读取第一种键值
     int key2 = event->nativeVirtualKey();//读取第二种键值
 //    int key3 = event->nativeScanCode();//读取第三种键值(该值能区分左右功能键)
-//    printf("key:%d  %d  %d\n",key1,key2,key3);//打印键值
+//    printf("key:%d  %d  %d\n", key1, key2, key3);//打印键值
     
-    uint8_t keyValue = key_to_USB(key1,key2);//映射到USB键值
+    uint8_t keyValue = key_to_USB(key1, key2);//映射到USB键值
     
     if(ifPos){//若正在位置获取
         ifPos = false;
@@ -269,9 +271,9 @@ void Widget::keyReleaseEvent(QKeyEvent *event)//按键抬起
 void Widget::on_Bt_glb_key_flt_clicked()//按键滤波
 {
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this,"按键滤波","参数设置(0-100)",
-                                    2,0,100,1,//默认值,最小值,最大值,步进
-                                    &ifOK,Qt::WindowCloseButtonHint);
+    int ansNum = QInputDialog::getInt(this, "按键滤波", "参数设置(0-100)",
+                                      2, 0, 100, 1,//默认值,最小值,最大值,步进
+                                      &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;//若取消则返回
     uint8_t inBuf[1], outBuf[2];
     inBuf[0] = ansNum;//按键滤波参数
@@ -311,9 +313,9 @@ void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
 void Widget::on_Bt_glb_ec_freq_clicked()//旋钮倍频
 {
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this,"旋钮倍频","倍频参数(0-1)",
-                                    0,0,99,1,//默认值,最小值,最大值,步进
-                                    &ifOK,Qt::WindowCloseButtonHint);
+    int ansNum = QInputDialog::getInt(this, "旋钮倍频","倍频参数(0-1)",
+                                      0, 0, 99, 1,//默认值,最小值,最大值,步进
+                                      &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;//若取消则返回
     uint8_t inBuf[2], outBuf[4];
     inBuf[0] = ansNum % 10;//旋钮1倍频参数
@@ -330,6 +332,43 @@ void Widget::on_Bt_glb_ec_freq_clicked()//旋钮倍频
                           + "修改为" + QString("%1").arg(outBuf[2] + 10*outBuf[3], 2, 10, QChar('0'));//格式化为2位数
         QMessageBox::information(this, "倍频设置", fltInfo);
     }
+}
+
+void Widget::on_Bt_special_clicked()//特殊功能
+{
+    hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
+    
+    int intOK = QMessageBox::question(this, "特殊功能", "请务必阅读文档\n再使用这些功能", QMessageBox::Ok, QMessageBox::Cancel);
+    if(intOK != QMessageBox::Ok) return;
+    
+    bool ifOK = false;
+    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-闪存计数读取",
+                                      0, 0, 2, 1,//默认值,最小值,最大值,步进
+                                      &ifOK, Qt::WindowCloseButtonHint);
+    if(!ifOK) return;
+    
+    uint8_t ret = CHID_OK;
+    
+    if(ansNum == 0){//软复位
+        ret = hid_send_cmd(CHID_CMD_RST, NULL, NULL);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "软复位", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+    }
+    else if(ansNum == 1){//Boot预跳转
+        ret = hid_send_cmd(CHID_CMD_BOOT, NULL, NULL);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "Boot预跳转", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+    }
+    else if(ansNum == 2){//闪存计数读取
+        ansNum = QInputDialog::getInt(this, "闪存计数读取", "读取位置(0-8)",
+                                      0, 0, 8, 1,//默认值,最小值,最大值,步进
+                                      &ifOK, Qt::WindowCloseButtonHint);
+    }
+    
 }
 
 void Widget::openCfgFile()//打开配置文件
@@ -979,38 +1018,7 @@ void Widget::sys_rgb_display(){//显示rgb
 
 
 
-void Widget::on_Bt_special_clicked()//特殊功能
-{
-    hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
-    
-    bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this,"特殊功能","0-软复位\n1-Boot预跳转\n2-闪存计数读取",
-                                    0,0,2,1,//默认值,最小值,最大值,步进
-                                    &ifOK,Qt::WindowCloseButtonHint);
-    if(!ifOK) return;
-    
-    uint8_t ret = CHID_OK;
-    
-    if(ansNum == 0){//软复位
-        ret = hid_send_cmd(CHID_CMD_RST, NULL, NULL);
-        if(ret != CHID_OK){//若失败
-            QMessageBox::critical(this, "软复位", "HID通信失败\n" + CHID_to_str(ret));
-            return;
-        }
-    }
-    else if(ansNum == 1){//Boot预跳转
-        ret = hid_send_cmd(CHID_CMD_BOOT, NULL, NULL);
-        if(ret != CHID_OK){//若失败
-            QMessageBox::critical(this, "Boot预跳转", "HID通信失败\n" + CHID_to_str(ret));
-            return;
-        }
-    }
-    else if(ansNum == 2){//闪存计数读取
-        
-    }
-    
-    
-}
+
 
 
 

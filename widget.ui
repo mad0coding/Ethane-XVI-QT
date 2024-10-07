@@ -402,6 +402,11 @@
        <string>存储区三</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>存储区四</string>
+      </property>
+     </item>
     </widget>
     <widget class="QLabel" name="label_30">
      <property name="geometry">
@@ -5214,6 +5219,11 @@
      <item>
       <property name="text">
        <string>存储区三</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区四</string>
       </property>
      </item>
     </widget>
