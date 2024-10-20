@@ -70,25 +70,25 @@ public:
 
     QComboBox *cbox_r[RK_NUM],*cbox_r_key[RK_NUM];//摇杆模式 按键模式
     QSpinBox *sbox_r[RK_NUM],*sbox_v[RK_NUM*3];//死区 三个参数
-    QCheckBox *ckbox_r_x[RK_NUM],*ckbox_r_y[RK_NUM],*ckbox_r_r[RK_NUM];//3类反向
+    QCheckBox *cb_r_x[RK_NUM],*cb_r_y[RK_NUM],*cb_r_r[RK_NUM];//3类反向
     QPushButton* bt_r[RK_NUM * 5];//按键
     QLabel* label_r[RK_NUM * 5];//按键标签
     
     QComboBox *cbox_e[EC_NUM],*cbox_e_key[EC_NUM];//旋钮模式 按键模式
-    QCheckBox *ckbox_e[EC_NUM];//反向
+    QCheckBox *cb_e[EC_NUM];//反向
     QPushButton* bt_e[EC_NUM * 3];//按键
     QLabel* label_e[EC_NUM * 3];//按键标签
     
-    QComboBox *cbox_wave,*cbox_colorful;//RGB呼吸 RGB变色
-    QComboBox *cbox_rgb_delay;//配置切换指示延时
+    
+    QComboBox *cbox_sign_r, *cbox_sign_g, *cbox_sign_b;//指示灯映射
+    QComboBox *cbox_rgb_t_on, *cbox_rgb_t_off;//配置切换指示时间
     QComboBox *cbox_pri;//配置优先级
     
-    //QSpinBox *sbox_light,*sbox_light_rgb;
     QSpinBox *sbox_w,*sbox_h;//屏幕宽度 屏幕高度
-    QSpinBox *sbox_rgb_r,*sbox_rgb_g,*sbox_rgb_b;//RGB色值
-    QSpinBox *sbox_rgb_light;//RGB亮度
+    QSpinBox *sbox_rgb_r,*sbox_rgb_g,*sbox_rgb_b;//RGB标签色值
+    QSpinBox *sbox_sign_r,*sbox_sign_g,*sbox_sign_b;//RGB指示亮度
     
-    QCheckBox *ckbox_sys_rgb_rk,*ckbox_sys_rgb_clicker,*ckbox_sys_rgb_m3;//摇杆映射 自动连点指示 按键组指示
+    QCheckBox *cb_sign_dir_r,*cb_sign_dir_g,*cb_sign_dir_b;//指示灯反向
     
     QPlainTextEdit *pte_mode3Box;//文本框
     uint8_t m3boxTextFlag = 0;//修改文本标志位

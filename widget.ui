@@ -131,47 +131,12 @@
       <string>另存为</string>
      </property>
     </widget>
-    <widget class="QCheckBox" name="cB_sys_rgb_rk">
+    <widget class="QComboBox" name="cBox_rgb_t_off">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>70</y>
-       <width>120</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>摇杆映射</string>
-     </property>
-    </widget>
-    <widget class="QCheckBox" name="cB_sys_rgb_clicker">
-     <property name="geometry">
-      <rect>
-       <x>640</x>
-       <y>70</y>
-       <width>120</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>自动连点指示</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="cBox_wave">
-     <property name="geometry">
-      <rect>
-       <x>610</x>
-       <y>200</y>
-       <width>90</width>
+       <x>820</x>
+       <y>120</y>
+       <width>100</width>
        <height>30</height>
       </rect>
      </property>
@@ -180,52 +145,27 @@
      </property>
      <item>
       <property name="text">
-       <string>常灭</string>
+       <string>不灭</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>1s</string>
+       <string>慢速</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>2s</string>
+       <string>中速</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>3s</string>
+       <string>快速</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>5s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>7s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>10s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>15s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>20s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>常亮</string>
+       <string>立刻</string>
       </property>
      </item>
     </widget>
@@ -293,7 +233,7 @@
     <widget class="QLabel" name="label_25">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>510</x>
        <y>10</y>
        <width>100</width>
        <height>30</height>
@@ -330,9 +270,9 @@
     <widget class="QLabel" name="label_27">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>200</y>
-       <width>100</width>
+       <x>710</x>
+       <y>120</y>
+       <width>120</width>
        <height>30</height>
       </rect>
      </property>
@@ -340,14 +280,14 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>指示灯呼吸:</string>
+      <string>标签指示渐灭:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_28">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>130</y>
+       <x>510</x>
+       <y>120</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -356,7 +296,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>配置切换指示:</string>
+      <string>标签指示:</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_29">
@@ -411,7 +351,7 @@
     <widget class="QLabel" name="label_30">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>510</x>
        <y>400</y>
        <width>100</width>
        <height>30</height>
@@ -447,126 +387,6 @@
       </property>
      </item>
     </widget>
-    <widget class="QLabel" name="label_31">
-     <property name="geometry">
-      <rect>
-       <x>740</x>
-       <y>130</y>
-       <width>100</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>指示亮度:</string>
-     </property>
-    </widget>
-    <widget class="QSpinBox" name="spinBox_rgb_light">
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>130</y>
-       <width>90</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::ClickFocus</enum>
-     </property>
-     <property name="suffix">
-      <string/>
-     </property>
-     <property name="maximum">
-      <number>255</number>
-     </property>
-     <property name="value">
-      <number>0</number>
-     </property>
-     <property name="displayIntegerBase">
-      <number>10</number>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_32">
-     <property name="geometry">
-      <rect>
-       <x>730</x>
-       <y>200</y>
-       <width>100</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>指示灯变色:</string>
-     </property>
-    </widget>
-    <widget class="QComboBox" name="cBox_colorful">
-     <property name="geometry">
-      <rect>
-       <x>820</x>
-       <y>200</y>
-       <width>90</width>
-       <height>30</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <item>
-      <property name="text">
-       <string>不变</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>1s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>2s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>3s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>5s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>7s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>10s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>15s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>20s</string>
-      </property>
-     </item>
-     <item>
-      <property name="text">
-       <string>30s</string>
-      </property>
-     </item>
-    </widget>
     <widget class="QLabel" name="lb_screen_h">
      <property name="geometry">
       <rect>
@@ -591,7 +411,7 @@
     <widget class="QSpinBox" name="spinBox_w">
      <property name="geometry">
       <rect>
-       <x>610</x>
+       <x>600</x>
        <y>340</y>
        <width>80</width>
        <height>30</height>
@@ -613,7 +433,7 @@
     <widget class="QLabel" name="lb_screen_w">
      <property name="geometry">
       <rect>
-       <x>520</x>
+       <x>510</x>
        <y>340</y>
        <width>81</width>
        <height>30</height>
@@ -763,9 +583,9 @@
     <widget class="QSpinBox" name="spinBox_rgb_r">
      <property name="geometry">
       <rect>
-       <x>610</x>
-       <y>270</y>
-       <width>60</width>
+       <x>600</x>
+       <y>70</y>
+       <width>70</width>
        <height>30</height>
       </rect>
      </property>
@@ -785,9 +605,9 @@
     <widget class="QSpinBox" name="spinBox_rgb_g">
      <property name="geometry">
       <rect>
-       <x>690</x>
-       <y>270</y>
-       <width>60</width>
+       <x>680</x>
+       <y>70</y>
+       <width>70</width>
        <height>30</height>
       </rect>
      </property>
@@ -807,9 +627,9 @@
     <widget class="QSpinBox" name="spinBox_rgb_b">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>270</y>
-       <width>60</width>
+       <x>760</x>
+       <y>70</y>
+       <width>70</width>
        <height>30</height>
       </rect>
      </property>
@@ -830,7 +650,7 @@
      <property name="geometry">
       <rect>
        <x>850</x>
-       <y>270</y>
+       <y>70</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -845,8 +665,8 @@
     <widget class="QLabel" name="label_35">
      <property name="geometry">
       <rect>
-       <x>520</x>
-       <y>270</y>
+       <x>510</x>
+       <y>70</y>
        <width>100</width>
        <height>30</height>
       </rect>
@@ -855,15 +675,15 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>指示灯RGB:</string>
+      <string>标签-RGB:</string>
      </property>
     </widget>
-    <widget class="QComboBox" name="cBox_rgb_delay">
+    <widget class="QComboBox" name="cBox_rgb_t_on">
      <property name="geometry">
       <rect>
-       <x>630</x>
-       <y>130</y>
-       <width>80</width>
+       <x>590</x>
+       <y>120</y>
+       <width>100</width>
        <height>30</height>
       </rect>
      </property>
@@ -911,30 +731,11 @@
       </property>
      </item>
     </widget>
-    <widget class="QCheckBox" name="cB_sys_rgb_m3">
-     <property name="geometry">
-      <rect>
-       <x>790</x>
-       <y>70</y>
-       <width>120</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="focusPolicy">
-      <enum>Qt::NoFocus</enum>
-     </property>
-     <property name="text">
-      <string>按键组指示</string>
-     </property>
-     <property name="checked">
-      <bool>false</bool>
-     </property>
-    </widget>
     <widget class="QLabel" name="lb_rgb_pic_1">
      <property name="geometry">
       <rect>
        <x>890</x>
-       <y>270</y>
+       <y>70</y>
        <width>30</width>
        <height>30</height>
       </rect>
@@ -1022,6 +823,405 @@
       <string>特殊功能</string>
      </property>
     </widget>
+    <widget class="QComboBox" name="cBox_sign_r">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>180</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>无</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>数字锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>大写锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>滚动锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>自动连点</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>按键组</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QCheckBox" name="cB_sign_dir_r">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>180</y>
+       <width>70</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>反向</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_sign_b">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>280</y>
+       <width>70</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>255</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_sign_g">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>230</y>
+       <width>70</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>255</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QSpinBox" name="spinBox_sign_r">
+     <property name="geometry">
+      <rect>
+       <x>620</x>
+       <y>180</y>
+       <width>70</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="minimum">
+      <number>0</number>
+     </property>
+     <property name="maximum">
+      <number>255</number>
+     </property>
+     <property name="value">
+      <number>0</number>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_62">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>180</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>指示灯-R 亮度:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="cBox_sign_g">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>230</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>无</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>数字锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>大写锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>滚动锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>自动连点</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>按键组</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QComboBox" name="cBox_sign_b">
+     <property name="geometry">
+      <rect>
+       <x>750</x>
+       <y>280</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>无</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>数字锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>大写锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>滚动锁定</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>自动连点</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>按键组</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QCheckBox" name="cB_sign_dir_g">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>230</y>
+       <width>70</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>反向</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QCheckBox" name="cB_sign_dir_b">
+     <property name="geometry">
+      <rect>
+       <x>880</x>
+       <y>280</y>
+       <width>70</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>反向</string>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_64">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>230</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>指示灯-G 亮度:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_65">
+     <property name="geometry">
+      <rect>
+       <x>510</x>
+       <y>280</y>
+       <width>120</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>指示灯-B 亮度:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_66">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>180</y>
+       <width>50</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>映射:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_67">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>230</y>
+       <width>50</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>映射:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_69">
+     <property name="geometry">
+      <rect>
+       <x>700</x>
+       <y>280</y>
+       <width>50</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>映射:</string>
+     </property>
+    </widget>
+    <zorder>label_62</zorder>
+    <zorder>label_64</zorder>
+    <zorder>label_65</zorder>
+    <zorder>label_66</zorder>
+    <zorder>label_67</zorder>
+    <zorder>label_69</zorder>
+    <zorder>Bt_write</zorder>
+    <zorder>Bt_open</zorder>
+    <zorder>Bt_save</zorder>
+    <zorder>Bt_saveas</zorder>
+    <zorder>cBox_rgb_t_off</zorder>
+    <zorder>line_3</zorder>
+    <zorder>lineEdit_fileName</zorder>
+    <zorder>label_24</zorder>
+    <zorder>label_25</zorder>
+    <zorder>label_26</zorder>
+    <zorder>label_27</zorder>
+    <zorder>label_28</zorder>
+    <zorder>label_29</zorder>
+    <zorder>cBox_flash</zorder>
+    <zorder>label_30</zorder>
+    <zorder>cBox_pri</zorder>
+    <zorder>lb_screen_h</zorder>
+    <zorder>spinBox_w</zorder>
+    <zorder>lb_screen_w</zorder>
+    <zorder>spinBox_h</zorder>
+    <zorder>spinBox_vid</zorder>
+    <zorder>lb_screen_h_2</zorder>
+    <zorder>spinBox_pid</zorder>
+    <zorder>lb_screen_w_2</zorder>
+    <zorder>Bt_glb_rk_calib</zorder>
+    <zorder>spinBox_rgb_r</zorder>
+    <zorder>spinBox_rgb_g</zorder>
+    <zorder>spinBox_rgb_b</zorder>
+    <zorder>lb_rgb_pic_0</zorder>
+    <zorder>label_35</zorder>
+    <zorder>cBox_rgb_t_on</zorder>
+    <zorder>lb_rgb_pic_1</zorder>
+    <zorder>line_7</zorder>
+    <zorder>Bt_glb_ec_freq</zorder>
+    <zorder>Bt_glb_key_flt</zorder>
+    <zorder>Bt_special</zorder>
+    <zorder>cBox_sign_r</zorder>
+    <zorder>cB_sign_dir_r</zorder>
+    <zorder>spinBox_sign_b</zorder>
+    <zorder>spinBox_sign_g</zorder>
+    <zorder>spinBox_sign_r</zorder>
+    <zorder>cBox_sign_g</zorder>
+    <zorder>cBox_sign_b</zorder>
+    <zorder>cB_sign_dir_g</zorder>
+    <zorder>cB_sign_dir_b</zorder>
    </widget>
    <widget class="QWidget" name="tab_k">
     <attribute name="title">

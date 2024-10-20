@@ -612,8 +612,6 @@ void Widget::passPointer()//传递指针
     cfgUnit->bt_e[4] = ui->key_e_2_0;
     cfgUnit->bt_e[5] = ui->key_e_2_1;
     
-    cfgUnit->cbox_key_turn = ui->cBox_key_turn;//方向
-    
     cfgUnit->cbox_k[0] = ui->cBox_k_1;//按键模式下拉框
     cfgUnit->cbox_k[1] = ui->cBox_k_2;
     cfgUnit->cbox_k[2] = ui->cBox_k_3;
@@ -646,36 +644,41 @@ void Widget::passPointer()//传递指针
     cfgUnit->cbox_e[1] = ui->cBox_e_2;
     cfgUnit->cbox_e_key[1] = ui->cBox_e_key_2;
     
-    cfgUnit->cbox_wave = ui->cBox_wave;//指示灯呼吸
-    cfgUnit->cbox_colorful = ui->cBox_colorful;//指示灯变色
-    cfgUnit->cbox_rgb_delay = ui->cBox_rgb_delay;//配置指示时间
+    cfgUnit->cbox_rgb_t_on = ui->cBox_rgb_t_on;//指示灯
+    cfgUnit->cbox_rgb_t_off = ui->cBox_rgb_t_off;//配置指示时间
     
-    cfgUnit->cbox_pri = ui->cBox_pri;//优先级
+    cfgUnit->cbox_sign_r = ui->cBox_sign_r;//指示灯映射
+    cfgUnit->cbox_sign_g = ui->cBox_sign_g;
+    cfgUnit->cbox_sign_b = ui->cBox_sign_b;
     
-//    cfgUnit->sbox_light = ui->spinBox_light;//灯亮度
-//    cfgUnit->sbox_light_rgb = ui->spinBox_light_rgb;//RGB亮度
+    cfgUnit->cb_sign_dir_r = ui->cB_sign_dir_r;//指示灯反向
+    cfgUnit->cb_sign_dir_g = ui->cB_sign_dir_g;
+    cfgUnit->cb_sign_dir_b = ui->cB_sign_dir_b;
     
-    cfgUnit->sbox_w = ui->spinBox_w;//屏幕宽度
-    cfgUnit->sbox_h = ui->spinBox_h;//屏幕高度
+    
     cfgUnit->sbox_rgb_r = ui->spinBox_rgb_r;//R
     cfgUnit->sbox_rgb_g = ui->spinBox_rgb_g;//G
     cfgUnit->sbox_rgb_b = ui->spinBox_rgb_b;//B
-    cfgUnit->sbox_rgb_light = ui->spinBox_rgb_light;//RGB亮度
+    cfgUnit->sbox_sign_r = ui->spinBox_sign_r;//R
+    cfgUnit->sbox_sign_g = ui->spinBox_sign_g;//G
+    cfgUnit->sbox_sign_b = ui->spinBox_sign_b;//B
     
-    cfgUnit->ckbox_r_x[0] = ui->cB_r_x_1;//摇杆反向
-    cfgUnit->ckbox_r_y[0] = ui->cB_r_y_1;
-    cfgUnit->ckbox_r_r[0] = ui->cB_r_r_1;//摇杆右旋90度
-//    cfgUnit->ckbox_r_x_2 = ui->cB_r_x_2;
-//    cfgUnit->ckbox_r_y_2 = ui->cB_r_y_2;
-//    cfgUnit->ckbox_r_r_2 = ui->cB_r_r_2;
-    cfgUnit->ckbox_e[0] = ui->cB_e_1;//旋钮反向
-    cfgUnit->ckbox_e[1] = ui->cB_e_2;
-    
-    cfgUnit->ckbox_sys_rgb_rk = ui->cB_sys_rgb_rk;//RGB摇杆映射
-    cfgUnit->ckbox_sys_rgb_clicker = ui->cB_sys_rgb_clicker;//RGB自动连点指示
-    cfgUnit->ckbox_sys_rgb_m3 = ui->cB_sys_rgb_m3;//RGB按键组指示
+    cfgUnit->cb_r_x[0] = ui->cB_r_x_1;//摇杆反向
+    cfgUnit->cb_r_y[0] = ui->cB_r_y_1;
+    cfgUnit->cb_r_r[0] = ui->cB_r_r_1;//摇杆右旋90度
+//    cfgUnit->cb_r_x_2 = ui->cB_r_x_2;
+//    cfgUnit->cb_r_y_2 = ui->cB_r_y_2;
+//    cfgUnit->cb_r_r_2 = ui->cB_r_r_2;
+    cfgUnit->cb_e[0] = ui->cB_e_1;//旋钮反向
+    cfgUnit->cb_e[1] = ui->cB_e_2;
     
     cfgUnit->pte_mode3Box = ui->mode3Box;//按键数据组显示框
+    
+    cfgUnit->sbox_w = ui->spinBox_w;//屏幕宽度
+    cfgUnit->sbox_h = ui->spinBox_h;//屏幕高度
+    
+    cfgUnit->cbox_key_turn = ui->cBox_key_turn;//方向
+    cfgUnit->cbox_pri = ui->cBox_pri;//优先级
 }
 
 

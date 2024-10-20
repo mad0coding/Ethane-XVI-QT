@@ -368,7 +368,7 @@ bool config::write_cfg_data()//写入配置数组
     uint16_t len = 0;//长度
     uint16_t i = 0;//访问cfg_data
     
-    memset(cfg_data,0,512);
+    memset(cfg_data, 0, 512);
     
     for(uint8_t keyi = 0; keyi < KEY_NUM; keyi++){
         cfg_data[i++] = keyi + 1;//存储id
@@ -402,15 +402,15 @@ bool config::write_cfg_data()//写入配置数组
         }
     }
     
-    if(i > 472) return false;//数据超长
-    i = 472;
+    if(i > 468) return false;//数据超长
+    i = 468;
     
-    for(int tmpi = 0; tmpi < RK_NUM; tmpi++){//摇杆(472)
+    for(int tmpi = 0; tmpi < RK_NUM; tmpi++){//摇杆(468)
         cfg_data[i++] = cbox_r[tmpi]->currentIndex() | (cbox_r_key[tmpi]->currentIndex() << 4);//模式
         uint8_t dir_ec = 0;
-        dir_ec |= ckbox_r_r[tmpi]->isChecked() ? 0x04 : 0x00;
-        dir_ec |= ckbox_r_y[tmpi]->isChecked() ? 0x02 : 0x00;
-        dir_ec |= ckbox_r_x[tmpi]->isChecked() ? 0x01 : 0x00;
+        dir_ec |= cb_r_r[tmpi]->isChecked() ? 0x04 : 0x00;
+        dir_ec |= cb_r_y[tmpi]->isChecked() ? 0x02 : 0x00;
+        dir_ec |= cb_r_x[tmpi]->isChecked() ? 0x01 : 0x00;
         cfg_data[i++] = dir_ec;//方向
         cfg_data[i++] = rk_key[tmpi * 5 + 0];//按键
         cfg_data[i++] = rk_key[tmpi * 5 + 1];//上按键
@@ -424,9 +424,9 @@ bool config::write_cfg_data()//写入配置数组
         cfg_data[i++] = sbox_v[tmpi * 3 + 2]->value();//远端参数
     }
     
-    for(int tmpi = 0; tmpi < EC_NUM; tmpi++){//旋钮(484)
+    for(int tmpi = 0; tmpi < EC_NUM; tmpi++){//旋钮(480)
         cfg_data[i++] = cbox_e[tmpi]->currentIndex() | (cbox_e_key[tmpi]->currentIndex() << 4);//模式
-        cfg_data[i++] = ckbox_e[tmpi]->isChecked() ? 0x01 : 0x00;//方向
+        cfg_data[i++] = cb_e[tmpi]->isChecked() ? 0x01 : 0x00;//方向
         cfg_data[i++] = ec_key[tmpi * 3 + 0];//按键
         cfg_data[i++] = ec_key[tmpi * 3 + 1];//逆时针按键
         cfg_data[i++] = ec_key[tmpi * 3 + 2];//顺时针按键
@@ -435,22 +435,23 @@ bool config::write_cfg_data()//写入配置数组
         cfg_data[i++] = ec_key_func[tmpi * 3 + 2];//顺时针按键func
     }
     
-    cfg_data[i++] = sbox_rgb_r->value();//R(500)
+    cfg_data[i++] = sbox_rgb_r->value();//R(496)
     cfg_data[i++] = sbox_rgb_g->value();//G
     cfg_data[i++] = sbox_rgb_b->value();//B
+    cfg_data[i++] = sbox_sign_r->value();//R
+    cfg_data[i++] = sbox_sign_g->value();//G
+    cfg_data[i++] = sbox_sign_b->value();//B
     
-    uint8_t rgb_cycle = cbox_wave->currentIndex() | (cbox_colorful->currentIndex() << 4);//灯周期
-    uint8_t rgb_mode = 0;
-    rgb_mode |= ckbox_sys_rgb_rk->isChecked() ? 0x80 : 0x00;//RGB摇杆映射
-    rgb_mode |= ckbox_sys_rgb_clicker->isChecked() ? 0x40 : 0x00;//RGB自动连点指示
-    rgb_mode |= ckbox_sys_rgb_m3->isChecked() ? 0x20 : 0x00;//RGB按键组指示
-    rgb_mode |= cbox_rgb_delay->currentIndex() & 0x0F;//配置指示时间
+    cfg_data[i] = cbox_sign_r->currentIndex();//指示灯映射
+    cfg_data[i++] |= cb_sign_dir_r->isChecked() ? 0x80 : 0x00;//指示灯反向
+    cfg_data[i] = cbox_sign_g->currentIndex();
+    cfg_data[i++] |= cb_sign_dir_g->isChecked() ? 0x80 : 0x00;
+    cfg_data[i] = cbox_sign_b->currentIndex();
+    cfg_data[i++] |= cb_sign_dir_b->isChecked() ? 0x80 : 0x00;
     
-    cfg_data[i++] = rgb_cycle;//灯周期
-    cfg_data[i++] = rgb_mode;//灯设置
-    cfg_data[i++] = sbox_rgb_light->value();//RGB亮度
+    cfg_data[i++] = (cbox_rgb_t_on->currentIndex() << 4) | cbox_rgb_t_off->currentIndex();//配置切换指示时间
     
-    cfg_data[i++] = (sbox_w->value() >> 8) & 0xFF;//屏幕宽
+    cfg_data[i++] = (sbox_w->value() >> 8) & 0xFF;//屏幕宽(506)
     cfg_data[i++] = sbox_w->value() & 0xFF;
     cfg_data[i++] = (sbox_h->value() >> 8) & 0xFF;//屏幕高
     cfg_data[i++] = sbox_h->value() & 0xFF;
@@ -542,14 +543,14 @@ bool config::read_cfg_data()//读出配置数组
         }
     }
     
-    i = 472;
+    i = 468;
     
-    for(int tmpi = 0; tmpi < RK_NUM; tmpi++){//摇杆(472)
+    for(int tmpi = 0; tmpi < RK_NUM; tmpi++){//摇杆(468)
         cbox_r[tmpi]->setCurrentIndex(cfg_data[i] & 0x0F);//模式
         cbox_r_key[tmpi]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//摇杆按键模式
-        ckbox_r_r[tmpi]->setChecked(cfg_data[i] & 0x04);
-        ckbox_r_y[tmpi]->setChecked(cfg_data[i] & 0x02);
-        ckbox_r_x[tmpi]->setChecked(cfg_data[i++] & 0x01);//反向
+        cb_r_r[tmpi]->setChecked(cfg_data[i] & 0x04);
+        cb_r_y[tmpi]->setChecked(cfg_data[i] & 0x02);
+        cb_r_x[tmpi]->setChecked(cfg_data[i++] & 0x01);//反向
         set_rk_key(tmpi * 5 + 0, cfg_data[i+0], cfg_data[i+5]);//按键和func
         set_rk_key(tmpi * 5 + 1, cfg_data[i+1], 0);//上按键
         set_rk_key(tmpi * 5 + 2, cfg_data[i+2], 0);//下按键
@@ -562,32 +563,34 @@ bool config::read_cfg_data()//读出配置数组
         sbox_v[tmpi * 3 + 2]->setValue(cfg_data[i++]);//远端参数
     }
     
-    for(int tmpi = 0; tmpi < EC_NUM; tmpi++){//旋钮(484)
+    for(int tmpi = 0; tmpi < EC_NUM; tmpi++){//旋钮(480)
         cbox_e[tmpi]->setCurrentIndex(cfg_data[i] & 0x0F);//模式
         cbox_e_key[tmpi]->setCurrentIndex((cfg_data[i++] >> 4) & 0x0F);//按键模式
-        ckbox_e[tmpi]->setChecked(cfg_data[i++] & 0x01);//反向
+        cb_e[tmpi]->setChecked(cfg_data[i++] & 0x01);//反向
         set_ec_key(tmpi * 3 + 0, cfg_data[i+0], cfg_data[i+3]);//按键
         set_ec_key(tmpi * 3 + 1, cfg_data[i+1], cfg_data[i+4]);//逆时针按键
         set_ec_key(tmpi * 3 + 2, cfg_data[i+2], cfg_data[i+5]);//顺时针按键
         i += 6;
     }
     
-    sbox_rgb_r->setValue(cfg_data[i++]);//R(500)
+    sbox_rgb_r->setValue(cfg_data[i++]);//R(496)
     sbox_rgb_g->setValue(cfg_data[i++]);//G
     sbox_rgb_b->setValue(cfg_data[i++]);//B
+    sbox_sign_r->setValue(cfg_data[i++]);//R
+    sbox_sign_g->setValue(cfg_data[i++]);//G
+    sbox_sign_b->setValue(cfg_data[i++]);//B
     
-    cbox_colorful->setCurrentIndex((cfg_data[i] >> 4) & 0x0F);//指示灯变色周期
-    cbox_wave->setCurrentIndex(cfg_data[i++] & 0x0F);//指示灯呼吸周期
+    cbox_sign_r->setCurrentIndex(cfg_data[i] & 0x0F);//指示灯映射
+    cb_sign_dir_r->setChecked(cfg_data[i++] & 0x80);//指示灯反向
+    cbox_sign_g->setCurrentIndex(cfg_data[i] & 0x0F);
+    cb_sign_dir_g->setChecked(cfg_data[i++] & 0x80);
+    cbox_sign_b->setCurrentIndex(cfg_data[i] & 0x0F);
+    cb_sign_dir_b->setChecked(cfg_data[i++] & 0x80);
     
-    ckbox_sys_rgb_rk->setChecked(cfg_data[i] & 0x80);//RGB摇杆映射
-    ckbox_sys_rgb_clicker->setChecked(cfg_data[i] & 0x40);//RGB自动连点指示
-    ckbox_sys_rgb_m3->setChecked(cfg_data[i] & 0x20);//RGB按键组指示
-    cbox_rgb_delay->setCurrentIndex(cfg_data[i++] & 0x0F);//配置指示时间
+    cbox_rgb_t_on->setCurrentIndex((cfg_data[i] >> 4) & 0x0F);//配置切换指示时间
+    cbox_rgb_t_off->setCurrentIndex(cfg_data[i++] & 0x0F);//配置切换指示渐灭
     
-    sbox_rgb_light->setValue(cfg_data[i++]);//RGB亮度
-    
-    
-    sbox_w->setValue((uint16_t)((cfg_data[i] << 8) | cfg_data[i + 1]));//屏幕宽
+    sbox_w->setValue((uint16_t)((cfg_data[i] << 8) | cfg_data[i + 1]));//屏幕宽(506)
     i += 2;
     sbox_h->setValue((uint16_t)((cfg_data[i] << 8) | cfg_data[i + 1]));//屏幕高
     i += 2;
