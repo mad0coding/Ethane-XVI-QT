@@ -342,8 +342,8 @@ void Widget::on_Bt_special_clicked()//特殊功能
     if(intOK != QMessageBox::Ok) return;
     
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-闪存计数读取",
-                                      0, 0, 2, 1,//默认值,最小值,最大值,步进
+    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-固件版本读取\n3-闪存计数读取",
+                                      0, 0, 3, 1,//默认值,最小值,最大值,步进
                                       &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;
     
@@ -363,7 +363,19 @@ void Widget::on_Bt_special_clicked()//特殊功能
             return;
         }
     }
-    else if(ansNum == 2){//闪存计数读取
+    else if(ansNum == 2){//固件版本读取
+        uint8_t outBuf[4] = {0, 0, 0, 0};
+        ret = hid_send_cmd(CHID_CMD_FW_VER, NULL, outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "固件版本读取", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QMessageBox::information(this, "固件版本读取", QString::asprintf("版本 V%d.%d.%d.%d", 
+                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
+        }
+    }
+    else if(ansNum == 3){//闪存计数读取
         ansNum = QInputDialog::getInt(this, "闪存计数读取", "读取位置(0-8)",
                                       0, 0, 8, 1,//默认值,最小值,最大值,步进
                                       &ifOK, Qt::WindowCloseButtonHint);
