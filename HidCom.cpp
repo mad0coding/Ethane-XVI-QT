@@ -60,6 +60,16 @@ uint8_t hid_find_open(void)//HID设备查找并打开
     if(findDevNum == 0) return CHID_NO_DEV;//未找到设备则退出
     //if(!hidDev->isInitialized()) return CHID_ERR_INIT;//HID设备未初始化则退出
     if(!hidDev->open()) return CHID_ERR_OPEN;//HID设备打开失败则退出
+    
+    //测试代码↓
+//    QString productString = QString::fromStdWString(hidDev->getProductString());
+//    QString manufacturerString = QString::fromStdWString(hidDev->getManufacturer());
+//    QString serialString = QString::fromStdWString(hidDev->getSerial());
+//    qDebug()<<productString;
+//    qDebug()<<manufacturerString;
+//    qDebug()<<serialString;
+    //测试代码↑
+    
     return CHID_OK;
 }
 
@@ -199,6 +209,19 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
         if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
            && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             memcpy(outBuf, readBuf + 4, 4);//传出固件版本号
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_UUID){//序列号读取命令
+        memcpy(writeBuf, "BUID", 4);//填入命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            for(int i = 0; i < 3; i++) ((uint16_t*)outBuf)[i] = endianConvert16(*(uint16_t*)(readBuf + 4 + 2 * i));
             return CHID_OK;
         }
     }

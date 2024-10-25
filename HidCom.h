@@ -23,7 +23,8 @@
 #define CHID_CMD_RST        10
 #define CHID_CMD_BOOT       11
 #define CHID_CMD_FW_VER     12
-#define CHID_CMD_FLASH_CNT  13
+#define CHID_CMD_UUID       13
+#define CHID_CMD_FLASH_CNT  14
 
 
 QString CHID_to_str(uint8_t ret);//HID返回值转字符串
