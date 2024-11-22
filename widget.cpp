@@ -342,7 +342,7 @@ void Widget::on_Bt_special_clicked()//特殊功能
     if(intOK != QMessageBox::Ok) return;
     
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-固件版本读取\n3-序列号读取\n4-闪存计数读取",
+    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-固件版本读取\n3-序列号读取\n4-诊断信息读取",
                                       0, 0, 4, 1,//默认值,最小值,最大值,步进
                                       &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;
@@ -383,14 +383,14 @@ void Widget::on_Bt_special_clicked()//特殊功能
             return;
         }
         else{//成功
-            QMessageBox::information(this, "序列号读取", QString::asprintf("序列号 %04x%04x%04x",
+            QMessageBox::information(this, "序列号读取", QString::asprintf("序列号 %04X%04X%04X",
                                                             outBuf[0], outBuf[1], outBuf[2]));
         }
     }
     else if(ansNum == 4){//闪存计数读取
-        ansNum = QInputDialog::getInt(this, "闪存计数读取", "读取位置(0-8)",
-                                      0, 0, 8, 1,//默认值,最小值,最大值,步进
-                                      &ifOK, Qt::WindowCloseButtonHint);
+//        ansNum = QInputDialog::getInt(this, "闪存计数读取", "读取位置(0-8)",
+//                                      0, 0, 8, 1,//默认值,最小值,最大值,步进
+//                                      &ifOK, Qt::WindowCloseButtonHint);
     }
     
 }

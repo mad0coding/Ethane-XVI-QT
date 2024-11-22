@@ -329,22 +329,42 @@
      </property>
      <item>
       <property name="text">
-       <string>存储区一</string>
+       <string>存储区 1</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>存储区二</string>
+       <string>存储区 2</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>存储区三</string>
+       <string>存储区 3</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>存储区四</string>
+       <string>存储区 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 7</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 8</string>
       </property>
      </item>
     </widget>
@@ -533,6 +553,9 @@
      </property>
      <property name="maximum">
       <number>65535</number>
+     </property>
+     <property name="singleStep">
+      <number>1</number>
      </property>
      <property name="value">
       <number>22660</number>
@@ -4857,7 +4880,7 @@
         <rect>
          <x>100</x>
          <y>200</y>
-         <width>60</width>
+         <width>70</width>
          <height>30</height>
         </rect>
        </property>
@@ -4879,7 +4902,7 @@
         <rect>
          <x>260</x>
          <y>200</y>
-         <width>60</width>
+         <width>70</width>
          <height>30</height>
         </rect>
        </property>
@@ -5138,8 +5161,8 @@
         <rect>
          <x>10</x>
          <y>10</y>
-         <width>340</width>
-         <height>151</height>
+         <width>335</width>
+         <height>150</height>
         </rect>
        </property>
        <property name="focusPolicy">
@@ -5156,98 +5179,6 @@
        </property>
        <property name="tabStopWidth">
         <number>80</number>
-       </property>
-      </widget>
-      <widget class="QComboBox" name="cBox_wave_light0">
-       <property name="geometry">
-        <rect>
-         <x>130</x>
-         <y>230</y>
-         <width>90</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <item>
-        <property name="text">
-         <string>常灭</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>1s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>2s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>3s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>5s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>7s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>10s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>15s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>20s</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>常亮</string>
-        </property>
-       </item>
-      </widget>
-      <widget class="QLabel" name="label_53">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>230</y>
-         <width>120</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <property name="text">
-        <string>呼吸或波动周期:</string>
-       </property>
-      </widget>
-      <widget class="QCheckBox" name="ckBox_color_shield0">
-       <property name="geometry">
-        <rect>
-         <x>20</x>
-         <y>190</y>
-         <width>200</width>
-         <height>20</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>按下时屏蔽主光效（Y/N）</string>
        </property>
       </widget>
      </widget>
@@ -5408,22 +5339,42 @@
      </property>
      <item>
       <property name="text">
-       <string>存储区一</string>
+       <string>存储区 1</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>存储区二</string>
+       <string>存储区 2</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>存储区三</string>
+       <string>存储区 3</string>
       </property>
      </item>
      <item>
       <property name="text">
-       <string>存储区四</string>
+       <string>存储区 4</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 5</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 6</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 7</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>存储区 8</string>
       </property>
      </item>
     </widget>
