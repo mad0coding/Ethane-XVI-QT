@@ -183,16 +183,16 @@ void config::set_mode6_key(uint8_t key_i, uint8_t key_val, uint8_t func)//设置
     if(key_val != 0xFF) cfg_key[key_i].key = key_val;
     if(func != 0xFF) cfg_key[key_i].func = func;
     QString keyName = "";
-    if(cfg_key[key_i].func & 0x08){//若为临时切换
+    if(cfg_key[key_i].func & 0x80){//若为临时切换
         keyName += "T";
-        keyName += QString::number(cfg_key[key_i].func & 0x07);
+        keyName += QString::number(cfg_key[key_i].func & 0x0F);
     }
     else{
         keyName += "P";
-        keyName += QString::number(cfg_key[key_i].func & 0x07);
+        keyName += QString::number(cfg_key[key_i].func & 0x0F);
     }
     if(cfg_key[key_i].key != 0){
-        keyName += USB_to_str(cfg_key[key_i].key,0);
+        keyName += USB_to_str(cfg_key[key_i].key, 0);
     }
     label_k[key_i]->setText(keyName);
 }
@@ -268,6 +268,7 @@ void config::set_mode3_cursor(uint8_t key_i, uint16_t pos){//设置模式3光标
     set_mode3_txt(key_i);//设置模式3显示文本
 //    printf("c:%d,%d.",pos,cursor);
 }
+
 void config::set_mode3_txt(uint8_t key_i){//设置模式3显示文本
     if(key_i == 0xFF){
         m3boxTextFlag = 1;//修改文本标志位置位
@@ -532,7 +533,7 @@ bool config::read_cfg_data()//读出配置数组
             i += 4;
         }
         else if(cfg_key[keyi].mode == m6_change){
-            set_mode6_key(keyi,cfg_data[i],cfg_data[i + 1]);
+            set_mode6_key(keyi, cfg_data[i], cfg_data[i + 1]);
             i += 2;
         }
         else if(cfg_key[keyi].mode == m7_fast){

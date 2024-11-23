@@ -150,12 +150,12 @@ void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
             else if(cfgUnit->get_key_mode(button_choose - 1) == m6_change){//配置切换
                 int ansTP = QMessageBox::question(this, "切换配置", "切换方式?", "临时", "永久", 0, -1);
                 bool ifOK = false;
-                int ansTO = QInputDialog::getInt(this, "切换配置", "切换目标:1-4",
-                                                 1, 1, 4, 1,//默认值,最小值,最大值,步进
+                int ansTO = QInputDialog::getInt(this, "切换配置", "切换目标:1-8",
+                                                 1, 1, 8, 1,//默认值,最小值,最大值,步进
                                                  &ifOK, Qt::WindowCloseButtonHint);
                 if(ifOK){
                     if(ansTP == 0){//临时切换
-                        cfgUnit->set_mode6_key(button_choose - 1, keyValue, ansTO | 0x08);
+                        cfgUnit->set_mode6_key(button_choose - 1, keyValue, ansTO | 0x80);
                     }
                     else{//永久切换
                         cfgUnit->set_mode6_key(button_choose - 1, 0, ansTO);

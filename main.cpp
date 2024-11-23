@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    const QString VersionStr = "V1.0-1004";//详细版本 后面一半仅作记录不显示
+    const QString VersionStr = "V1.0-1006";//详细版本 后面一半仅作记录不显示
     QApplication a(argc, argv);
     Widget mywidget;
     mywidget.setWindowTitle("复合外设 Ethane-XVI 配置程序 " + VersionStr.section("-", 0, 0));//设置窗口名称
@@ -15,7 +15,6 @@ int main(int argc, char *argv[])
     
     if(argc == 2){//若从配置文件打开程序
         QString auto_fileName = QString::fromLocal8Bit(argv[1]);//获取配置文件路径
-        //qDebug()<<auto_fileName<<endl;
         if(auto_fileName.length() >= 2){
             QString fileConvert = "";//转换后的文件名
             for(int i = 0; i < auto_fileName.length(); i++){
