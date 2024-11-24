@@ -63,6 +63,7 @@ Widget::Widget(QWidget *parent) :
     ui->Bt_glb_ec_freq->setStyleSheet(style_big_black);
     ui->Bt_glb_key_flt->setStyleSheet(style_big_black);
     ui->Bt_special->setStyleSheet(style_big_black);
+    ui->Bt_info->setStyleSheet(style_big_black);
     
     ui->key_clear->setStyleSheet(style_mid_black);
     ui->key_clear_e_1->setStyleSheet(style_mid_black);
@@ -334,6 +335,75 @@ void Widget::on_Bt_glb_ec_freq_clicked()//旋钮倍频
     }
 }
 
+void Widget::on_Bt_info_clicked()//信息读取
+{
+    hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
+    
+    bool ifOK = false;
+    int ansNum = QInputDialog::getInt(this, "信息读取", "0-序列号读取\n1-固件版本读取\n2-参数读取\n3-诊断信息读取",
+                                      0, 0, 3, 1,//默认值,最小值,最大值,步进
+                                      &ifOK, Qt::WindowCloseButtonHint);
+    if(!ifOK) return;
+    
+    uint8_t ret = CHID_OK;
+    
+    if(ansNum == 0){//序列号读取
+        uint16_t outBuf[3] = {0, 0, 0};
+        ret = hid_send_cmd(CHID_CMD_UUID, NULL, (uint8_t*)outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "序列号读取", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QMessageBox::information(this, "序列号读取", QString::asprintf("序列号 %04X%04X%04X",
+                                                            outBuf[0], outBuf[1], outBuf[2]));
+        }
+    }
+    else if(ansNum == 1){//固件版本读取
+        uint8_t outBuf[4] = {0, 0, 0, 0};
+        ret = hid_send_cmd(CHID_CMD_FW_VER, NULL, outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "固件版本读取", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QMessageBox::information(this, "固件版本读取", QString::asprintf("版本 V%d.%d.%d.%d", 
+                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
+        }
+    }
+    else if(ansNum == 2){//参数读取
+        uint16_t outBuf[4] = {0, 0, 0, 0};
+        ret = hid_send_cmd(CHID_CMD_PARA, NULL, (uint8_t*)outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "参数读取", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QMessageBox::information(this, "参数读取", QString::asprintf("摇杆中位 %d,%d\n按键滤波 %d\n旋钮倍频 %d", 
+                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
+        }
+    }
+    else if(ansNum == 3){//诊断信息读取
+        uint16_t outBuf[29] = {0};
+        ret = hid_send_cmd(CHID_CMD_DIAG, NULL, (uint8_t*)outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "诊断信息读取", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QString diagStr = QString::asprintf("标志错误 %04X        校验错误 %04X\n", outBuf[0], outBuf[1]);
+            diagStr += QString::asprintf("看门狗重启 %04X    连续看门狗重启 %04X\n", outBuf[4], outBuf[5]);
+            diagStr += "配置数据错误\n";
+            for(int i = 0; i < 8; i++) diagStr += QString::asprintf("%04X ", outBuf[8 + i]);
+            diagStr += "\n灯效数据错误\n";
+            for(int i = 0; i < 8; i++) diagStr += QString::asprintf("%04X ", outBuf[16 + i]);
+            diagStr += QString::asprintf("\n最后错误位置 %02X", outBuf[28] & 0xFF);
+            QMessageBox::information(this, "诊断信息读取", diagStr);
+        }
+    }
+    
+}
+
 void Widget::on_Bt_special_clicked()//特殊功能
 {
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
@@ -342,8 +412,8 @@ void Widget::on_Bt_special_clicked()//特殊功能
     if(intOK != QMessageBox::Ok) return;
     
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-固件版本读取\n3-序列号读取\n4-诊断信息读取",
-                                      0, 0, 4, 1,//默认值,最小值,最大值,步进
+    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转",
+                                      0, 0, 1, 1,//默认值,最小值,最大值,步进
                                       &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;
     
@@ -362,35 +432,6 @@ void Widget::on_Bt_special_clicked()//特殊功能
             QMessageBox::critical(this, "Boot预跳转", "HID通信失败\n" + CHID_to_str(ret));
             return;
         }
-    }
-    else if(ansNum == 2){//固件版本读取
-        uint8_t outBuf[4] = {0, 0, 0, 0};
-        ret = hid_send_cmd(CHID_CMD_FW_VER, NULL, outBuf);
-        if(ret != CHID_OK){//若失败
-            QMessageBox::critical(this, "固件版本读取", "HID通信失败\n" + CHID_to_str(ret));
-            return;
-        }
-        else{//成功
-            QMessageBox::information(this, "固件版本读取", QString::asprintf("版本 V%d.%d.%d.%d", 
-                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
-        }
-    }
-    else if(ansNum == 3){//序列号读取
-        uint16_t outBuf[3] = {0, 0, 0};
-        ret = hid_send_cmd(CHID_CMD_UUID, NULL, (uint8_t*)outBuf);
-        if(ret != CHID_OK){//若失败
-            QMessageBox::critical(this, "序列号读取", "HID通信失败\n" + CHID_to_str(ret));
-            return;
-        }
-        else{//成功
-            QMessageBox::information(this, "序列号读取", QString::asprintf("序列号 %04X%04X%04X",
-                                                            outBuf[0], outBuf[1], outBuf[2]));
-        }
-    }
-    else if(ansNum == 4){//闪存计数读取
-//        ansNum = QInputDialog::getInt(this, "闪存计数读取", "读取位置(0-8)",
-//                                      0, 0, 8, 1,//默认值,最小值,最大值,步进
-//                                      &ifOK, Qt::WindowCloseButtonHint);
     }
     
 }

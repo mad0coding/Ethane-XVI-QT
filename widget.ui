@@ -828,7 +828,7 @@
     <widget class="QPushButton" name="Bt_special">
      <property name="geometry">
       <rect>
-       <x>280</x>
+       <x>130</x>
        <y>490</y>
        <width>120</width>
        <height>50</height>
@@ -1194,6 +1194,27 @@
       <string>映射:</string>
      </property>
     </widget>
+    <widget class="QPushButton" name="Bt_info">
+     <property name="geometry">
+      <rect>
+       <x>280</x>
+       <y>490</y>
+       <width>120</width>
+       <height>50</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+      </font>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>信息读取</string>
+     </property>
+    </widget>
     <zorder>label_62</zorder>
     <zorder>label_64</zorder>
     <zorder>label_65</zorder>
@@ -1245,6 +1266,7 @@
     <zorder>cBox_sign_b</zorder>
     <zorder>cB_sign_dir_g</zorder>
     <zorder>cB_sign_dir_b</zorder>
+    <zorder>Bt_info</zorder>
    </widget>
    <widget class="QWidget" name="tab_k">
     <attribute name="title">

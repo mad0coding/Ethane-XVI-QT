@@ -20,11 +20,12 @@
 #define CHID_CMD_KEY_FLT    2
 #define CHID_CMD_RK_ADC     3
 #define CHID_CMD_EC_FREQ    4
-#define CHID_CMD_RST        10
-#define CHID_CMD_BOOT       11
-#define CHID_CMD_FW_VER     12
-#define CHID_CMD_UUID       13
-#define CHID_CMD_FLASH_CNT  14
+#define CHID_CMD_UUID       10
+#define CHID_CMD_FW_VER     11
+#define CHID_CMD_PARA       12
+#define CHID_CMD_DIAG       13
+#define CHID_CMD_RST        20
+#define CHID_CMD_BOOT       21
 
 
 QString CHID_to_str(uint8_t ret);//HID返回值转字符串

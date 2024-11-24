@@ -225,8 +225,34 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return CHID_OK;
         }
     }
-    else if(cmd == CHID_CMD_FLASH_CNT){//闪存擦除计数读取命令
+    else if(cmd == CHID_CMD_PARA){//参数读取命令
+        memcpy(writeBuf, "BGPM", 4);//填入命令
         
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            *(uint16_t*)(outBuf + 0) = endianConvert16(*(uint16_t*)(readBuf + 4));
+            *(uint16_t*)(outBuf + 2) = endianConvert16(*(uint16_t*)(readBuf + 6));
+            *(uint16_t*)(outBuf + 4) = readBuf[8];
+            *(uint16_t*)(outBuf + 6) = (readBuf[9] & 0x02) * 5 + (readBuf[9] & 0x01);
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_DIAG){//诊断信息读取命令
+        memcpy(writeBuf, "BDGC", 4);//填入命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            for(int i = 0; i < 28; i++) ((uint16_t*)outBuf)[i] = endianConvert16(*(uint16_t*)(readBuf + 4 + 2 * i));
+            return CHID_OK;
+        }
     }
     hid_close();//HID设备关闭
     return CHID_BAD_REP;//设备无响应或错误响应
