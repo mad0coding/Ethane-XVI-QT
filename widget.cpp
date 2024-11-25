@@ -397,7 +397,8 @@ void Widget::on_Bt_info_clicked()//信息读取
             for(int i = 0; i < 8; i++) diagStr += QString::asprintf("%04X ", outBuf[8 + i]);
             diagStr += "\n灯效数据错误\n";
             for(int i = 0; i < 8; i++) diagStr += QString::asprintf("%04X ", outBuf[16 + i]);
-            diagStr += QString::asprintf("\n最后错误位置 %02X", outBuf[28] & 0xFF);
+            diagStr += QString::asprintf("\n全局数据错误 %04X", outBuf[24]);
+            diagStr += QString::asprintf("\n最后错误位置 %02X", outBuf[27] >> 8);
             QMessageBox::information(this, "诊断信息读取", diagStr);
         }
     }
