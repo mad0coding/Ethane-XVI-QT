@@ -13,6 +13,7 @@
 #define CHID_ERR_WRITE      6
 #define CHID_ERR_READ       7
 #define CHID_BAD_REP        8
+#define CHID_INV_CMD        9
 
 
 #define CHID_CMD_CFG_KEY    0

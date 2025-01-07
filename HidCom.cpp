@@ -24,6 +24,7 @@ QString CHID_to_str(uint8_t ret)//HID返回值转字符串
     case CHID_ERR_WRITE:return "HID Write Failed";
     case CHID_ERR_READ:return "HID Read Failed";
     case CHID_BAD_REP:return "No Correct Response";
+    case CHID_INV_CMD:return "Invalid Command";
     default:return "HID Unknown State";
     }
 }
@@ -255,6 +256,10 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
         }
     }
     hid_close();//HID设备关闭
+    
+    if(readBuf[0] == 'R' && readBuf[1] == 'I' && readBuf[2] == 'N' && readBuf[3] == 'V'){//设备认为不是合法命令
+        return CHID_INV_CMD;//非法命令
+    }
     return CHID_BAD_REP;//设备无响应或错误响应
 }
 
