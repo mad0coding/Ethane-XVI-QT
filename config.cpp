@@ -623,33 +623,33 @@ bool config::read_mode3_data(uint8_t keyi)
     
     while(i < end){
         if(cfg_data_key[i] == kv_shortcut){//kv_shortcut,key,func
-            add_mode3_func(keyi,cfg_data_key[i+1],cfg_data_key[i+2]);
+            add_mode3_func(keyi, cfg_data_key[i+1], cfg_data_key[i+2]);
             i += 3;
         }
         else if(cfg_data_key[i] == kv_point){//kv_point,x_H,x_L,y_H,y_L
             uint16_t x = (cfg_data_key[i + 1] << 8) | cfg_data_key[i + 2];
             uint16_t y = (cfg_data_key[i + 3] << 8) | cfg_data_key[i + 4];
-            add_mode3_pos(keyi,x,y);
+            add_mode3_pos(keyi, x, y);
             i += 5;
         }
         else if(cfg_data_key[i] == kv_delay){//kv_delay,t_H,t_L
-            add_mode3_delay(keyi,(cfg_data_key[i + 1] << 8) | cfg_data_key[i + 2]);
+            add_mode3_delay(keyi, (cfg_data_key[i + 1] << 8) | cfg_data_key[i + 2]);
             i += 3;
         }
         else if(cfg_data_key[i] == kv_shift){//kv_shift,key
-            add_mode3_key(keyi,cfg_data_key[i+1],1);
+            add_mode3_key(keyi,cfg_data_key[i+1], 1);
             i += 2;
         }
-        else if(cfg_data[i] == kv_loop){//kv_loop
-            add_mode3_loop(keyi,cfg_data[i + 1],(cfg_data[i + 2] << 8) | cfg_data[i + 3]);
+        else if(cfg_data_key[i] == kv_loop){//kv_loop
+            add_mode3_loop(keyi, cfg_data_key[i + 1], (cfg_data_key[i + 2] << 8) | cfg_data_key[i + 3]);
             i += 4;
         }
-        else if(cfg_data[i] == kv_report){//kv_report
-            add_mode3_report(keyi,cfg_data[i + 1]);
+        else if(cfg_data_key[i] == kv_report){//kv_report
+            add_mode3_report(keyi, cfg_data_key[i + 1]);
             i += 2;
         }
         else{
-            add_mode3_key(keyi,cfg_data_key[i],0);
+            add_mode3_key(keyi, cfg_data_key[i], 0);
             i += 1;
         }
     }
