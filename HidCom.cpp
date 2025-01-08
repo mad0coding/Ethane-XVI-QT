@@ -104,15 +104,17 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
     }
     
     uint8_t writeBuf[64], readBuf[64];//读写缓存
+    memset(writeBuf, 0, sizeof(writeBuf));
+    memset(readBuf, 0, sizeof(readBuf));
 
-    if(cmd == CHID_CMD_CFG_KEY || cmd == CHID_CMD_CFG_LIGHT){//配置或灯效连接命令
+    if(cmd == CHID_CMD_CFG_KEY || cmd == CHID_CMD_CFG_LIGHT){//键盘配置或灯效配置连接命令
         if(cmd == 0){
-            memcpy(writeBuf, "DKB", 3);//填入配置连接指令
-            writeBuf[3] = '1' + inBuf[0];//填入配置存储位置
+            memcpy(writeBuf, "DKBC", 4);//填入配置连接指令
+            writeBuf[4] = '1' + inBuf[0];//填入配置存储位置
         }
         else{
-            memcpy(writeBuf, "DLT", 3);//填入灯效连接指令
-            writeBuf[3] = '1' + inBuf[0];//填入灯效存储位置
+            memcpy(writeBuf, "DLTC", 4);//填入灯效连接指令
+            writeBuf[4] = '1' + inBuf[0];//填入灯效存储位置
         }
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
@@ -121,38 +123,41 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return ret;
         }
 
-        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1] && readBuf[2] == writeBuf[2]){//若正确响应
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             return CHID_OK;
         }
     }
-    else if(cmd == CHID_CMD_KEY_FLT){//修改按键滤波参数命令
-        memcpy(writeBuf, "CKF", 3);//填入修改命令
-        writeBuf[3] = inBuf[0];//填入按键滤波参数
+    else if(cmd == CHID_CMD_KEY_FLT){//修改按键消抖参数命令
+        memcpy(writeBuf, "CKYT", 4);//填入修改命令
+        writeBuf[4] = inBuf[0];//填入按键消抖参数
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
         hid_close();//HID设备关闭
         if(ret != CHID_OK) return ret;//失败
         
-        if(readBuf[0] == writeBuf[1] && readBuf[1] == writeBuf[2]){//若正确响应
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             if(outBuf){
-                memcpy(outBuf, &readBuf[2], 2);
+                memcpy(outBuf, &readBuf[4], 2);
             }
             return CHID_OK;
         }
     }
-    else if(cmd == CHID_CMD_RK_ADC){//摇杆校正命令
-        memcpy(writeBuf, "CRK", 3);//填入校正命令
+    else if(cmd == CHID_CMD_RK_MID){//摇杆中位校正命令
+        memcpy(writeBuf, "CRKM", 4);//填入校正命令
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
         hid_close();//HID设备关闭
         if(ret != CHID_OK) return ret;//失败
         
-        if(readBuf[0] == writeBuf[1] && readBuf[1] == writeBuf[2]){//若正确响应
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             uint16_t adcValue[4];
-            adcValue[0] = (readBuf[2] << 8) | readBuf[3];//获取ADC值
-            adcValue[1] = (readBuf[4] << 8) | readBuf[5];
-            adcValue[2] = (readBuf[6] << 8) | readBuf[7];
-            adcValue[3] = (readBuf[8] << 8) | readBuf[9];
+            adcValue[0] = (readBuf[4] << 8) | readBuf[5];//获取ADC值
+            adcValue[1] = (readBuf[6] << 8) | readBuf[7];
+            adcValue[2] = (readBuf[8] << 8) | readBuf[9];
+            adcValue[3] = (readBuf[10] << 8) | readBuf[11];
             if(adcValue[2] > 4095 || adcValue[3] > 4095) return 1;//数据错误
             if(outBuf){
                 memcpy(outBuf, adcValue, sizeof(adcValue));
@@ -161,17 +166,18 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
         }
     }
     else if(cmd == CHID_CMD_EC_FREQ){//修改旋钮倍频参数命令
-        memcpy(writeBuf, "CEC", 3);//填入修改命令
-        writeBuf[3] = inBuf[0];//填入旋钮倍频参数
-        writeBuf[4] = inBuf[1];
+        memcpy(writeBuf, "CECD", 4);//填入修改命令
+        writeBuf[4] = inBuf[0];//填入旋钮倍频参数
+        writeBuf[5] = inBuf[1];
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
         hid_close();//HID设备关闭
         if(ret != CHID_OK) return ret;//失败
         
-        if(readBuf[0] == writeBuf[1] && readBuf[1] == writeBuf[2]){//若正确响应
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             if(outBuf){
-                memcpy(outBuf, &readBuf[2], 4);
+                memcpy(outBuf, &readBuf[4], 4);
             }
             return CHID_OK;
         }

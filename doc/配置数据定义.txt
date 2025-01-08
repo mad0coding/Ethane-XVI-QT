@@ -18,7 +18,7 @@ mode3data：
 (3)快捷键：253+key+func
 (4)光标移位：237+x_H+x_L+y_H+y_L
 (5)延时：254+t_H+t_L
-(6)循环：235+func+n_H+n_L//func：bit0：是否自动自动，bit1：是否为起始符
+(6)循环：235+func+n_H+n_L//func：bit0：是否自动，bit1：是否为起始符
 (6)报文控制：234+func//func：bit0：与下次报文之间是否以空报文隔开，bit1：是否结束此次报文
 
 mode6：切换键

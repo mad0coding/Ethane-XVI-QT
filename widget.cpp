@@ -269,45 +269,45 @@ void Widget::keyReleaseEvent(QKeyEvent *event)//按键抬起
     //printf("funcR:%d",func);//打印当前功能键
 }
 
-void Widget::on_Bt_glb_key_flt_clicked()//按键滤波
+void Widget::on_Bt_glb_key_flt_clicked()//按键消抖
 {
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "按键滤波", "参数设置(0-100)",
+    int ansNum = QInputDialog::getInt(this, "按键消抖", "参数设置(0-100)",
                                       2, 0, 100, 1,//默认值,最小值,最大值,步进
                                       &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;//若取消则返回
     uint8_t inBuf[1], outBuf[2];
-    inBuf[0] = ansNum;//按键滤波参数
+    inBuf[0] = ansNum;//按键消抖参数
     
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
     uint8_t ret = hid_send_cmd(CHID_CMD_KEY_FLT, inBuf, outBuf);                //HID按键滤波设置
     
     if(ret != CHID_OK){//若获取失败
-        QMessageBox::critical(this, "滤波设置", "HID通信失败\n" + CHID_to_str(ret));
+        QMessageBox::critical(this, "按键消抖", "HID通信失败\n" + CHID_to_str(ret));
         return;
     }else{//若获取成功
         QString fltInfo = "参数已由" + QString::number(outBuf[0]) 
                           + "修改为" + QString::number(outBuf[1]);
-        QMessageBox::information(this, "滤波设置", fltInfo);
+        QMessageBox::information(this, "按键消抖", fltInfo);
     }
 }
 
-void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
+void Widget::on_Bt_glb_rk_calib_clicked()//摇杆中位校正
 {
     uint16_t adcValue[4];
     
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
-    uint8_t ret = hid_send_cmd(CHID_CMD_RK_ADC, NULL, (uint8_t*)adcValue);      //HID获取摇杆ADC值
+    uint8_t ret = hid_send_cmd(CHID_CMD_RK_MID, NULL, (uint8_t*)adcValue);      //HID获取摇杆ADC值
     
     if(ret != CHID_OK){//若获取失败
-        QMessageBox::critical(this, "摇杆校正", "HID通信失败\n" + CHID_to_str(ret));
+        QMessageBox::critical(this, "摇杆中位校正", "HID通信失败\n" + CHID_to_str(ret));
         return;
     }else{//若获取成功
         QString adcInfo = "中位值由:" + QString::number(adcValue[0]) 
                                + "," + QString::number(adcValue[1])
                         + "\n更新为:" + QString::number(adcValue[2])
                                + "," + QString::number(adcValue[3]);
-        QMessageBox::information(this, "摇杆校正", adcInfo);
+        QMessageBox::information(this, "摇杆中位校正", adcInfo);
     }
 }
 

@@ -3,7 +3,7 @@
 
 #include <QWidget>
 
-
+//HID通信返回码定义
 #define CHID_OK             0
 #define CHID_NO_DEV         1
 #define CHID_MULTI_DEV      2
@@ -15,11 +15,11 @@
 #define CHID_BAD_REP        8
 #define CHID_INV_CMD        9
 
-
+//HID命令定义
 #define CHID_CMD_CFG_KEY    0
 #define CHID_CMD_CFG_LIGHT  1
 #define CHID_CMD_KEY_FLT    2
-#define CHID_CMD_RK_ADC     3
+#define CHID_CMD_RK_MID     3
 #define CHID_CMD_EC_FREQ    4
 #define CHID_CMD_UUID       10
 #define CHID_CMD_FW_VER     11

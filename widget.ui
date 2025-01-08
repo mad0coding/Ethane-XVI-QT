@@ -822,7 +822,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>按键滤波</string>
+      <string>按键消抖</string>
      </property>
     </widget>
     <widget class="QPushButton" name="Bt_special">
