@@ -154,14 +154,28 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
         if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
            && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             uint16_t adcValue[4];
-            adcValue[0] = (readBuf[4] << 8) | readBuf[5];//获取ADC值
-            adcValue[1] = (readBuf[6] << 8) | readBuf[7];
-            adcValue[2] = (readBuf[8] << 8) | readBuf[9];
-            adcValue[3] = (readBuf[10] << 8) | readBuf[11];
-            if(adcValue[2] > 4095 || adcValue[3] > 4095) return 1;//数据错误
+            for(int i = 0; i < 4; i++) adcValue[i] = endianConvert16(*(uint16_t*)&readBuf[4 + 2*i]);
+            if(adcValue[2] > 4095 || adcValue[3] > 4095) return CHID_BAD_REP;//数据错误
             if(outBuf){
                 memcpy(outBuf, adcValue, sizeof(adcValue));
             }
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_RK_ZONE){//摇杆范围设置命令
+        memcpy(writeBuf, "CRKZ", 4);//填入校正命令
+        
+        for(int i = 0; i < 4; i++) ((uint16_t*)(writeBuf + 4))[i] = endianConvert16(((uint16_t*)inBuf)[i]);
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            uint16_t zoneValue[8];
+            for(int i = 0; i < 8; i++) zoneValue[i] = endianConvert16(((uint16_t*)(readBuf + 4))[i]);
+            memcpy(outBuf, zoneValue, sizeof(zoneValue));
             return CHID_OK;
         }
     }
@@ -232,8 +246,8 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return CHID_OK;
         }
     }
-    else if(cmd == CHID_CMD_PARA){//参数读取命令
-        memcpy(writeBuf, "BGPM", 4);//填入命令
+    else if(cmd == CHID_CMD_INPUT){//输入读取命令
+        memcpy(writeBuf, "BIPT", 4);//填入命令
         
         ret = hid_write_read(writeBuf, readBuf);//HID先写后读
         hid_close();//HID设备关闭
@@ -243,8 +257,28 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
            && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
             *(uint16_t*)(outBuf + 0) = endianConvert16(*(uint16_t*)(readBuf + 4));
             *(uint16_t*)(outBuf + 2) = endianConvert16(*(uint16_t*)(readBuf + 6));
-            *(uint16_t*)(outBuf + 4) = readBuf[8];
-            *(uint16_t*)(outBuf + 6) = (readBuf[9] & 0x02) * 5 + (readBuf[9] & 0x01);
+            *(uint16_t*)(outBuf + 4) = endianConvert16(*(uint16_t*)(readBuf + 10));
+            *(uint16_t*)(outBuf + 6) = endianConvert16(*(uint16_t*)(readBuf + 8));
+            return CHID_OK;
+        }
+    }
+    else if(cmd == CHID_CMD_PARA){//参数读取命令
+        memcpy(writeBuf, "BGPM", 4);//填入命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            *(uint16_t*)(outBuf + 0) = endianConvert16(*(uint16_t*)(readBuf + 4));//Min0
+            *(uint16_t*)(outBuf + 2) = endianConvert16(*(uint16_t*)(readBuf + 8));//Max0
+            *(uint16_t*)(outBuf + 4) = endianConvert16(*(uint16_t*)(readBuf + 6));//Min1
+            *(uint16_t*)(outBuf + 6) = endianConvert16(*(uint16_t*)(readBuf + 10));//Max1
+            *(uint16_t*)(outBuf + 8) = endianConvert16(*(uint16_t*)(readBuf + 12));//Mid0
+            *(uint16_t*)(outBuf + 10) = endianConvert16(*(uint16_t*)(readBuf + 14));//Mid1
+            *(uint16_t*)(outBuf + 12) = readBuf[20];//按键消抖参数
+            *(uint16_t*)(outBuf + 14) = (readBuf[24] & 0x02) * 5 + (readBuf[24] & 0x01);//旋钮倍频参数
             return CHID_OK;
         }
     }

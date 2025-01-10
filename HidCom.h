@@ -20,11 +20,13 @@
 #define CHID_CMD_CFG_LIGHT  1
 #define CHID_CMD_KEY_FLT    2
 #define CHID_CMD_RK_MID     3
-#define CHID_CMD_EC_FREQ    4
+#define CHID_CMD_RK_ZONE    4
+#define CHID_CMD_EC_FREQ    5
 #define CHID_CMD_UUID       10
 #define CHID_CMD_FW_VER     11
-#define CHID_CMD_PARA       12
-#define CHID_CMD_DIAG       13
+#define CHID_CMD_INPUT      12
+#define CHID_CMD_PARA       13
+#define CHID_CMD_DIAG       14
 #define CHID_CMD_RST        20
 #define CHID_CMD_BOOT       21
 

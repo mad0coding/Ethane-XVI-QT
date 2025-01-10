@@ -292,22 +292,54 @@ void Widget::on_Bt_glb_key_flt_clicked()//按键消抖
     }
 }
 
-void Widget::on_Bt_glb_rk_calib_clicked()//摇杆中位校正
+void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
 {
-    uint16_t adcValue[4];
-    
-    hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
-    uint8_t ret = hid_send_cmd(CHID_CMD_RK_MID, NULL, (uint8_t*)adcValue);      //HID获取摇杆ADC值
-    
-    if(ret != CHID_OK){//若获取失败
-        QMessageBox::critical(this, "摇杆中位校正", "HID通信失败\n" + CHID_to_str(ret));
-        return;
-    }else{//若获取成功
-        QString adcInfo = "中位值由:" + QString::number(adcValue[0]) 
-                               + "," + QString::number(adcValue[1])
-                        + "\n更新为:" + QString::number(adcValue[2])
-                               + "," + QString::number(adcValue[3]);
-        QMessageBox::information(this, "摇杆中位校正", adcInfo);
+    int ansRK = QMessageBox::question(this, "摇杆校正", "校正中位或设置上下限", "中位校正", "范围设置", 0, -1);
+    if(!ansRK){//中位校正
+        uint16_t outBuf[4];
+        
+        hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
+        uint8_t ret = hid_send_cmd(CHID_CMD_RK_MID, NULL, (uint8_t*)outBuf);        //HID获取摇杆ADC值
+        
+        if(ret != CHID_OK){//若获取失败
+            QMessageBox::critical(this, "摇杆中位校正", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }else{//若获取成功
+            QString adcInfo = "中位值由:" + QString::number(outBuf[0]) 
+                                   + "," + QString::number(outBuf[1])
+                            + "\n更新为:" + QString::number(outBuf[2])
+                                   + "," + QString::number(outBuf[3]);
+            QMessageBox::information(this, "摇杆中位校正", adcInfo);
+        }
+    }
+    else{//范围设置
+        uint16_t inBuf[4];
+        uint16_t outBuf[8];
+        bool ifOK = false;
+        inBuf[0] = QInputDialog::getInt(this, "范围设置", "Min0 (0 - 4094)",    0, 0, 4094, 1, &ifOK, Qt::WindowCloseButtonHint);
+        inBuf[1] = QInputDialog::getInt(this, "范围设置", "Max0 (1 - 4095)", 4095, 1, 4095, 1, &ifOK, Qt::WindowCloseButtonHint);
+        inBuf[2] = QInputDialog::getInt(this, "范围设置", "Min0 (0 - 4094)",    0, 0, 4094, 1, &ifOK, Qt::WindowCloseButtonHint);
+        inBuf[3] = QInputDialog::getInt(this, "范围设置", "Max1 (1 - 4095)", 4095, 1, 4095, 1, &ifOK, Qt::WindowCloseButtonHint);
+        if(inBuf[0] >= inBuf[1] || inBuf[2] >= inBuf[3]) QMessageBox::critical(this, "范围设置", "Max 必须大于 Min");
+        
+        hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);           //HID查找参数设置
+        uint8_t ret = hid_send_cmd(CHID_CMD_RK_ZONE, (uint8_t*)inBuf, (uint8_t*)outBuf);    //HID设置摇杆范围
+        
+        if(ret != CHID_OK){//若获取失败
+            QMessageBox::critical(this, "摇杆范围设置", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }else{//若获取成功
+            if(outBuf[4] == 0xFFFF){//数值不合适导致被设备拒绝
+                QMessageBox::warning(this, "摇杆范围设置", "此范围值被设备拒绝\n检查是否与中位冲突");
+            }
+            else{//成功接受
+                QString adcInfo = "范围由: " + QString::number(outBuf[0]) + " - " + QString::number(outBuf[1])
+                                     + ", " + QString::number(outBuf[2]) + " - " + QString::number(outBuf[3])
+                              + "\n更新为: " + QString::number(outBuf[4]) + " - " + QString::number(outBuf[5])
+                                     + ", " + QString::number(outBuf[6]) + " - " + QString::number(outBuf[7]);
+                QMessageBox::information(this, "摇杆范围设置", adcInfo);
+            }
+        }
     }
 }
 
@@ -340,9 +372,10 @@ void Widget::on_Bt_info_clicked()//信息读取
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
     
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "信息读取", "0-序列号读取\n1-固件版本读取\n2-参数读取\n3-诊断信息读取",
-                                      0, 0, 3, 1,//默认值,最小值,最大值,步进
-                                      &ifOK, Qt::WindowCloseButtonHint);
+    static int ansNum = 0;
+    ansNum = QInputDialog::getInt(this, "信息读取", "0-序列号读取\n1-固件版本读取\n2-输入读取\n3-参数读取\n4-诊断信息读取",
+                                  ansNum, 0, 4, 1,//默认值,最小值,最大值,步进
+                                  &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;
     
     uint8_t ret = CHID_OK;
@@ -371,19 +404,33 @@ void Widget::on_Bt_info_clicked()//信息读取
                                                             outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
         }
     }
-    else if(ansNum == 2){//参数读取
+    else if(ansNum == 2){//输入读取
         uint16_t outBuf[4] = {0, 0, 0, 0};
+        ret = hid_send_cmd(CHID_CMD_INPUT, NULL, (uint8_t*)outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "输入读取", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QMessageBox::information(this, "输入读取", QString::asprintf("摇杆值 %d,%d\n键盘按键值 %04X\n其他按键值 %02X", 
+                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
+        }
+    }
+    else if(ansNum == 3){//参数读取
+        uint16_t outBuf[8] = {0};
         ret = hid_send_cmd(CHID_CMD_PARA, NULL, (uint8_t*)outBuf);
         if(ret != CHID_OK){//若失败
             QMessageBox::critical(this, "参数读取", "HID通信失败\n" + CHID_to_str(ret));
             return;
         }
         else{//成功
-            QMessageBox::information(this, "参数读取", QString::asprintf("摇杆中位 %d,%d\n按键滤波 %d\n旋钮倍频 %d", 
-                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
+            QMessageBox::information(this, "参数读取", QString::asprintf("摇杆范围 %d - %d, %d - %d\n"
+                                                                        "摇杆中位 %d, %d\n按键滤波 %d\n旋钮倍频 %d", 
+                                                                        outBuf[0], outBuf[1], outBuf[2], outBuf[3],
+                                                                        outBuf[4], outBuf[5], outBuf[6], outBuf[7]));
         }
     }
-    else if(ansNum == 3){//诊断信息读取
+    else if(ansNum == 4){//诊断信息读取
         uint16_t outBuf[29] = {0};
         ret = hid_send_cmd(CHID_CMD_DIAG, NULL, (uint8_t*)outBuf);
         if(ret != CHID_OK){//若失败
