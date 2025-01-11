@@ -42,18 +42,9 @@ bool config::add_mode3_key(uint8_t key_i, uint8_t key_val, uint8_t shift)//增�
     if(255 - cfg_key[key_i].data.size() < (shift ? 2 : 1)) return false;//超长
     QString keyName = USB_to_str(key_val,shift);
     QVector<uint8_t> vct = {};
-    if(shift){
-        vct.append(kv_shift);
-//        cfg_key[key_i].data.append(kv_shift);
-//        cfg_key[key_i].dataNum.append(2);
-    }
-//    else cfg_key[key_i].dataNum.append(1);
+    if(shift) vct.append(kv_shift);
     vct.append(key_val);
-//    cfg_key[key_i].data.append(key_val);
-//    cfg_key[key_i].str += keyName;
-//    cfg_key[key_i].strNum.append(keyName.length());
     add_mode3_unit(key_i, vct, keyName);//增加一个数据单元
-//    set_mode3_txt(key_i);//设置模式3显示文本
     return true;
 }
 
@@ -70,37 +61,28 @@ bool config::add_mode3_func(uint8_t key_i, uint8_t key_val, uint8_t func)//增�
     vct.append(kv_shortcut);
     vct.append(key_val);
     vct.append(func);
-//    cfg_key[key_i].data.append(kv_shortcut);
-//    cfg_key[key_i].data.append(key_val);
-//    cfg_key[key_i].data.append(func);
-//    cfg_key[key_i].str += keyName;
-//    cfg_key[key_i].strNum.append(keyName.length());
-//    cfg_key[key_i].dataNum.append(3);
     add_mode3_unit(key_i, vct, keyName);//增加一个数据单元
-//    set_mode3_txt(key_i);//设置模式3显示文本
     return true;
 }
 
-bool config::add_mode3_pos(uint8_t key_i, uint16_t x, uint16_t y)//增加模式3光标移位
+bool config::add_mode3_pos(uint8_t key_i, uint8_t func, uint16_t x, uint16_t y)//增加模式3光标移位
 {
     if(255 - cfg_key[key_i].data.size() < 5) return false;//超长
-    QString keyName = "[" + QString::number(x) + "," + QString::number(y) + "]";
+    QString keyName = QString::number(x) + "," + QString::number(y) + "]";//展示坐标
     QVector<uint8_t> vct = {};
-    vct.append(kv_point);
+    if(!func){//移动
+        keyName = "[move:" + keyName;
+        vct.append(kv_move);
+    }
+    else{//点击
+        keyName = "[press:" + keyName;
+        vct.append(kv_press);
+    }
     vct.append((uint8_t)((x>>8) & 0xFF));//x高8位
     vct.append((uint8_t)(x & 0xFF));//x低8位
     vct.append((uint8_t)((y>>8) & 0xFF));//y高8位
     vct.append((uint8_t)(y & 0xFF));//y低8位
-//    cfg_key[key_i].data.append(kv_point);
-//    cfg_key[key_i].data.append((uint8_t)((x>>8) & 0xFF));//x高8位
-//    cfg_key[key_i].data.append((uint8_t)(x & 0xFF));//x低8位
-//    cfg_key[key_i].data.append((uint8_t)((y>>8) & 0xFF));//y高8位
-//    cfg_key[key_i].data.append((uint8_t)(y & 0xFF));//y低8位
-//    cfg_key[key_i].str += keyName;
-//    cfg_key[key_i].strNum.append(keyName.length());
-//    cfg_key[key_i].dataNum.append(5);
     add_mode3_unit(key_i, vct, keyName);//增加一个数据单元
-//    set_mode3_txt(key_i);//设置模式3显示文本
     return true;
 }
 
@@ -112,14 +94,7 @@ bool config::add_mode3_delay(uint8_t key_i, uint16_t t)//增加模式3延时
     vct.append(kv_delay);
     vct.append((uint8_t)((t>>8) & 0xFF));//高8位
     vct.append((uint8_t)(t & 0xFF));//低8位
-//    cfg_key[key_i].data.append(kv_delay);
-//    cfg_key[key_i].data.append((uint8_t)((t>>8) & 0xFF));//高8位
-//    cfg_key[key_i].data.append((uint8_t)(t & 0xFF));//低8位
-//    cfg_key[key_i].str += keyName;
-//    cfg_key[key_i].strNum.append(keyName.length());
-//    cfg_key[key_i].dataNum.append(3);
     add_mode3_unit(key_i, vct, keyName);//增加一个数据单元
-//    set_mode3_txt(key_i);//设置模式3显示文本
     return true;
 }
 
@@ -137,15 +112,7 @@ bool config::add_mode3_loop(uint8_t key_i, uint8_t func, uint16_t n)//增加模�
     vct.append(func);
     vct.append((uint8_t)((n>>8) & 0xFF));//高8位
     vct.append((uint8_t)(n & 0xFF));//低8位
-//    cfg_key[key_i].data.append(kv_loop);
-//    cfg_key[key_i].data.append(func);
-//    cfg_key[key_i].data.append((uint8_t)((n>>8) & 0xFF));//高8位
-//    cfg_key[key_i].data.append((uint8_t)(n & 0xFF));//低8位
-//    cfg_key[key_i].str += keyName;
-//    cfg_key[key_i].strNum.append(keyName.length());
-//    cfg_key[key_i].dataNum.append(4);
     add_mode3_unit(key_i, vct, keyName);//增加一个数据单元
-//    set_mode3_txt(key_i);//设置模式3显示文本
     return true;
 }
 
@@ -160,13 +127,7 @@ bool config::add_mode3_report(uint8_t key_i, uint8_t func)//增加模式3报文�
     else keyName += "NoGap]";
     vct.append(kv_report);
     vct.append(func);
-//    cfg_key[key_i].data.append(kv_report);
-//    cfg_key[key_i].data.append(func);
-//    cfg_key[key_i].str += keyName;
-//    cfg_key[key_i].strNum.append(keyName.length());
-//    cfg_key[key_i].dataNum.append(2);
     add_mode3_unit(key_i, vct, keyName);//增加一个数据单元
-//    set_mode3_txt(key_i);//设置模式3显示文本
     return true;
 }
 
@@ -389,13 +350,13 @@ bool config::write_cfg_data()//写入配置数组
                 cfg_data[i++] = cfg_key[keyi].data.at(j);//存储mode3数据
             }
         }
-        else if(mode == m4_move || mode == m5_click){
+        else if(mode == m4_move || mode == m5_press){
             cfg_data[i++] = (cfg_key[keyi].x >> 8) & 0xFF;
             cfg_data[i++] = cfg_key[keyi].x & 0xFF;
             cfg_data[i++] = (cfg_key[keyi].y >> 8) & 0xFF;
             cfg_data[i++] = cfg_key[keyi].y & 0xFF;
         }
-        else if(mode == m7_fast){
+        else if(mode == m7_clicker){
             cfg_data[i++] = cfg_key[keyi].key;//存储键值
             cfg_data[i++] = cfg_key[keyi].func;//存储配置
             cfg_data[i++] = (cfg_key[keyi].t >> 8) & 0xFF;//周期高8位
@@ -497,10 +458,10 @@ bool config::read_cfg_data()//读出配置数组
                     add_mode3_func(keyi,cfg_data[i+1],cfg_data[i+2]);
                     i += 3;
                 }
-                else if(cfg_data[i] == kv_point){//kv_point,x_H,x_L,y_H,y_L
+                else if(cfg_data[i] == kv_move || cfg_data[i] == kv_press){//kv_move/kv_press,x_H,x_L,y_H,y_L
                     uint16_t x = (cfg_data[i + 1] << 8) | cfg_data[i + 2];
                     uint16_t y = (cfg_data[i + 3] << 8) | cfg_data[i + 4];
-                    add_mode3_pos(keyi,x,y);
+                    add_mode3_pos(keyi, (cfg_data[i] == kv_press), x, y);
                     i += 5;
                 }
                 else if(cfg_data[i] == kv_delay){//kv_delay,t_H,t_L
@@ -526,7 +487,7 @@ bool config::read_cfg_data()//读出配置数组
             }
             pte_mode3Box->clear();
         }
-        else if(cfg_key[keyi].mode == m4_move || cfg_key[keyi].mode == m5_click){
+        else if(cfg_key[keyi].mode == m4_move || cfg_key[keyi].mode == m5_press){
             uint16_t x = (cfg_data[i + 0] << 8) | cfg_data[i + 1];
             uint16_t y = (cfg_data[i + 2] << 8) | cfg_data[i + 3];
             set_mode4_key(keyi,x,y);
@@ -536,7 +497,7 @@ bool config::read_cfg_data()//读出配置数组
             set_mode6_key(keyi, cfg_data[i], cfg_data[i + 1]);
             i += 2;
         }
-        else if(cfg_key[keyi].mode == m7_fast){
+        else if(cfg_key[keyi].mode == m7_clicker){
             set_mode7_key(keyi,cfg_data[i],cfg_data[i + 1]);//载入按键及配置
             uint16_t t = (cfg_data[i + 2] << 8) | cfg_data[i + 3];
             set_mode7_time(keyi,t);//载入周期
@@ -626,10 +587,10 @@ bool config::read_mode3_data(uint8_t keyi)
             add_mode3_func(keyi, cfg_data_key[i+1], cfg_data_key[i+2]);
             i += 3;
         }
-        else if(cfg_data_key[i] == kv_point){//kv_point,x_H,x_L,y_H,y_L
+        else if(cfg_data_key[i] == kv_move || cfg_data_key[i] == kv_press){//kv_press,x_H,x_L,y_H,y_L
             uint16_t x = (cfg_data_key[i + 1] << 8) | cfg_data_key[i + 2];
             uint16_t y = (cfg_data_key[i + 3] << 8) | cfg_data_key[i + 4];
-            add_mode3_pos(keyi, x, y);
+            add_mode3_pos(keyi, (cfg_data_key[i] == kv_press), x, y);
             i += 5;
         }
         else if(cfg_data_key[i] == kv_delay){//kv_delay,t_H,t_L

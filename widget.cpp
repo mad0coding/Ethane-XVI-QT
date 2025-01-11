@@ -165,7 +165,7 @@ void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
                 cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
                 state = 0;
             }
-            else if(cfgUnit->get_key_mode(button_choose - 1) == m7_fast){//按键连点
+            else if(cfgUnit->get_key_mode(button_choose - 1) == m7_clicker){//按键连点
                 int ansAuto = QMessageBox::question(this,"按键连点","连点方式?","非自动","自动",0,-1);
                 cfgUnit->set_mode7_key(button_choose - 1,keyValue,ansAuto);
                 cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
@@ -817,7 +817,7 @@ void Widget::keyClickHandle(uint8_t button_cs)//16按钮按下处理
         cfgUnit->set_mode3_txt(button_cs - 1);
         state = 0;
     }
-    else if(cfgUnit->get_key_mode(button_cs - 1) == m7_fast){//若为连点模式
+    else if(cfgUnit->get_key_mode(button_cs - 1) == m7_clicker){//若为连点模式
         //cfgUnit->set_mode3_str(cfgUnit->cfg_key[button_cs - 1].str);
         cfgUnit->set_mode3_txt(button_cs - 1);
     }
@@ -1058,12 +1058,13 @@ void Widget::on_Bt_pos_input_clicked()//位置填入
     }
     if(state > 0 && button_class == 1){//键盘
         if(cfgUnit->get_key_mode(button_choose - 1) == m3_group){
-            if(!cfgUnit->add_mode3_pos(button_choose - 1,x,y)){
+            int ansMP = QMessageBox::question(this, "位置填入", "光标移动或光标点击?", "移动", "点击", 0, -1);
+            if(!cfgUnit->add_mode3_pos(button_choose - 1, ansMP, x, y)){
                 QMessageBox::critical(this,"提示","此键可用空间不足");
             }
         }
         else if(cfgUnit->get_key_mode(button_choose - 1) == m4_move
-                || cfgUnit->get_key_mode(button_choose - 1) == m5_click){
+                || cfgUnit->get_key_mode(button_choose - 1) == m5_press){
             cfgUnit->set_mode4_key(button_choose - 1,x,y);
             cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
             state = 0;
@@ -1079,7 +1080,7 @@ void Widget::on_Bt_delay_clicked()//时间填入
                 QMessageBox::critical(this,"提示","此键可用空间不足");
             }
         }
-        else if(cfgUnit->get_key_mode(button_choose - 1) == m7_fast){
+        else if(cfgUnit->get_key_mode(button_choose - 1) == m7_clicker){
             cfgUnit->set_mode7_time(button_choose - 1,ui->spinBox_delay->value());
             cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
             state = 0;

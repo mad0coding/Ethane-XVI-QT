@@ -23,7 +23,7 @@ public:
     void set_mode2_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置模式2按键
     bool add_mode3_key(uint8_t key_i, uint8_t key_val, uint8_t shift);//增加模式3按键
     bool add_mode3_func(uint8_t key_i, uint8_t key_val, uint8_t func);//增加模式3快捷键
-    bool add_mode3_pos(uint8_t key_i, uint16_t x, uint16_t y);//增加模式3光标移位
+    bool add_mode3_pos(uint8_t key_i, uint8_t func, uint16_t x, uint16_t y);//增加模式3光标移位/点击
     bool add_mode3_delay(uint8_t key_i, uint16_t t);//增加模式3延时
     bool add_mode3_loop(uint8_t key_i, uint8_t func, uint16_t n);//增加模式3循环
     bool add_mode3_report(uint8_t key_i, uint8_t func);//增加模式3报文控制
