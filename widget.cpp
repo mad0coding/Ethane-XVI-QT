@@ -460,9 +460,10 @@ void Widget::on_Bt_special_clicked()//特殊功能
 //    if(intOK != QMessageBox::Ok) return;
     
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转",
-                                      0, 0, 1, 1,//默认值,最小值,最大值,步进
-                                      &ifOK, Qt::WindowCloseButtonHint);
+    static int ansNum = 0;
+    ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转\n2-配置切换",
+                                        ansNum, 0, 2, 1,//默认值,最小值,最大值,步进
+                                        &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;
     
     uint8_t ret = CHID_OK;
@@ -481,7 +482,23 @@ void Widget::on_Bt_special_clicked()//特殊功能
             return;
         }
     }
-    
+    else if(ansNum == 2){//配置切换
+        uint8_t inBuf[1], outBuf[2];
+        static uint8_t csc = 1;
+        csc = QInputDialog::getInt(this, "配置切换", "切换目标 (1-8):",
+                                            csc, 1, 8, 1,//默认值,最小值,最大值,步进
+                                            &ifOK, Qt::WindowCloseButtonHint);
+        if(!ifOK) return;
+        inBuf[0] = csc;
+        ret = hid_send_cmd(CHID_CMD_CSC, inBuf, outBuf);
+        if(ret != CHID_OK){//若失败
+            QMessageBox::critical(this, "配置切换", "HID通信失败\n" + CHID_to_str(ret));
+            return;
+        }
+        else{//成功
+            QMessageBox::information(this, "配置切换", QString::asprintf("由%d切换为%d", outBuf[0], outBuf[1]));
+        }
+    }
 }
 
 void Widget::openCfgFile()//打开配置文件

@@ -220,6 +220,21 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return CHID_OK;
         }
     }
+    else if(cmd == CHID_CMD_CSC){//配置切换命令
+        memcpy(writeBuf, "BCSC", 4);//填入命令
+        writeBuf[4] = inBuf[0] - 1 + '1';//填入切换目标
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            outBuf[0] = readBuf[4] + 1 - '1';//旧选择
+            outBuf[1] = readBuf[5] + 1 - '1';//新选择
+            return CHID_OK;
+        }
+    }
     else if(cmd == CHID_CMD_FW_VER){//固件版本读取命令
         memcpy(writeBuf, "BFWV", 4);//填入命令
         
