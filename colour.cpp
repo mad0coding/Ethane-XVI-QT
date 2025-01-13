@@ -87,6 +87,16 @@ colour::colour(Widget *parent) : QWidget(parent)
                 this, &colour::on_color_plt_changed);
     }
     on_color_plt_changed(0);//直接调用调色盘变化槽函数完成初始化
+    
+    list[0] = widget->ui->cBox_list_light_0;
+    list[1] = widget->ui->cBox_list_light_1;
+    list[2] = widget->ui->cBox_list_light_2;
+    list[3] = widget->ui->cBox_list_light_3;
+    list[4] = widget->ui->cBox_list_light_4;
+    list[5] = widget->ui->cBox_list_light_5;
+    list[6] = widget->ui->cBox_list_light_6;
+    list[7] = widget->ui->cBox_list_light_7;
+    list[8] = widget->ui->cBox_list_light_8;
 }
 
 void colour::on_keys_clicked(){//按钮点击
@@ -204,6 +214,8 @@ void colour::openLightFile(){
     offset = widget->ui->cBox_color_updown->currentIndex() * KEY_NUM * 3;
     for(int i = 0; i < KEY_NUM * 3; i++) sbox_rgbs[i]->setValue(u8data[offset + i]);
     
+    for(int i = 0; i < DATA_RGB_LIST_MAX; i++) list[i]->setCurrentIndex(DATA_RGB_LIST[i]);
+    widget->ui->sBox_list_count->setValue(*DATA_RGB_COUNT + 1);
     widget->ui->cBox_mono_light->setCurrentIndex(*DATA_RGB_MONO);
     widget->ui->cBox_dir_light->setCurrentIndex(*DATA_RGB_DIR);
     widget->ui->cBox_wave_light->setCurrentIndex(*DATA_RGB_WAVE);
@@ -220,6 +232,8 @@ void colour::openLightFile(){
 }
 
 void colour::saveLightFile(uint8_t ifSave){
+    for(int i = 0; i < DATA_RGB_LIST_MAX; i++) DATA_RGB_LIST[i] = list[i]->currentIndex();
+    *DATA_RGB_COUNT = widget->ui->sBox_list_count->value() - 1;
     *DATA_RGB_MONO = widget->ui->cBox_mono_light->currentIndex();
     *DATA_RGB_DIR = widget->ui->cBox_dir_light->currentIndex();
     *DATA_RGB_WAVE = widget->ui->cBox_wave_light->currentIndex();

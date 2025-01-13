@@ -4093,7 +4093,7 @@
         <rect>
          <x>20</x>
          <y>20</y>
-         <width>80</width>
+         <width>90</width>
          <height>30</height>
         </rect>
        </property>
@@ -4109,7 +4109,7 @@
         <rect>
          <x>190</x>
          <y>20</y>
-         <width>80</width>
+         <width>90</width>
          <height>30</height>
         </rect>
        </property>
@@ -4523,6 +4523,34 @@
         <string>R:</string>
        </property>
       </widget>
+      <zorder>hSlider_v</zorder>
+      <zorder>lb_plt_v</zorder>
+      <zorder>label_37</zorder>
+      <zorder>label_38</zorder>
+      <zorder>sBox_plt_v</zorder>
+      <zorder>label_36</zorder>
+      <zorder>lb_plt_b</zorder>
+      <zorder>hSlider_b</zorder>
+      <zorder>sBox_plt_b</zorder>
+      <zorder>label_39</zorder>
+      <zorder>lb_plt_s</zorder>
+      <zorder>hSlider_s</zorder>
+      <zorder>sBox_plt_s</zorder>
+      <zorder>label_40</zorder>
+      <zorder>lb_plt_g</zorder>
+      <zorder>hSlider_g</zorder>
+      <zorder>sBox_plt_g</zorder>
+      <zorder>label_42</zorder>
+      <zorder>lb_plt_h</zorder>
+      <zorder>hSlider_h</zorder>
+      <zorder>sBox_plt_h</zorder>
+      <zorder>label_45</zorder>
+      <zorder>lb_plt_r</zorder>
+      <zorder>hSlider_r</zorder>
+      <zorder>sBox_plt_r</zorder>
+      <zorder>label_46</zorder>
+      <zorder>lb_plt_pic_0</zorder>
+      <zorder>lb_plt_pic_1</zorder>
      </widget>
      <widget class="QWidget" name="tab_2">
       <attribute name="title">
@@ -4734,7 +4762,7 @@
       <widget class="QSpinBox" name="sBox_color_shield">
        <property name="geometry">
         <rect>
-         <x>190</x>
+         <x>210</x>
          <y>140</y>
          <width>60</width>
          <height>30</height>
@@ -4758,7 +4786,7 @@
         <rect>
          <x>20</x>
          <y>140</y>
-         <width>160</width>
+         <width>200</width>
          <height>30</height>
         </rect>
        </property>
@@ -4772,9 +4800,9 @@
       <widget class="QComboBox" name="cBox_color_setin">
        <property name="geometry">
         <rect>
-         <x>210</x>
+         <x>200</x>
          <y>80</y>
-         <width>120</width>
+         <width>130</width>
          <height>30</height>
         </rect>
        </property>
@@ -4883,12 +4911,7 @@
        </item>
        <item>
         <property name="text">
-         <string>循环1</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>循环2</string>
+         <string>循环</string>
         </property>
        </item>
        <item>
@@ -5176,32 +5199,472 @@
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
-       <string>页</string>
+       <string>列表</string>
       </attribute>
-      <widget class="QPlainTextEdit" name="lightBox0">
+      <widget class="QComboBox" name="cBox_list_light_0">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>10</y>
-         <width>335</width>
-         <height>150</height>
+         <x>20</x>
+         <y>60</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_1">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>60</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>1</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_2">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>60</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>2</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>110</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>3</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_4">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>110</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>4</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_5">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>110</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>5</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_53">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>20</y>
+         <width>300</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>用于灯效循环或随机的列表:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="sBox_list_count">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>220</y>
+         <width>70</width>
+         <height>30</height>
         </rect>
        </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
        </property>
-       <property name="layoutDirection">
-        <enum>Qt::LeftToRight</enum>
+       <property name="minimum">
+        <number>1</number>
        </property>
-       <property name="lineWrapMode">
-        <enum>QPlainTextEdit::WidgetWidth</enum>
+       <property name="maximum">
+        <number>9</number>
        </property>
-       <property name="readOnly">
-        <bool>false</bool>
+       <property name="value">
+        <number>6</number>
        </property>
-       <property name="tabStopWidth">
-        <number>80</number>
+      </widget>
+      <widget class="QLabel" name="label_70">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>220</y>
+         <width>100</width>
+         <height>30</height>
+        </rect>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>使用个数:</string>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_6">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>160</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>5</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_7">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>160</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>5</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QComboBox" name="cBox_list_light_8">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>160</y>
+         <width>90</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>5</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>呼吸</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>波动</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>行列</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>蛇行</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>涡旋</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>自定义</string>
+        </property>
+       </item>
       </widget>
      </widget>
     </widget>

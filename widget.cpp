@@ -456,8 +456,8 @@ void Widget::on_Bt_special_clicked()//特殊功能
 {
     hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
     
-    int intOK = QMessageBox::question(this, "特殊功能", "请务必阅读文档\n再使用这些功能", QMessageBox::Ok, QMessageBox::Cancel);
-    if(intOK != QMessageBox::Ok) return;
+//    int intOK = QMessageBox::question(this, "特殊功能", "请务必阅读文档\n再使用这些功能", QMessageBox::Ok, QMessageBox::Cancel);
+//    if(intOK != QMessageBox::Ok) return;
     
     bool ifOK = false;
     int ansNum = QInputDialog::getInt(this, "特殊功能", "0-软复位\n1-Boot预跳转",

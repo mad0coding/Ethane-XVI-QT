@@ -13,11 +13,15 @@
 #include <QSpinBox>
 #include <QSlider>
 
+#define DATA_RGB_LIST_MAX	9//列表上限
+
 #define DATA_RGB            (light_data)
 #define DATA_RGB_T1         (DATA_RGB + KEY_NUM * 3 * 2)
 #define DATA_RGB_T2         (DATA_RGB_T1 + KEY_NUM)
 #define DATA_RGB_SHLD       (DATA_RGB_T2 + KEY_NUM)
 #define DATA_RGB_IDX        (DATA_RGB_SHLD + KEY_NUM)
+#define DATA_RGB_LIST		(DATA_RGB + 232)
+#define DATA_RGB_COUNT		(DATA_RGB + 243)
 #define DATA_RGB_MONO		(DATA_RGB + 244)
 #define DATA_RGB_DIR		(DATA_RGB + 245)
 #define DATA_RGB_WAVE		(DATA_RGB + 246)
@@ -50,6 +54,8 @@ public:
     QSpinBox* sbox_plt[6];
     QSlider* slider_plt[6];
     QLabel* lb_plt[6];
+    
+    QComboBox* list[DATA_RGB_LIST_MAX];
     
     uint8_t *light_data = NULL;//灯效数组
     
