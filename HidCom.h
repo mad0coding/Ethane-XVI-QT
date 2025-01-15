@@ -2,6 +2,7 @@
 #define HIDCOM_H
 
 #include <QWidget>
+#include <QInputDialog>
 
 //HID通信返回码定义
 #define CHID_OK             0

@@ -47,29 +47,38 @@ uint8_t hid_set_para(uint16_t fdVid, uint16_t fdPid, uint16_t fdUsagePage)//HID�
 
 uint8_t hid_find_open(void)//HID设备查找并打开
 {
-    HidDeviceList devList;//HID设备列表
+    HidDeviceList devList, matchList;//HID设备列表 匹配设备列表
     if(!hidApi->isInitialized()) return CHID_ERR_INIT;//HidApi未成功初始化则退出
     devList = hidApi->scanDevices(findVid, findPid);//按VID和PID扫描设备
     int findDevNum = 0;//设备计数
     for(size_t i = 0; i < devList.size(); i++){//在VID和PID符合的设备中进一步查找
         if(devList[i].getUsagePage() == findUsagePage){//匹配UsagePage 实际主要是为了匹配端点
-            if(findDevNum > 0) return CHID_MULTI_DEV;//若有多个设备则退出
             findDevNum++;//设备计数
             *hidDev = devList[i];//选定该设备
+            matchList.push_back(devList[i]);//加入匹配列表
         }
     }
     if(findDevNum == 0) return CHID_NO_DEV;//未找到设备则退出
+    if(findDevNum > 1){//若有多个设备
+        QStringList items;//序列号字符串列表
+        for(int i = 0; i < matchList.size(); i++){
+            //QString productStr = QString::fromStdWString(hidDev->getProductString());
+            //QString manufacturerStr = QString::fromStdWString(hidDev->getManufacturer());
+            QString serialStr = QString::fromStdWString(matchList[i].getSerial());//获取序列号
+            items.append(serialStr);//填入序列号
+        }
+        bool ok;
+        QString item = QInputDialog::getItem(NULL, "多设备", "发现多个设备 选择序列号:", items, 0, false, &ok);
+
+        if(!ok) return CHID_MULTI_DEV;//退出
+        else{//选择了一个
+            for(int i = 0; i < matchList.size(); i++){//查找选中了哪个
+                if(item == items[i]) *hidDev = matchList[i];//选定该设备
+            }
+        }
+    }
     //if(!hidDev->isInitialized()) return CHID_ERR_INIT;//HID设备未初始化则退出
     if(!hidDev->open()) return CHID_ERR_OPEN;//HID设备打开失败则退出
-    
-    //测试代码↓
-//    QString productString = QString::fromStdWString(hidDev->getProductString());
-//    QString manufacturerString = QString::fromStdWString(hidDev->getManufacturer());
-//    QString serialString = QString::fromStdWString(hidDev->getSerial());
-//    qDebug()<<productString;
-//    qDebug()<<manufacturerString;
-//    qDebug()<<serialString;
-    //测试代码↑
     
     return CHID_OK;
 }
