@@ -4581,7 +4581,7 @@
       <widget class="QSpinBox" name="sBox_color_t2">
        <property name="geometry">
         <rect>
-         <x>270</x>
+         <x>280</x>
          <y>20</y>
          <width>60</width>
          <height>30</height>
@@ -4603,7 +4603,7 @@
       <widget class="QLabel" name="label_49">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>20</y>
          <width>100</width>
          <height>30</height>
@@ -4635,7 +4635,7 @@
       <widget class="QLabel" name="label_48">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>80</y>
          <width>100</width>
          <height>30</height>
@@ -4696,10 +4696,10 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>屏蔽灭延迟:</string>
+        <string>屏蔽灭渐变:</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="sBox_color_t1sys">
+      <widget class="QSpinBox" name="sBox_color_m_on">
        <property name="geometry">
         <rect>
          <x>110</x>
@@ -4724,7 +4724,7 @@
       <widget class="QLabel" name="label_55">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>220</y>
          <width>100</width>
          <height>30</height>
@@ -4734,13 +4734,13 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>屏蔽亮延迟:</string>
+        <string>屏蔽亮渐变:</string>
        </property>
       </widget>
-      <widget class="QSpinBox" name="sBox_color_t2sys">
+      <widget class="QSpinBox" name="sBox_color_m_off">
        <property name="geometry">
         <rect>
-         <x>270</x>
+         <x>280</x>
          <y>220</y>
          <width>60</width>
          <height>30</height>
@@ -4784,7 +4784,7 @@
       <widget class="QLabel" name="label_61">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>140</y>
          <width>200</width>
          <height>30</height>
@@ -4800,7 +4800,7 @@
       <widget class="QComboBox" name="cBox_color_setin">
        <property name="geometry">
         <rect>
-         <x>200</x>
+         <x>210</x>
          <y>80</y>
          <width>130</width>
          <height>30</height>
@@ -4838,8 +4838,8 @@
       <widget class="QLabel" name="label_51">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>80</y>
+         <x>10</x>
+         <y>70</y>
          <width>100</width>
          <height>30</height>
         </rect>
@@ -4854,7 +4854,7 @@
       <widget class="QLabel" name="label_52">
        <property name="geometry">
         <rect>
-         <x>20</x>
+         <x>10</x>
          <y>20</y>
          <width>150</width>
          <height>30</height>
@@ -4871,7 +4871,7 @@
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>80</y>
+         <y>70</y>
          <width>80</width>
          <height>30</height>
         </rect>
@@ -4920,11 +4920,11 @@
         </property>
        </item>
       </widget>
-      <widget class="QSpinBox" name="sBox_color_t1wave">
+      <widget class="QSpinBox" name="sBox_color_g_on">
        <property name="geometry">
         <rect>
          <x>100</x>
-         <y>200</y>
+         <y>220</y>
          <width>70</width>
          <height>30</height>
         </rect>
@@ -4942,11 +4942,11 @@
         <number>0</number>
        </property>
       </widget>
-      <widget class="QSpinBox" name="sBox_color_t2wave">
+      <widget class="QSpinBox" name="sBox_color_g_off">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>200</y>
+         <x>270</x>
+         <y>220</y>
          <width>70</width>
          <height>30</height>
         </rect>
@@ -4964,11 +4964,11 @@
         <number>0</number>
        </property>
       </widget>
-      <widget class="QSpinBox" name="sBox_color_d1wave">
+      <widget class="QSpinBox" name="sBox_color_t_act">
        <property name="geometry">
         <rect>
-         <x>100</x>
-         <y>140</y>
+         <x>270</x>
+         <y>120</y>
          <width>70</width>
          <height>30</height>
         </rect>
@@ -4986,11 +4986,11 @@
         <number>10</number>
        </property>
       </widget>
-      <widget class="QSpinBox" name="sBox_color_d2wave">
+      <widget class="QSpinBox" name="sBox_color_t_gap">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>140</y>
+         <x>100</x>
+         <y>170</y>
          <width>70</width>
          <height>30</height>
         </rect>
@@ -5011,8 +5011,8 @@
       <widget class="QLabel" name="label_56">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>140</y>
+         <x>180</x>
+         <y>120</y>
          <width>80</width>
          <height>30</height>
         </rect>
@@ -5027,8 +5027,8 @@
       <widget class="QLabel" name="label_57">
        <property name="geometry">
         <rect>
-         <x>20</x>
-         <y>200</y>
+         <x>10</x>
+         <y>220</y>
          <width>80</width>
          <height>30</height>
         </rect>
@@ -5037,14 +5037,14 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>亮延迟:</string>
+        <string>亮渐变:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_58">
        <property name="geometry">
         <rect>
          <x>180</x>
-         <y>200</y>
+         <y>220</y>
          <width>80</width>
          <height>30</height>
         </rect>
@@ -5053,14 +5053,14 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>灭延迟:</string>
+        <string>灭渐变:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_59">
        <property name="geometry">
         <rect>
-         <x>180</x>
-         <y>140</y>
+         <x>10</x>
+         <y>170</y>
          <width>80</width>
          <height>30</height>
         </rect>
@@ -5075,8 +5075,8 @@
       <widget class="QLabel" name="label_60">
        <property name="geometry">
         <rect>
-         <x>200</x>
-         <y>80</y>
+         <x>190</x>
+         <y>70</y>
          <width>60</width>
          <height>30</height>
         </rect>
@@ -5092,7 +5092,7 @@
        <property name="geometry">
         <rect>
          <x>250</x>
-         <y>80</y>
+         <y>70</y>
          <width>80</width>
          <height>30</height>
         </rect>
@@ -5195,6 +5195,82 @@
          <string>不切换</string>
         </property>
        </item>
+      </widget>
+      <widget class="QSpinBox" name="sBox_color_t_rand">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>170</y>
+         <width>70</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>65000</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_71">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>170</y>
+         <width>80</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>间隔随机:</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_72">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>80</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>等待时间:</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="sBox_color_t_wait">
+       <property name="geometry">
+        <rect>
+         <x>100</x>
+         <y>120</y>
+         <width>70</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>65000</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
       </widget>
      </widget>
      <widget class="QWidget" name="tab_4">

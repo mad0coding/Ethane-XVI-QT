@@ -220,12 +220,14 @@ void colour::openLightFile(){
     widget->ui->cBox_dir_light->setCurrentIndex(*DATA_RGB_DIR);
     widget->ui->cBox_wave_light->setCurrentIndex(*DATA_RGB_WAVE);
     widget->ui->sBox_colorful_light->setValue(*DATA_RGB_COLORFUL);
-    widget->ui->sBox_color_d1wave->setValue(endianConvert16(*DATA_RGB_D1WAVE));
-    widget->ui->sBox_color_d2wave->setValue(endianConvert16(*DATA_RGB_D2WAVE));
-    widget->ui->sBox_color_t1wave->setValue(*DATA_RGB_T1WAVE);
-    widget->ui->sBox_color_t2wave->setValue(*DATA_RGB_T2WAVE);
-    widget->ui->sBox_color_t1sys->setValue(*DATA_RGB_T1SYS);
-    widget->ui->sBox_color_t2sys->setValue(*DATA_RGB_T2SYS);
+    widget->ui->sBox_color_t_wait->setValue(endianConvert16(*DATA_RGB_T_WAIT));
+    widget->ui->sBox_color_t_act->setValue(endianConvert16(*DATA_RGB_T_ACT));
+    widget->ui->sBox_color_t_gap->setValue(endianConvert16(*DATA_RGB_T_GAP));
+    widget->ui->sBox_color_t_rand->setValue(endianConvert16(*DATA_RGB_T_RAND));
+    widget->ui->sBox_color_g_on->setValue(*DATA_RGB_G_ON);
+    widget->ui->sBox_color_g_off->setValue(*DATA_RGB_G_OFF);
+    widget->ui->sBox_color_m_on->setValue(*DATA_RGB_M_ON);
+    widget->ui->sBox_color_m_off->setValue(*DATA_RGB_M_OFF);
     
     QFileInfo fileinfo = QFileInfo(fileNow);//文件信息
     widget->ui->lineEdit_fileName_light->setText(fileinfo.fileName());//显示文件名
@@ -238,12 +240,14 @@ void colour::saveLightFile(uint8_t ifSave){
     *DATA_RGB_DIR = widget->ui->cBox_dir_light->currentIndex();
     *DATA_RGB_WAVE = widget->ui->cBox_wave_light->currentIndex();
     *DATA_RGB_COLORFUL = widget->ui->sBox_colorful_light->value();
-    *DATA_RGB_D1WAVE = endianConvert16(widget->ui->sBox_color_d1wave->value());
-    *DATA_RGB_D2WAVE = endianConvert16(widget->ui->sBox_color_d2wave->value());
-    *DATA_RGB_T1WAVE = widget->ui->sBox_color_t1wave->value();
-    *DATA_RGB_T2WAVE = widget->ui->sBox_color_t2wave->value();
-    *DATA_RGB_T1SYS = widget->ui->sBox_color_t1sys->value();
-    *DATA_RGB_T2SYS = widget->ui->sBox_color_t2sys->value();
+    *DATA_RGB_T_WAIT = endianConvert16(widget->ui->sBox_color_t_wait->value());
+    *DATA_RGB_T_ACT = endianConvert16(widget->ui->sBox_color_t_act->value());
+    *DATA_RGB_T_GAP = endianConvert16(widget->ui->sBox_color_t_gap->value());
+    *DATA_RGB_T_RAND = endianConvert16(widget->ui->sBox_color_t_rand->value());
+    *DATA_RGB_G_ON = widget->ui->sBox_color_g_on->value();
+    *DATA_RGB_G_OFF = widget->ui->sBox_color_g_off->value();
+    *DATA_RGB_M_ON = widget->ui->sBox_color_m_on->value();
+    *DATA_RGB_M_OFF = widget->ui->sBox_color_m_off->value();
     
     if(!ifSave) return;//若仅填入数据不保存则退出
     

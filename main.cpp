@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[])
 {
-    const QString VersionStr = "V1.0.16";//详细版本
+    const QString VersionStr = "V1.0.17";//详细版本
     QApplication a(argc, argv);
     Widget mywidget;
     mywidget.setWindowTitle("复合外设 Ethane-XVI 配置程序 " + VersionStr/*.section("-", 0, 0)*/);//设置窗口名称
