@@ -244,6 +244,18 @@ uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf)//HID向设备
             return CHID_OK;
         }
     }
+    else if(cmd == CHID_CMD_BUZZ){//蜂鸣器模式命令
+        memcpy(writeBuf, "BBUZ", 4);//填入命令
+        
+        ret = hid_write_read(writeBuf, readBuf);//HID先写后读
+        hid_close();//HID设备关闭
+        if(ret != CHID_OK) return ret;//失败
+        
+        if(readBuf[0] == 'R' && readBuf[1] == writeBuf[1]
+           && readBuf[2] == writeBuf[2] && readBuf[3] == writeBuf[3]){//若正确响应
+            return CHID_OK;
+        }
+    }
     else if(cmd == CHID_CMD_FW_VER){//固件版本读取命令
         memcpy(writeBuf, "BFWV", 4);//填入命令
         

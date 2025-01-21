@@ -31,6 +31,7 @@
 #define CHID_CMD_RST        20
 #define CHID_CMD_BOOT       21
 #define CHID_CMD_CSC        22
+#define CHID_CMD_BUZZ       23
 
 
 QString CHID_to_str(uint8_t ret);//HID返回值转字符串
