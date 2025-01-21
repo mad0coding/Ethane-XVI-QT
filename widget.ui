@@ -212,9 +212,9 @@
     <widget class="QLabel" name="label_24">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>10</y>
-       <width>100</width>
+       <width>200</width>
        <height>30</height>
       </rect>
      </property>
@@ -233,9 +233,9 @@
     <widget class="QLabel" name="label_25">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>10</y>
-       <width>100</width>
+       <width>200</width>
        <height>30</height>
       </rect>
      </property>
@@ -270,7 +270,7 @@
     <widget class="QLabel" name="label_27">
      <property name="geometry">
       <rect>
-       <x>710</x>
+       <x>700</x>
        <y>120</y>
        <width>120</width>
        <height>30</height>
@@ -286,7 +286,7 @@
     <widget class="QLabel" name="label_28">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>120</y>
        <width>100</width>
        <height>30</height>
@@ -371,7 +371,7 @@
     <widget class="QLabel" name="label_30">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>400</y>
        <width>100</width>
        <height>30</height>
@@ -410,7 +410,7 @@
     <widget class="QLabel" name="lb_screen_h">
      <property name="geometry">
       <rect>
-       <x>730</x>
+       <x>720</x>
        <y>340</y>
        <width>81</width>
        <height>30</height>
@@ -453,7 +453,7 @@
     <widget class="QLabel" name="lb_screen_w">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>340</y>
        <width>81</width>
        <height>30</height>
@@ -688,7 +688,7 @@
     <widget class="QLabel" name="label_35">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>70</y>
        <width>100</width>
        <height>30</height>
@@ -977,7 +977,7 @@
     <widget class="QLabel" name="label_62">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>180</y>
        <width>120</width>
        <height>30</height>
@@ -1117,7 +1117,7 @@
     <widget class="QLabel" name="label_64">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>230</y>
        <width>120</width>
        <height>30</height>
@@ -1133,7 +1133,7 @@
     <widget class="QLabel" name="label_65">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>280</y>
        <width>120</width>
        <height>30</height>
@@ -2862,7 +2862,7 @@
       <number>200</number>
      </property>
      <property name="value">
-      <number>2</number>
+      <number>10</number>
      </property>
     </widget>
     <widget class="QPushButton" name="key_r_1_0">
@@ -2989,17 +2989,22 @@
     <widget class="QLabel" name="label_8">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>10</y>
-       <width>100</width>
+       <width>200</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>第一摇杆</string>
+      <string>摇杆</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_12">
@@ -3135,7 +3140,7 @@
       <rect>
        <x>70</x>
        <y>500</y>
-       <width>800</width>
+       <width>900</width>
        <height>60</height>
       </rect>
      </property>
@@ -3143,7 +3148,8 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>注意:按键设置仅在功能或按键配置为按键模式下有效。死区不宜为0。</string>
+      <string>注意：当配置为光标位置，惯性参数和近端参数分别代表中心点XY，远端参数代表动作范围。且对于4个方向，
+可用通过设置按键1,2...9,0(10%,20%...90%,100%)或NUM1...NUM9,NUM0(5%...85%,95%)进一步细化设置动作范围。</string>
      </property>
     </widget>
     <widget class="QCheckBox" name="cB_r_y_1">
@@ -3563,33 +3569,43 @@
     <widget class="QLabel" name="label_10">
      <property name="geometry">
       <rect>
-       <x>30</x>
+       <x>20</x>
        <y>10</y>
-       <width>100</width>
+       <width>200</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>第一旋钮</string>
+      <string>旋钮 1</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_11">
      <property name="geometry">
       <rect>
-       <x>510</x>
+       <x>500</x>
        <y>10</y>
-       <width>100</width>
+       <width>200</width>
        <height>30</height>
       </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+      </font>
      </property>
      <property name="focusPolicy">
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>第二旋钮</string>
+      <string>旋钮 2</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_18">
@@ -3929,7 +3945,7 @@
       <rect>
        <x>70</x>
        <y>500</y>
-       <width>800</width>
+       <width>900</width>
        <height>60</height>
       </rect>
      </property>
@@ -3937,7 +3953,7 @@
       <enum>Qt::NoFocus</enum>
      </property>
      <property name="text">
-      <string>注意:按键设置仅在功能或按键配置为按键/快捷键下有效，如需 Ctrl Alt Shift Win，要按下后点击空按键。</string>
+      <string>注意:按键设置仅在功能或按键配置为按键/快捷键下有效，如需Ctrl Alt Shift Win而不需其他按键，要按下后点击空按键。</string>
      </property>
     </widget>
    </widget>
@@ -4613,7 +4629,7 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>按下灯延迟:</string>
+        <string>按下灯渐变:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_50">
@@ -4629,7 +4645,7 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>抬起灯延迟:</string>
+        <string>抬起灯渐变:</string>
        </property>
       </widget>
       <widget class="QLabel" name="label_48">
@@ -4811,22 +4827,22 @@
        </property>
        <item>
         <property name="text">
-         <string>仅填入延迟</string>
+         <string>填入渐变</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>自定义次序</string>
+         <string>填入次序</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>屏蔽剩余</string>
+         <string>填入屏蔽</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>全部</string>
+         <string>填入全部</string>
         </property>
        </item>
       </widget>
@@ -5177,17 +5193,7 @@
        </property>
        <item>
         <property name="text">
-         <string>快切换</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>缓切换</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>迟切换</string>
+         <string>切换</string>
         </property>
        </item>
        <item>

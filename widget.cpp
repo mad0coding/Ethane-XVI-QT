@@ -346,7 +346,7 @@ void Widget::on_Bt_glb_rk_calib_clicked()//摇杆校正
 void Widget::on_Bt_glb_ec_freq_clicked()//旋钮倍频
 {
     bool ifOK = false;
-    int ansNum = QInputDialog::getInt(this, "旋钮倍频","倍频参数(0-1)",
+    int ansNum = QInputDialog::getInt(this, "旋钮倍频","倍频参数(00/01/10/11)",
                                       0, 0, 99, 1,//默认值,最小值,最大值,步进
                                       &ifOK, Qt::WindowCloseButtonHint);
     if(!ifOK) return;//若取消则返回
@@ -990,6 +990,8 @@ void Widget::on_key_clear_clicked()//按键清除键
     if(button_choose && button_class == 1){
         if(cfgUnit->get_key_mode(button_choose - 1) != m3_group){
             cfgUnit->clear_key(button_choose - 1);
+            cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
+            state = 0;
         }
     }
 }
@@ -998,6 +1000,8 @@ void Widget::on_key_clear_r_1_clicked()//摇杆按键清除键
 {
     if(button_choose && button_class == 2){
         cfgUnit->clear_rk_key(button_choose - 1);
+        cfgUnit->bt_r[button_choose - 1]->setStyleSheet(style_big_black);
+        state = 0;
     }
 }
 
@@ -1005,6 +1009,8 @@ void Widget::on_key_clear_e_1_clicked()//旋钮按键清除键
 {
     if(button_choose && button_class == 3){
         cfgUnit->clear_ec_key(button_choose - 1);
+        cfgUnit->bt_e[button_choose - 1]->setStyleSheet(style_big_black);
+        state = 0;
     }
 }
 
@@ -1012,6 +1018,8 @@ void Widget::on_key_clear_e_2_clicked()//旋钮按键清除键
 {
     if(button_choose && button_class == 3){
         cfgUnit->clear_ec_key(button_choose - 1);
+        cfgUnit->bt_e[button_choose - 1]->setStyleSheet(style_big_black);
+        state = 0;
     }
 }
 
@@ -1023,6 +1031,7 @@ void Widget::on_tabWidget_currentChanged(int index)//翻页
 void Widget::State_to_zero()//状态归零
 {
     ui->lb_key_cs->setText("当前选择:None");
+    cfgUnit->set_mode3_txt(0xFF);
     ui->mode3_input->setText("输入");
     if(button_class == 1){
         cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
@@ -1075,7 +1084,7 @@ void Widget::on_Bt_pos_input_clicked()//位置填入
     }
     if(state > 0 && button_class == 1){//键盘
         if(cfgUnit->get_key_mode(button_choose - 1) == m3_group){
-            int ansMP = QMessageBox::question(this, "位置填入", "光标移动或光标点击?", "移动", "点击", 0, -1);
+            int ansMP = QMessageBox::question(this, "位置填入", "光标移位或光标点击?", "移位", "点击", 0, -1);
             if(!cfgUnit->add_mode3_pos(button_choose - 1, ansMP, x, y)){
                 QMessageBox::critical(this,"提示","此键可用空间不足");
             }
