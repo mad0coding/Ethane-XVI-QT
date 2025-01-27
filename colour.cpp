@@ -111,8 +111,8 @@ void colour::on_keys_clicked(){//按钮点击
     }else if(widget->ui->tabWidget_light->currentIndex() == 1){//若在单键这一页
         uint8_t setInWhat = widget->ui->cBox_color_setin->currentIndex();//填入内容选择
         if(setInWhat == 0 || setInWhat == 3){//填入延迟
-            DATA_RGB_T1[i] = widget->ui->sBox_color_t1->value();
-            DATA_RGB_T2[i] = widget->ui->sBox_color_t2->value();
+            DATA_RGB_T_D[i] = widget->ui->sBox_color_t1->value();
+            DATA_RGB_T_U[i] = widget->ui->sBox_color_t2->value();
         }
         if(setInWhat == 1 || setInWhat == 3){//填入自定义次序
             DATA_RGB_IDX[i] = widget->ui->sBox_color_i1->value();
@@ -219,7 +219,8 @@ void colour::openLightFile(){
     widget->ui->cBox_mono_light->setCurrentIndex(*DATA_RGB_MONO);
     widget->ui->cBox_dir_light->setCurrentIndex(*DATA_RGB_DIR);
     widget->ui->cBox_wave_light->setCurrentIndex(*DATA_RGB_WAVE);
-    widget->ui->sBox_colorful_light->setValue(*DATA_RGB_COLORFUL);
+    widget->ui->cBox_color_s_light->setCurrentIndex(*DATA_RGB_COLOR_S);
+    widget->ui->sBox_color_t_light->setValue(*DATA_RGB_COLOR_T);
     widget->ui->sBox_color_t_wait->setValue(endianConvert16(*DATA_RGB_T_WAIT));
     widget->ui->sBox_color_t_act->setValue(endianConvert16(*DATA_RGB_T_ACT));
     widget->ui->sBox_color_t_gap->setValue(endianConvert16(*DATA_RGB_T_GAP));
@@ -239,7 +240,8 @@ void colour::saveLightFile(uint8_t ifSave){
     *DATA_RGB_MONO = widget->ui->cBox_mono_light->currentIndex();
     *DATA_RGB_DIR = widget->ui->cBox_dir_light->currentIndex();
     *DATA_RGB_WAVE = widget->ui->cBox_wave_light->currentIndex();
-    *DATA_RGB_COLORFUL = widget->ui->sBox_colorful_light->value();
+    *DATA_RGB_COLOR_S = widget->ui->cBox_color_s_light->currentIndex();
+    *DATA_RGB_COLOR_T = widget->ui->sBox_color_t_light->value();
     *DATA_RGB_T_WAIT = endianConvert16(widget->ui->sBox_color_t_wait->value());
     *DATA_RGB_T_ACT = endianConvert16(widget->ui->sBox_color_t_act->value());
     *DATA_RGB_T_GAP = endianConvert16(widget->ui->sBox_color_t_gap->value());
@@ -263,8 +265,8 @@ void colour::saveLightFile(uint8_t ifSave){
 
 void colour::lightCfgToStr(uint8_t key_i){//配置数据转标签字符串
     QString str = "";
-    str += QString::number(DATA_RGB_T1[key_i]) + " ";
-    str += QString::number(DATA_RGB_T2[key_i]) + " ";
+    str += QString::number(DATA_RGB_T_D[key_i]) + " ";
+    str += QString::number(DATA_RGB_T_U[key_i]) + " ";
     
     str += QString::number(DATA_RGB_IDX[key_i]) + " ";
     

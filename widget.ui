@@ -3978,7 +3978,7 @@
      <property name="geometry">
       <rect>
        <x>660</x>
-       <y>40</y>
+       <y>20</y>
        <width>260</width>
        <height>30</height>
       </rect>
@@ -4001,9 +4001,9 @@
     <widget class="QComboBox" name="cBox_color_updown">
      <property name="geometry">
       <rect>
-       <x>810</x>
-       <y>200</y>
-       <width>80</width>
+       <x>820</x>
+       <y>210</y>
+       <width>100</width>
        <height>30</height>
       </rect>
      </property>
@@ -4872,7 +4872,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>150</width>
+         <width>100</width>
          <height>30</height>
         </rect>
        </property>
@@ -4880,7 +4880,7 @@
         <enum>Qt::NoFocus</enum>
        </property>
        <property name="text">
-        <string>变色周期(0为不变):</string>
+        <string>变色周期:</string>
        </property>
       </widget>
       <widget class="QComboBox" name="cBox_wave_light">
@@ -4999,7 +4999,7 @@
         <number>10000</number>
        </property>
        <property name="value">
-        <number>10</number>
+        <number>0</number>
        </property>
       </widget>
       <widget class="QSpinBox" name="sBox_color_t_gap">
@@ -5157,10 +5157,10 @@
         </property>
        </item>
       </widget>
-      <widget class="QSpinBox" name="sBox_colorful_light">
+      <widget class="QSpinBox" name="sBox_color_t_light">
        <property name="geometry">
         <rect>
-         <x>170</x>
+         <x>100</x>
          <y>20</y>
          <width>60</width>
          <height>30</height>
@@ -5178,29 +5178,6 @@
        <property name="value">
         <number>0</number>
        </property>
-      </widget>
-      <widget class="QComboBox" name="cBox_mono_light">
-       <property name="geometry">
-        <rect>
-         <x>250</x>
-         <y>20</y>
-         <width>80</width>
-         <height>30</height>
-        </rect>
-       </property>
-       <property name="focusPolicy">
-        <enum>Qt::NoFocus</enum>
-       </property>
-       <item>
-        <property name="text">
-         <string>切换</string>
-        </property>
-       </item>
-       <item>
-        <property name="text">
-         <string>不切换</string>
-        </property>
-       </item>
       </widget>
       <widget class="QSpinBox" name="sBox_color_t_rand">
        <property name="geometry">
@@ -5278,6 +5255,78 @@
         <number>0</number>
        </property>
       </widget>
+      <widget class="QComboBox" name="cBox_color_s_light">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>20</y>
+         <width>120</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="currentIndex">
+        <number>3</number>
+       </property>
+       <item>
+        <property name="text">
+         <string>不变色</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>上配色变</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>下配色变</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>上下均变</string>
+        </property>
+       </item>
+      </widget>
+      <widget class="QLabel" name="label_75">
+       <property name="geometry">
+        <rect>
+         <x>170</x>
+         <y>20</y>
+         <width>100</width>
+         <height>30</height>
+        </rect>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::NoFocus</enum>
+       </property>
+       <property name="text">
+        <string>设置:</string>
+       </property>
+      </widget>
+      <zorder>label_51</zorder>
+      <zorder>label_52</zorder>
+      <zorder>cBox_wave_light</zorder>
+      <zorder>sBox_color_g_on</zorder>
+      <zorder>sBox_color_g_off</zorder>
+      <zorder>sBox_color_t_act</zorder>
+      <zorder>sBox_color_t_gap</zorder>
+      <zorder>label_56</zorder>
+      <zorder>label_57</zorder>
+      <zorder>label_58</zorder>
+      <zorder>label_59</zorder>
+      <zorder>label_60</zorder>
+      <zorder>cBox_dir_light</zorder>
+      <zorder>sBox_color_t_light</zorder>
+      <zorder>sBox_color_t_rand</zorder>
+      <zorder>label_71</zorder>
+      <zorder>label_72</zorder>
+      <zorder>sBox_color_t_wait</zorder>
+      <zorder>label_75</zorder>
+      <zorder>cBox_color_s_light</zorder>
      </widget>
      <widget class="QWidget" name="tab_4">
       <attribute name="title">
@@ -5754,8 +5803,8 @@
      <property name="geometry">
       <rect>
        <x>710</x>
-       <y>90</y>
-       <width>80</width>
+       <y>65</y>
+       <width>90</width>
        <height>40</height>
       </rect>
      </property>
@@ -5774,9 +5823,9 @@
     <widget class="QPushButton" name="Bt_save_color">
      <property name="geometry">
       <rect>
-       <x>610</x>
-       <y>140</y>
-       <width>80</width>
+       <x>600</x>
+       <y>115</y>
+       <width>90</width>
        <height>40</height>
       </rect>
      </property>
@@ -5796,8 +5845,8 @@
      <property name="geometry">
       <rect>
        <x>710</x>
-       <y>140</y>
-       <width>80</width>
+       <y>115</y>
+       <width>90</width>
        <height>40</height>
       </rect>
      </property>
@@ -5816,9 +5865,9 @@
     <widget class="QPushButton" name="Bt_open_color">
      <property name="geometry">
       <rect>
-       <x>610</x>
-       <y>90</y>
-       <width>80</width>
+       <x>600</x>
+       <y>65</y>
+       <width>90</width>
        <height>40</height>
       </rect>
      </property>
@@ -5837,9 +5886,9 @@
     <widget class="QPushButton" name="Bt_import_color">
      <property name="geometry">
       <rect>
-       <x>810</x>
-       <y>90</y>
-       <width>80</width>
+       <x>820</x>
+       <y>65</y>
+       <width>90</width>
        <height>40</height>
       </rect>
      </property>
@@ -5858,9 +5907,9 @@
     <widget class="QPushButton" name="Bt_export_color">
      <property name="geometry">
       <rect>
-       <x>810</x>
-       <y>140</y>
-       <width>80</width>
+       <x>820</x>
+       <y>115</y>
+       <width>90</width>
        <height>40</height>
       </rect>
      </property>
@@ -5880,7 +5929,7 @@
      <property name="geometry">
       <rect>
        <x>580</x>
-       <y>40</y>
+       <y>20</y>
        <width>60</width>
        <height>30</height>
       </rect>
@@ -5896,7 +5945,7 @@
      <property name="geometry">
       <rect>
        <x>670</x>
-       <y>200</y>
+       <y>170</y>
        <width>120</width>
        <height>30</height>
       </rect>
@@ -5949,7 +5998,7 @@
      <property name="geometry">
       <rect>
        <x>590</x>
-       <y>200</y>
+       <y>170</y>
        <width>80</width>
        <height>30</height>
       </rect>
@@ -5959,6 +6008,61 @@
      </property>
      <property name="text">
       <string>写入位置:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="cBox_mono_light">
+     <property name="geometry">
+      <rect>
+       <x>670</x>
+       <y>210</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>切换</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>不切换</string>
+      </property>
+     </item>
+    </widget>
+    <widget class="QLabel" name="label_73">
+     <property name="geometry">
+      <rect>
+       <x>590</x>
+       <y>210</y>
+       <width>80</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>切换配置:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_74">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>170</y>
+       <width>80</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>当前显示:</string>
      </property>
     </widget>
     <zorder>tabWidget_light</zorder>
@@ -5974,6 +6078,9 @@
     <zorder>label_47</zorder>
     <zorder>cBox_flash_color</zorder>
     <zorder>label_63</zorder>
+    <zorder>cBox_mono_light</zorder>
+    <zorder>label_73</zorder>
+    <zorder>label_74</zorder>
    </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox">
