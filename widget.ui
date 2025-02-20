@@ -1215,6 +1215,65 @@
       <string>信息读取</string>
      </property>
     </widget>
+    <widget class="QLabel" name="label_31">
+     <property name="geometry">
+      <rect>
+       <x>260</x>
+       <y>140</y>
+       <width>100</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <property name="text">
+      <string>自动写入:</string>
+     </property>
+    </widget>
+    <widget class="QComboBox" name="cBox_writeAuto">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>140</y>
+       <width>80</width>
+       <height>30</height>
+      </rect>
+     </property>
+     <property name="focusPolicy">
+      <enum>Qt::NoFocus</enum>
+     </property>
+     <item>
+      <property name="text">
+       <string>关</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>2s</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>4s</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>6s</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>8s</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>10s</string>
+      </property>
+     </item>
+    </widget>
     <zorder>label_62</zorder>
     <zorder>label_64</zorder>
     <zorder>label_65</zorder>
@@ -1267,6 +1326,8 @@
     <zorder>cB_sign_dir_g</zorder>
     <zorder>cB_sign_dir_b</zorder>
     <zorder>Bt_info</zorder>
+    <zorder>label_31</zorder>
+    <zorder>cBox_writeAuto</zorder>
    </widget>
    <widget class="QWidget" name="tab_k">
     <attribute name="title">

@@ -585,13 +585,24 @@ void Widget::on_Bt_write_clicked()//写入设备按钮
 {
     ui->Bt_write->setStyleSheet(style_big_gray);
     ui->Bt_write->setEnabled(false);//暂时禁用按钮
+    QString btText = ui->Bt_write->text();//暂存显示文本
     if(cfgUnit->write_cfg_data()){
         uint8_t cfgPos = ui->cBox_flash->currentIndex();//填入配置存储位置
         hid_set_para(ui->spinBox_vid->value(), ui->spinBox_pid->value(), 0xFF00);   //HID查找参数设置
-        uint8_t ret = hid_send_data(CHID_CMD_CFG_KEY, &cfgPos, cfgUnit->cfg_data);  //HID发送数据
+        int8_t writeTimes = ui->cBox_writeAuto->currentIndex() * 2 + 1;//写入次数
+        uint8_t ret = CHID_OK;
+        while(writeTimes-- > 0){
+            ret = hid_send_data(CHID_CMD_CFG_KEY, &cfgPos, cfgUnit->cfg_data);  //HID发送数据
+            if(ret == CHID_OK) break;//成功则退出循环
+            if(writeTimes > 0){//有自动写入
+                ui->Bt_write->setText(QString::number(writeTimes) + "s");//显示剩余秒数
+                mySleep(1000);//毫秒延时
+            }
+        }
         if(ret == CHID_OK) ;//QMessageBox::information(this,"提示","写入成功");
         else QMessageBox::critical(this, "配置写入", "HID通信失败\n" + CHID_to_str(ret));
     }
+    ui->Bt_write->setText(btText);//恢复显示文本
     ui->Bt_write->setEnabled(true);//恢复启用按钮
     ui->Bt_write->setStyleSheet(style_big_black);
 }
