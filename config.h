@@ -31,6 +31,7 @@ public:
     void set_mode6_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置模式6按键及切换
     void set_mode7_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置模式7按键及配置
     void set_mode7_time(uint8_t key_i, uint16_t t);//设置模式7时间
+    void set_mode9_morse(uint8_t key_i, uint8_t func, uint8_t tGap, uint8_t tLong);//设置模式9内容
     void set_rk_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置摇杆按键
     void set_ec_key(uint8_t key_i, uint8_t key_val, uint8_t func);//设置旋钮按键
     void set_mode3_cursor(uint8_t key_i, uint16_t pos);//设置模式3光标

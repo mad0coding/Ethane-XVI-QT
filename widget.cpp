@@ -39,15 +39,16 @@ Widget::Widget(QWidget *parent) :
     for(int i = 0; i < KEY_NUM; i++){
         cfgUnit->cbox_k[i]->clear();
         //cfgUnit->cbox_k[i]->addItems(cbox_k_list);
-        cfgUnit->cbox_k[i]->addItem("无",0);
-        cfgUnit->cbox_k[i]->addItem("单键",1);
-        cfgUnit->cbox_k[i]->addItem("快捷键",2);
-        cfgUnit->cbox_k[i]->addItem("按键组",3);
-        cfgUnit->cbox_k[i]->addItem("光标移位",4);
-        cfgUnit->cbox_k[i]->addItem("光标点击",5);
-        cfgUnit->cbox_k[i]->addItem("切换键",6);
-        cfgUnit->cbox_k[i]->addItem("按键连点",7);
-        cfgUnit->cbox_k[i]->addItem("蜂鸣器",8);
+        cfgUnit->cbox_k[i]->addItem("无", 0);
+        cfgUnit->cbox_k[i]->addItem("单键", 1);
+        cfgUnit->cbox_k[i]->addItem("快捷键", 2);
+        cfgUnit->cbox_k[i]->addItem("按键组", 3);
+        cfgUnit->cbox_k[i]->addItem("光标移位", 4);
+        cfgUnit->cbox_k[i]->addItem("光标点击", 5);
+        cfgUnit->cbox_k[i]->addItem("切换键", 6);
+        cfgUnit->cbox_k[i]->addItem("按键连点", 7);
+        cfgUnit->cbox_k[i]->addItem("蜂鸣器", 8);
+        cfgUnit->cbox_k[i]->addItem("摩尔斯码", 9);
         
         cfgUnit->bt_k[i]->setStyleSheet(style_big_black);//键盘按键样式
         clrUnit->bt_rgbs[i]->setStyleSheet(style_small_black);//灯效键盘按键样式
@@ -168,6 +169,31 @@ void Widget::keyHandle(uint8_t keyValue, bool ifPress = true)//按键处理
             else if(cfgUnit->get_key_mode(button_choose - 1) == m7_clicker){//按键连点
                 int ansAuto = QMessageBox::question(this,"按键连点","连点方式?","非自动","自动",0,-1);
                 cfgUnit->set_mode7_key(button_choose - 1,keyValue,ansAuto);
+                cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
+                state = 0;
+            }
+            else if(cfgUnit->get_key_mode(button_choose - 1) == m9_morse){//摩尔斯码
+                bool ifOK = false;
+                int ansNum = QInputDialog::getInt(this, "摩尔斯码", "音量设置(0-10)",
+                                                  2, 0, 10, 1,//默认值,最小值,最大值,步进
+                                                  &ifOK, Qt::WindowCloseButtonHint);
+                if(ifOK){
+                    int ansAuto = QMessageBox::question(this, "摩尔斯码", "操作模式?", "单键", "双键", 0, -1);
+                    int ansTwo = 0, ansLong = 0;
+                    if(ansAuto){ // 双键
+                        ansTwo = QMessageBox::question(this, "摩尔斯码", "本键设置为:", "点 ·", "划 -", 0, -1);
+                    }
+                    else{ // 单键
+                        ansLong = QInputDialog::getInt(this, "摩尔斯码", "长按时间(0-100)(单位10ms)",
+                                                       15, 0, 100, 1,//默认值,最小值,最大值,步进
+                                                       &ifOK, Qt::WindowCloseButtonHint);
+                    }
+                    int ansGap = QInputDialog::getInt(this, "摩尔斯码", "间隔时间(0-100)(单位10ms)",
+                                                      30, 0, 100, 1,//默认值,最小值,最大值,步进
+                                                      &ifOK, Qt::WindowCloseButtonHint);
+                    uint8_t morseFunc = (ansNum << 4) | (!ansAuto << 1) | ansTwo;
+                    if(ifOK) cfgUnit->set_mode9_morse(button_choose - 1, morseFunc, ansGap, ansLong);
+                }
                 cfgUnit->bt_k[button_choose - 1]->setStyleSheet(style_big_black);
                 state = 0;
             }

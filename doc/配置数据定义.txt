@@ -11,6 +11,7 @@ id+mode5+x_H+x_L+y_H+y_L
 id+mode6+key+func
 id+mode7+key+func+t_H+t_L
 id+mode8
+id+mode9+func+tGap+tLong
 
 mode3data：
 (1)单键：key
@@ -36,6 +37,10 @@ t_H+t_L：16位周期设定值
 若上次已点击，则本次必须跳过，复位点击记录
 若上次未点击，且定时已到，则本次点击，并更新定时，置位点击记录
 
+mode9：摩尔斯码
+func：bit7~4：音量；bit3~0：0为点，1为划，2为按
+tGap：间隔时间，单位10ms
+tLong：长按时间，单位10ms
 
 2、摇杆(12*1)468//472
 模式(1)+按键(5)+func(1)+方向(1)+死区(1)+惯性(1)+参数(2)

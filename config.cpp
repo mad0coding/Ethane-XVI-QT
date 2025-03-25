@@ -189,6 +189,18 @@ void config::set_mode7_time(uint8_t key_i, uint16_t t)//设置模式7时间
     pte_mode3Box->setPlainText(cfg_key[key_i].str);//显示到数据框
 }
 
+void config::set_mode9_morse(uint8_t key_i, uint8_t func, uint8_t tGap, uint8_t tLong)//设置模式9内容
+{
+    cfg_key[key_i].func = func;
+    cfg_key[key_i].t = (tGap << 8) | tLong; // 借t存储tGap和tLong
+    QString keyName = QString::number(func >> 4); // 显示音量
+    if((func & 0x03) == 0) keyName += "·";
+    else if((func & 0x03) == 1) keyName += " - ";
+    else keyName += "·- L" + QString::number(tLong) + " ";
+    keyName += "G" + QString::number(tGap);
+    label_k[key_i]->setText(keyName);
+}
+
 void config::set_rk_key(uint8_t key_i, uint8_t key_val, uint8_t func)//设置摇杆按键
 {
     QString prefix[5] = {"KEY:","↑:","↓:","←:","→:"};//前缀
@@ -362,6 +374,11 @@ bool config::write_cfg_data()//写入配置数组
             cfg_data[i++] = (cfg_key[keyi].t >> 8) & 0xFF;//周期高8位
             cfg_data[i++] = cfg_key[keyi].t & 0xFF;//周期低8位
         }
+        else if(mode == m9_morse){
+            cfg_data[i++] = cfg_key[keyi].func; // 存储配置
+            cfg_data[i++] = (cfg_key[keyi].t >> 8) & 0xFF; // 时间高8位 tGap
+            cfg_data[i++] = cfg_key[keyi].t & 0xFF; // 时间低8位 tLong
+        }
     }
     
     if(i > 468) return false;//数据超长
@@ -502,6 +519,10 @@ bool config::read_cfg_data()//读出配置数组
             uint16_t t = (cfg_data[i + 2] << 8) | cfg_data[i + 3];
             set_mode7_time(keyi,t);//载入周期
             i += 4;
+        }
+        else if(cfg_key[keyi].mode == m9_morse){
+            set_mode9_morse(keyi, cfg_data[i], cfg_data[i + 1], cfg_data[i + 2]);
+            i += 3;
         }
     }
     

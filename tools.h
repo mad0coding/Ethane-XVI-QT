@@ -25,6 +25,7 @@
 #define m6_change       6
 #define m7_clicker      7
 #define m8_buzz         8
+#define m9_morse        9
 
 #define kv_report       234
 #define kv_loop         235
