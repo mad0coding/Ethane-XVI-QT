@@ -6076,7 +6076,7 @@
       <rect>
        <x>670</x>
        <y>210</y>
-       <width>100</width>
+       <width>110</width>
        <height>30</height>
       </rect>
      </property>
@@ -6091,6 +6091,11 @@
      <item>
       <property name="text">
        <string>不切换</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>临时保持</string>
       </property>
      </item>
     </widget>

@@ -60,15 +60,21 @@ uint8_t hid_find_open(void)//HID设备查找并打开
     }
     if(findDevNum == 0) return CHID_NO_DEV;//未找到设备则退出
     if(findDevNum > 1){//若有多个设备
-        QStringList items;//序列号字符串列表
+        bool ok = true;
+        QStringList items; // 序列号字符串列表
         for(int i = 0; i < matchList.size(); i++){
             //QString productStr = QString::fromStdWString(hidDev->getProductString());
             //QString manufacturerStr = QString::fromStdWString(hidDev->getManufacturer());
-            QString serialStr = QString::fromStdWString(matchList[i].getSerial());//获取序列号
-            items.append(serialStr);//填入序列号
+            QString serialStr = QString::fromStdWString(matchList[i].getSerial()); // 获取序列号
+            items.append(serialStr); // 填入序列号
+            // 序列号合法性检查
+            bool valid;
+            uint64_t sn = serialStr.toULongLong(&valid, 16); // 序列号转数字
+            if(serialStr.length() != 12 || !valid || sn > 0xFFFFFFFFFFFFULL) ok = false; // 记录有错误序列号
         }
-        bool ok;
-        QString item = QInputDialog::getItem(NULL, "多设备", "发现多个设备 选择序列号:", items, 0, false, &ok);
+        QString ifSnErr = "发现多个设备 选择序列号:";
+        if(!ok) ifSnErr += "\n(疑似有错误序列号 建议取消后重试)";
+        QString item = QInputDialog::getItem(NULL, "多设备", ifSnErr, items, 0, false, &ok);
 
         if(!ok) return CHID_MULTI_DEV;//退出
         else{//选择了一个
