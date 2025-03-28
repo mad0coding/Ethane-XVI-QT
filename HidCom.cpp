@@ -11,6 +11,26 @@ uint16_t findVid = 0;
 uint16_t findPid = 0;
 uint16_t findUsagePage = 0xFFFF;
 
+static bool HID_API_Open(void){
+    return hidDev->open();
+}
+
+static bool HID_API_Close(void){
+    return hidDev->close();
+}
+
+static bool HID_API_ReadAvailable(void){
+    return hidDev->readAvailable();
+}
+
+static std::string HID_API_Read(int timeout){
+    return hidDev->read(timeout);
+}
+
+static int HID_API_Write(std::string data){
+    return hidDev->write(data);
+}
+
 
 QString CHID_to_str(uint8_t ret)//HID返回值转字符串
 {
@@ -84,14 +104,14 @@ uint8_t hid_find_open(void)//HID设备查找并打开
         }
     }
     //if(!hidDev->isInitialized()) return CHID_ERR_INIT;//HID设备未初始化则退出
-    if(!hidDev->open()) return CHID_ERR_OPEN;//HID设备打开失败则退出
+    if(!HID_API_Open()) return CHID_ERR_OPEN;//HID设备打开失败则退出
     
     return CHID_OK;
 }
 
 uint8_t hid_close()//HID设备关闭
 {
-    return (hidDev->close()) ? CHID_OK : CHID_ERR_CLOSE;//关闭HID设备
+    return (HID_API_Close()) ? CHID_OK : CHID_ERR_CLOSE;//关闭HID设备
 }
 
 uint8_t hid_write_read(uint8_t *writeBuf, uint8_t *readBuf)//HID先写后读
@@ -101,10 +121,10 @@ uint8_t hid_write_read(uint8_t *writeBuf, uint8_t *readBuf)//HID先写后读
     hidWriteStr[0] = 0;//首字节固定为0
     for(int i = 0; i < 64; i++) hidWriteStr[i + 1] = writeBuf[i];//输入数据拷贝
     
-    while(hidDev->readAvailable()) hidDev->read(1);//若已有数据则先读出
-    if(hidDev->write(hidWriteStr) != 65) return CHID_ERR_WRITE;//若写入失败则退出
+    while(HID_API_ReadAvailable()) HID_API_Read(1);//若已有数据则先读出
+    if(HID_API_Write(hidWriteStr) != 65) return CHID_ERR_WRITE;//若写入失败则退出
     
-    std::string hidReadStr = hidDev->read(500);//等待读取响应数据最多500ms
+    std::string hidReadStr = HID_API_Read(500);//等待读取响应数据最多500ms
     if(hidReadStr.length() != 65) return CHID_ERR_READ;//若读取失败则退出
     for(int i = 0; i < 64; i++) readBuf[i] = hidReadStr[i + 1];//输出数据拷贝
     return CHID_OK;
