@@ -16,7 +16,7 @@ Widget::Widget(QWidget *parent) :
             &QPushButton::clicked, this, 
             &Widget::sys_rgb_display);
     
-    hid_init();//HID初始化
+    //hid_init();//HID初始化
     
     sys_rgb_display();//显示rgb
     

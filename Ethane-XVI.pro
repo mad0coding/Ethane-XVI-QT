@@ -17,7 +17,7 @@ TEMPLATE = app
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES -= UNICODE
-DEFINES -= UNICODE _UNICODE #不使用Unicode,否则HidApi库会报错
+DEFINES -= UNICODE _UNICODE # 不使用Unicode,否则HidApi库会报错
 
 # You can also make your code fail to compile if you use deprecated APIs.
 # In order to do so, uncomment the following line.
@@ -30,7 +30,6 @@ SOURCES += \
         widget.cpp \
     tools.cpp \
     config.cpp \
-    HidApi.cpp \
     colour.cpp \
     HidCom.cpp
 
@@ -38,18 +37,22 @@ HEADERS += \
         widget.h \
     tools.h \
     config.h \
-    HidApi.h \
     colour.h \
-    HidCom.h
+    HidCom.h \
+    hidapi.h
 
 FORMS += \
         widget.ui
 
 RC_ICONS = Ethane-XVI.ico
 
-LIBS += -lsetupapi #引入该库,否则HidApi库会报错
+LIBS += -lsetupapi # 引入该库,否则HidApi库会报错
+LIBS += $$PWD/hidapi.lib # 引入hidapi库
 
 #WIN32：
 
 #CONFIG += console
+
+DISTFILES += \
+    hidapi.lib
 

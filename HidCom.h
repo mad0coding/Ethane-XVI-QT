@@ -36,7 +36,7 @@
 
 QString CHID_to_str(uint8_t ret);//HID返回值转字符串
 
-uint8_t hid_init(void);//HID初始化
+//uint8_t hid_init(void);//HID初始化
 uint8_t hid_set_para(uint16_t fdVid, uint16_t fdPid, uint16_t fdUsagePage);//HID查找参数设置
 
 uint8_t hid_send_cmd(uint8_t cmd, uint8_t *inBuf, uint8_t *outBuf);//HID向设备写入命令
