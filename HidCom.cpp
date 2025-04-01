@@ -4,52 +4,45 @@
 #include "tools.h"
 
 
-//HidApi *hidApi = NULL;//HID
-//HidDevice *hidDev = NULL;//HID设备
-
 hid_device *hidDev = NULL; // HID设备
 
 uint16_t findVid = 0;
 uint16_t findPid = 0;
 uint16_t findUsagePage = 0xFFFF;
 
-static bool HID_API_Open(const char *path){
+static bool HID_API_Open(const char *path){ // 打开设备
     hidDev = hid_open_path(path); // 打开会返回句柄
-    return hidDev; // 为空则代表打开失败
-    //return hidDev->open();
+    return hidDev; // 为空指针则代表打开失败
 }
 
-static bool HID_API_Close(void){
-    hid_close(hidDev);
-    return true;
-    //return hidDev->close();
+static bool HID_API_Close(void){ // 关闭设备
+    hid_close(hidDev); // 关闭 无返回值
+    return true; // 默认返回真
 }
 
-static bool HID_API_ReadAvailable(void){
-    return false;
-    //return hidDev->readAvailable();
+static bool HID_API_ReadAvailable(void){ // 是否有数据可读 (为兼容旧操作的假函数)
+    static bool fakeFlag = false; // 假可读标志
+    fakeFlag = !fakeFlag; // 每次翻转 以让调用本函数的while循环被等价为do{}while(0)
+    return fakeFlag;
 }
 
-static std::string HID_API_Read(int timeout){
-    uint8_t tmpBuf[65];
-    int res = hid_read_timeout(hidDev, tmpBuf, sizeof(tmpBuf), timeout);
-    std::string emptyStr(0, ' ');
-    if(res > 0){
-        std::string tmpStr(res+1, ' ');
-        for(int i = 0; i < res; i++) tmpStr[i + 1] = tmpBuf[i];
-        return tmpStr;
+static std::string HID_API_Read(int timeout){ // 读取数据
+    uint8_t tmpBuf[65*2]; // 这里姑且创建2倍空间的接收数组 不会影响读取 读取接到包就返回不管长度
+    int res = hid_read_timeout(hidDev, tmpBuf, sizeof(tmpBuf), timeout); // 读取 有超时时间
+    std::string emptyStr(0, ' '); // 创建空string
+    if(res > 0){ // 若成功读取到数据
+        std::string tmpStr(res + 1, ' '); // 创建string并用字符填充 这里按默认头部多1B来兼容
+        for(int i = 0; i < res; i++) tmpStr[i + 1] = tmpBuf[i]; // 拷贝 跳过string头部1B
+        return tmpStr; // 返回数据string
     }
-    //std::string tmpStr((char*)tmpBuf, res);
-    return emptyStr;
-    //return hidDev->read(timeout);
+    return emptyStr; // 返回空string
 }
 
-static int HID_API_Write(std::string data){
-    uint8_t tmpBuf[data.length()];
-    for(int i = 0; i < data.length(); i++) tmpBuf[i] = data[i];
-    int res = hid_write(hidDev, tmpBuf, sizeof(tmpBuf));
-    return res;
-    //return hidDev->write(data);
+static int HID_API_Write(std::string data){ // 写入数据
+    uint8_t tmpBuf[data.length()]; // 按string长度创建数组
+    for(int i = 0; i < data.length(); i++) tmpBuf[i] = data[i]; // 全部拷贝
+    int res = hid_write(hidDev, tmpBuf, sizeof(tmpBuf)); // 写入
+    return res; // 返回写入的字节数
 }
 
 
@@ -89,11 +82,10 @@ uint8_t hid_set_para(uint16_t fdVid, uint16_t fdPid, uint16_t fdUsagePage)//HID�
 uint8_t hid_find_open(void) // HID设备查找并打开
 {
     std::vector<hid_device_info> matchVector; // 匹配设备列表
-    //HidDeviceList devList, matchList;//HID设备列表 匹配设备列表
     if(hid_init() == -1) return CHID_ERR_INIT; // HidApi未成功初始化则退出
     hid_device_info *devInfos = hid_enumerate(findVid, findPid); // 按VID和PID扫描设备 得到链表
-    hid_device_info *devInfo = NULL;
-    //devList = hidApi->scanDevices(findVid, findPid);//按VID和PID扫描设备
+    hid_device_info *devInfo = NULL; // 用来存储选中的设备信息
+    
     int findDevNum = 0; // 设备计数
     for(hid_device_info *iter = devInfos; iter; iter = iter->next){ // 在VID和PID符合的设备中进一步查找
         if(iter->usage_page == findUsagePage){ // 匹配UsagePage 实际主要是为了匹配端点
@@ -102,13 +94,7 @@ uint8_t hid_find_open(void) // HID设备查找并打开
             matchVector.push_back(*iter); // 加入匹配列表
         }
     }
-//    for(size_t i = 0; /*i < devList.size()*/devInfo; i++){ // 在VID和PID符合的设备中进一步查找
-//        if(/*devList[i].getUsagePage()*/devInfo->usage_page == findUsagePage){//匹配UsagePage 实际主要是为了匹配端点
-//            findDevNum++;//设备计数
-//            *hidDev = devVector[i];//选定该设备
-//            matchVector.push_back(devVector[i]);//加入匹配列表
-//        }
-//    }
+
     if(findDevNum == 0) return CHID_NO_DEV;//未找到设备则退出
     if(findDevNum > 1){//若有多个设备
         bool ok = true;
@@ -127,19 +113,19 @@ uint8_t hid_find_open(void) // HID设备查找并打开
         if(!ok) ifSnErr += "\n(疑似有错误序列号 建议取消后重试)";
         QString item = QInputDialog::getItem(NULL, "多设备", ifSnErr, items, 0, false, &ok);
 
-        if(!ok) return CHID_MULTI_DEV;//退出
-        else{//选择了一个
-            for(uint32_t i = 0; i < matchVector.size(); i++){//查找选中了哪个
-                if(item == items[i]) devInfo = &matchVector[i];//选定该设备
+        if(!ok) return CHID_MULTI_DEV; // 退出
+        else{ // 选择了一个
+            for(uint32_t i = 0; i < matchVector.size(); i++){ // 查找选中了哪个
+                if(item == items[i]) devInfo = &matchVector[i]; // 选定该设备
             }
         }
     }
-    //if(!hidDev->isInitialized()) return CHID_ERR_INIT;//HID设备未初始化则退出
+    
     bool openRes = HID_API_Open(devInfo->path); // 打开设备
     
     hid_free_enumeration(devInfos); // 释放链表空间
     
-    if(!openRes) return CHID_ERR_OPEN;//HID设备打开失败则退出
+    if(!openRes) return CHID_ERR_OPEN; // HID设备打开失败则退出
     return CHID_OK;
 }
 
