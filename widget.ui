@@ -3288,6 +3288,11 @@
        <string>永久切换键</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Dial</string>
+      </property>
+     </item>
     </widget>
     <widget class="QPushButton" name="key_clear_r_1">
      <property name="geometry">
@@ -3471,6 +3476,11 @@
        <string>按键/快捷键</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Dial</string>
+      </property>
+     </item>
     </widget>
     <widget class="QComboBox" name="cBox_e_2">
      <property name="geometry">
@@ -3492,6 +3502,11 @@
      <item>
       <property name="text">
        <string>按键/快捷键</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dial</string>
       </property>
      </item>
     </widget>
@@ -3882,6 +3897,11 @@
        <string>永久切换键</string>
       </property>
      </item>
+     <item>
+      <property name="text">
+       <string>Dial</string>
+      </property>
+     </item>
     </widget>
     <widget class="QLabel" name="label_44">
      <property name="geometry">
@@ -3924,6 +3944,11 @@
      <item>
       <property name="text">
        <string>永久切换键</string>
+      </property>
+     </item>
+     <item>
+      <property name="text">
+       <string>Dial</string>
       </property>
      </item>
     </widget>
