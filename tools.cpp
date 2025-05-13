@@ -87,10 +87,10 @@ uint8_t key_to_USB(int key, int Vkey)//QT键值转USB键值
     if(Vkey == 219) return 47;//[{
     if(Vkey == 221) return 48;//]}
     if(Vkey == 220) return 49;//(|\)
-    if(Vkey == 192) return 50;//`~
+    //if(Vkey == 192) return 50;//`~
     if(Vkey == 186) return 51;//;:
     if(Vkey == 222) return 52;//'"
-    //if(key == Qt::) return 53;
+    if(Vkey == 192) return 53;//`~
     if(Vkey == 188) return 54;//,<
     if(Vkey == 190) return 55;//.>
     if(Vkey == 191) return 56;//(/?)
@@ -181,10 +181,10 @@ QString USB_to_str(uint8_t key, bool shift)//USB键值转按键名
         case 47:return shift ? "[{]" : "[ [ ]";
         case 48:return shift ? "[}]" : "[ ] ]";
         case 49:return shift ? "[|]" : "[\\]";
-        case 50:return shift ? "[~]" : "[`]";
+        case 50:return shift ? "[**|]" : "[**\\]";
         case 51:return shift ? "[:]" : "[;]";
         case 52:return shift ? "[\"]" : "[']";
-        case 53:return shift ? "[Tilde]" : "[Grave Accent]";
+        case 53:return shift ? "[~]" : "[`]";
         case 54:return shift ? "[<]" : "[,]";
         case 55:return shift ? "[>]" : "[.]";
         case 56:return shift ? "[?]" : "[/]";

@@ -253,7 +253,7 @@ void Widget::keyPressEvent(QKeyEvent *event)//按键按下
     if(keyValue >= 249 && keyValue <= 252) func |= 0x01 << (keyValue - 249);
     else{
         ui->label_keyValue->setText("USB键值:" + QString::number(keyValue));
-        ui->label_keyName->setText("按键:" + USB_to_str(keyValue,0));
+        ui->label_keyName->setText("按键:" + USB_to_str(keyValue, func & 0x02));
         key_num++;
     }
     
