@@ -160,6 +160,8 @@ Dial实现分期发送
 端点3HID接入到灯效帧
 JavaScript插件接通SignalRGB
 5.9：修复`~键值错误，按键显示考虑shift
+5.22：修改端点3通信协议和HID帧标志
+6.6：修改端点3的Sender编号
 
 
 

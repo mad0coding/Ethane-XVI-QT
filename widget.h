@@ -83,11 +83,6 @@ private slots:
     void on_key_r_1_1_clicked();
     void on_key_r_1_2_clicked();
     void on_key_r_1_3_clicked();
-//    void on_key_r_2_clicked();
-//    void on_key_r_2_0_clicked();
-//    void on_key_r_2_1_clicked();
-//    void on_key_r_2_2_clicked();
-//    void on_key_r_2_3_clicked();
     
     void keyEcClickHandle(uint8_t button_cs);//旋钮页6按钮按下处理
     void on_key_e_1_clicked();
@@ -118,7 +113,6 @@ private slots:
     
     void on_key_clear_clicked();//按键清除键
     void on_key_clear_r_1_clicked();//摇杆按键清除键
-    //void on_key_clear_r_2_clicked();//摇杆按键清除键
     void on_key_clear_e_1_clicked();//旋钮按键清除键
     void on_key_clear_e_2_clicked();//旋钮按键清除键
     

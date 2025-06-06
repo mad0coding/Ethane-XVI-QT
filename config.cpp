@@ -257,10 +257,6 @@ void config::set_mode3_txt(uint8_t key_i){//设置模式3显示文本
 }
 
 void config::add_mode3_unit(uint8_t key_i, QVector<uint8_t> vct, QString str){//增加模式3单元
-//    cfg_key[key_i].data.append(vct);
-//    cfg_key[key_i].str += str;
-//    cfg_key[key_i].strNum.append(str.length());
-//    cfg_key[key_i].dataNum.append(vct.length());
     int cursor = cfg_key[key_i].cursor;
     int str_i = 0, data_i = 0;
     for(int i = 0; i < cursor; i++) str_i += cfg_key[key_i].strNum.value(i);//计算文本插入位置
@@ -286,13 +282,6 @@ void config::del_mode3_key(uint8_t key_i)
     int str_i = 0, data_i = 0;
     for(int i = 0; i < cursor - 1; i++) str_i += cfg_key[key_i].strNum.value(i);//计算文本删除位置
     for(int i = 0; i < cursor - 1; i++) data_i += cfg_key[key_i].dataNum.value(i);//计算数据删除位置
-    
-//    cfg_key[key_i].str.chop(cfg_key[key_i].strNum.last());//按数量删除文本
-//    for(uint8_t i = 0; i < cfg_key[key_i].dataNum.last(); i++){
-//        cfg_key[key_i].data.pop_back();//按数量删除键值数据
-//    }
-//    cfg_key[key_i].strNum.pop_back();//删除文本计数
-//    cfg_key[key_i].dataNum.pop_back();//删除数据计数
     
     cfg_key[key_i].str.remove(str_i, cfg_key[key_i].strNum.value(cursor - 1));//按数量删除文本
     cfg_key[key_i].data.remove(data_i, cfg_key[key_i].dataNum.value(cursor - 1));//按数量删除键值数据

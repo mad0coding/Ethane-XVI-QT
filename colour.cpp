@@ -29,13 +29,6 @@ colour::colour(Widget *parent) : QWidget(parent)
             bt_rgbs[i]->setText("KEY" + QString::number(i + 1));
             connect(bt_rgbs[i], &QPushButton::clicked, this, &colour::on_keys_clicked);
             
-//            cbbox_rgbs[i] = new QComboBox(widget->ui->tab_color);//下拉框
-//            cbbox_rgbs[i]->setGeometry(x, y + 90, 100, 30);
-//            cbbox_rgbs[i]->addItem("普通",0);
-//            cbbox_rgbs[i]->addItem("十字",1);
-//            cbbox_rgbs[i]->addItem("X形",2);
-//            cbbox_rgbs[i]->addItem("方块",3);
-            
             for(int j = 0; j < 3; j++){//RGB数值框
                 sbox_rgbs[i*3 + j] = new QSpinBox(widget->ui->tab_color);
                 sbox_rgbs[i*3 + j]->setGeometry(x, y + j*30 + 30, 50, 30);
@@ -267,16 +260,8 @@ void colour::lightCfgToStr(uint8_t key_i){//配置数据转标签字符串
     QString str = "";
     str += QString::number(DATA_RGB_T_D[key_i]) + " ";
     str += QString::number(DATA_RGB_T_U[key_i]) + " ";
-    
     str += QString::number(DATA_RGB_IDX[key_i]) + " ";
-    
     str += QString::number(DATA_RGB_SHLD[key_i]);
-//    if(DATA_RGB_SHLD[key_i]) str += "Y ";
-//    else str += "N ";
-//    if(DATA_RGB_IDX[key_i] == 0) str += "普通";
-//    else if(DATA_RGB_IDX[key_i] == 1) str += "十字";
-//    else if(DATA_RGB_IDX[key_i] == 2) str += "X形";
-//    else if(DATA_RGB_IDX[key_i] == 3) str += "方形";
     lb_rgbs_set[key_i]->setText(str);//文本设置到标签
 }
 
