@@ -431,15 +431,16 @@ void Widget::on_Bt_info_clicked()//信息读取
         }
     }
     else if(ansNum == 2){//输入读取
-        uint16_t outBuf[4] = {0, 0, 0, 0};
+        uint16_t outBuf[6] = {0, 0, 0, 0, 0, 0};
         ret = hid_send_cmd(CHID_CMD_INPUT, NULL, (uint8_t*)outBuf);
         if(ret != CHID_OK){//若失败
             QMessageBox::critical(this, "输入读取", "HID通信失败\n" + CHID_to_str(ret));
             return;
         }
         else{//成功
-            QMessageBox::information(this, "输入读取", QString::asprintf("摇杆值 %d,%d\n键盘按键值 %04X\n其他按键值 %02X", 
-                                                            outBuf[0], outBuf[1], outBuf[2], outBuf[3]));
+            QMessageBox::information(this, "输入读取", 
+                                     QString::asprintf("摇杆值 %d,%d\n旋钮值 %d,%d\n键盘按键值 %04X\n其他按键值 %02X", 
+                                                       outBuf[0], outBuf[1], outBuf[2], outBuf[3], outBuf[4], outBuf[5]));
         }
     }
     else if(ansNum == 3){//参数读取
